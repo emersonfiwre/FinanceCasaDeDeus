@@ -1,5 +1,6 @@
 package br.com.casadedeus
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -12,5 +13,8 @@ class LoginActivity : AppCompatActivity() {
 
     fun onLogin(view: View){
         println("click open MainActivity")
+        val intent = Intent(this, MainActivity:: class.java)
+        startActivity(intent)
+
     }
 }
