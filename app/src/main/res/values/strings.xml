@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Finaceiro Casa De Deus</string>
+    <string name="lbl_signup">Sign Up</string>
+    <string name="lbl_login">Log in</string>
+    <string name="lbl_register">Cadastrar-se</string>
+    <string name="lbl_user">Usuário</string>
+    <string name="lbl_password">Senha</string>
+</resources>
