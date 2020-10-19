@@ -62,7 +62,6 @@
         android:textColor="@color/textColor"
         android:textStyle="bold"
         android:background="@drawable/shape_btn_register"
-        android:paddingHorizontal="85dp"
-        android:onClick="onLogin"/>
+        android:paddingHorizontal="85dp" />
 
 </LinearLayout>
