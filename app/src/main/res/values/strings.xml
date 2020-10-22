@@ -6,4 +6,6 @@
     <string name="lbl_user">Usuário</string>
     <string name="lbl_password">Senha</string>
     <string name="select_year">escolha o ano</string>
+    <string name="faturamento_mensal">Faturamento Mensal</string>
+    <string name="expenditures">Despesas</string>
 </resources>
