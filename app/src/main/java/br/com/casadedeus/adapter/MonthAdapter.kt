@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import br.com.casadedeus.MainActivity
+import br.com.casadedeus.YearActivity
 import br.com.casadedeus.R
 import kotlinx.android.synthetic.main.card_month.view.*
 
@@ -23,8 +23,8 @@ class MonthAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.month.text = monthlist[position]
         holder.itemView.setOnClickListener {
-            val intent = Intent(context, MainActivity::class.java)
-            context.startActivity(intent)
+            //val intent = Intent(context, YearActivity::class.java)
+            //context.startActivity(intent)
         }
     }
 

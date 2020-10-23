@@ -5,12 +5,10 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.startActivity
 
 import androidx.recyclerview.widget.RecyclerView
-import br.com.casadedeus.MainActivity
-import br.com.casadedeus.R
 import br.com.casadedeus.YearActivity
+import br.com.casadedeus.R
 import br.com.casadedeus.`interface`.ItemClickListener
 import kotlinx.android.synthetic.main.card_year.view.*
 
@@ -28,7 +26,7 @@ class YearAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.title.text = yearlist[position]
         holder.itemView.setOnClickListener {
-            val intent = Intent(context, MainActivity::class.java)
+            val intent = Intent(context, YearActivity::class.java)
             context.startActivity(intent)
 
         }

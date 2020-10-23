@@ -7,9 +7,13 @@
     <string name="password">Senha</string>
     <string name="select_year">escolha o ano</string>
     <string name="faturamento_mensal">Faturamento Mensal</string>
-    <string name="receita_mensal">Receita Mensal</string>
+    <string name="revenues_month">Receita Mensal</string>
+    <string name="revenues_year">Receita Anual</string>
     <string name="expenditures">Despesas</string>
     <string name="expenditure">Despesa</string>
     <string name="profit">Lucro</string>
     <string name="all_month">Todos os meses</string>
+    <string name="rs">R$</string>
+    <string name="lancamentos">Lançamentos</string>
+    <string name="net_income">Renda líquido</string>
 </resources>
