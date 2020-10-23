@@ -1,11 +1,15 @@
 <resources>
     <string name="app_name">Finaceiro Casa De Deus</string>
-    <string name="lbl_signup">Sign Up</string>
-    <string name="lbl_login">Log in</string>
-    <string name="lbl_register">Cadastrar-se</string>
-    <string name="lbl_user">Usuário</string>
-    <string name="lbl_password">Senha</string>
+    <string name="signup">Sign Up</string>
+    <string name="login">Log in</string>
+    <string name="register">Cadastrar-se</string>
+    <string name="user">Usuário</string>
+    <string name="password">Senha</string>
     <string name="select_year">escolha o ano</string>
     <string name="faturamento_mensal">Faturamento Mensal</string>
+    <string name="receita_mensal">Receita Mensal</string>
     <string name="expenditures">Despesas</string>
+    <string name="expenditure">Despesa</string>
+    <string name="profit">Lucro</string>
+    <string name="all_month">Todos os meses</string>
 </resources>

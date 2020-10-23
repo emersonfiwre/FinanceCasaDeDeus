@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/receita_mensal"
+            android:text="@string/faturamento_mensal"
             android:textAlignment="center"
             android:textSize="18sp" />
 
@@ -142,14 +142,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        android:text="@string/all_month"
+        android:text="@string/expenditures"
         android:textSize="18sp"
         android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_month"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp" />
+        android:layout_height="match_parent" />
 </LinearLayout>
