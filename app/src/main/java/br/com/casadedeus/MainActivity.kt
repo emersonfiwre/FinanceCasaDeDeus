@@ -6,37 +6,54 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import br.com.casadedeus.`interface`.ItemClickListener
-import br.com.casadedeus.adapter.YearAdapter
-import br.com.casadedeus.model.YearModel
+import br.com.casadedeus.`interface`.OnClickListener
+import br.com.casadedeus.adapter.MonthAdapter
+import br.com.casadedeus.fragment.MonthFragment
+import br.com.casadedeus.fragment.YearFragment
+import br.com.casadedeus.model.MonthModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class MainActivity : AppCompatActivity(), ItemClickListener {
-    lateinit var rvYear: RecyclerView
-    lateinit var fabYear: FloatingActionButton
+class MainActivity : AppCompatActivity(), OnClickListener.OnMonthClickListener {
+    private val yearFragment = YearFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         //Design
-        //https://dribbble.com/tags/android_ui
-        rvYear = findViewById(R.id.rv_year)
-        fabYear = findViewById(R.id.fab_year)
-        setupRv()
+        //https://dribbble.com/shots/14359607-Personal-Financial-Manager-Mobile-App------------
+        //https://dribbble.com/shots/14295333-Online-banking-finance-app-concept
+        if (savedInstanceState == null) {
+            supportFragmentManager
+                .beginTransaction()
+                .add(R.id.container_root, yearFragment, "yearFragment")
+                .commit()
+        }
+
     }
-    private fun setupRv(){
-        val model = YearModel()
-        var adapter = YearAdapter(model.getYears(),this)
-        adapter.setOnItemClickListener(this)
-        rvYear.adapter = adapter
-        rvYear.setHasFixedSize(true)
-        val layoutManager = LinearLayoutManager(this)
-        rvYear.layoutManager = layoutManager
+
+    fun fabMonthOnClick(view: View) {
+        yearFragment.onClick(view)
     }
-    override fun onItemClickListener(view: View, position: Int) {
-        println("testando o click: $position")
+
+    override fun onBackPressed() {
+         val count:Int = supportFragmentManager.backStackEntryCount
+
+        if (count == 0) {
+            super.onBackPressed();
+            //additional code
+        } else {
+            supportFragmentManager.popBackStack()
+        }
     }
-    fun fabYearOnClick(view:View){
-        Toast.makeText(this,"OnClick Add Year", Toast.LENGTH_SHORT).show()
+
+    override fun onMonthClick(month: String) {
+        //println("escutou o onclick")
+
+        val monthFragment = MonthFragment.newInstance(month)
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.container_root, monthFragment, "monthFragment")
+            .addToBackStack(null)
+            .commit()
     }
+
 }

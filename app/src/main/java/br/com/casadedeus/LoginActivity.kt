@@ -14,7 +14,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun onLogin(view: View){
-        val intent = Intent(this, MainActivity:: class.java)
+        val intent = Intent(this, SelectYearActivity:: class.java)
         startActivity(intent)
 
     }

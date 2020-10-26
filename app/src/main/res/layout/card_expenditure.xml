@@ -13,6 +13,7 @@
         android:id="@+id/rl_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="5dp"
         android:background="@drawable/shape_for_materias">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -24,7 +25,7 @@
             android:background="@drawable/shape_card_expenditure"
             android:backgroundTint="@color/colorPrimary"
             android:padding="10dp"
-            android:src="@drawable/ic_photo_camera_white_24dp"
+            android:src="@drawable/money"
             app:civ_border_color="@color/transparent"
             app:civ_border_width="2dp" />
         <!--ImageView
@@ -39,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="3dp"
             android:layout_toEndOf="@+id/img_materia"
             android:layout_toRightOf="@+id/img_materia"
             android:text="qua, 14 out 2020"
@@ -60,6 +61,9 @@
             android:layout_toLeftOf="@+id/lbl_price"
             android:layout_toEndOf="@+id/img_materia"
             android:layout_toRightOf="@+id/img_materia"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:scrollHorizontally="true"
             android:text="Pagamento ana júla"
             android:textSize="15sp" />
 
@@ -67,23 +71,16 @@
             android:id="@+id/lbl_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxWidth="140dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
+            android:scrollHorizontally="false"
             android:text="R$ 250,00"
             android:textSize="18sp"
             android:textStyle="bold" />
-
-        <View
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="0.8dp"
-            android:layout_alignStart="@+id/lbl_day"
-            android:layout_alignLeft="@+id/lbl_day"
-            android:layout_alignParentBottom="true"
-            android:background="@color/textColor" />
 
 
     </RelativeLayout>

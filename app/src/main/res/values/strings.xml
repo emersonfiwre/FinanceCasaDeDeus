@@ -15,5 +15,5 @@
     <string name="all_month">Todos os meses</string>
     <string name="rs">R$</string>
     <string name="lancamentos">Lançamentos</string>
-    <string name="net_income">Renda líquido</string>
+    <string name="net_income">Renda líquida</string>
 </resources>
