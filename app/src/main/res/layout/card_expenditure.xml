@@ -13,8 +13,7 @@
         android:id="@+id/rl_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="5dp"
-        android:background="@drawable/shape_for_materias">
+        android:layout_marginVertical="5dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_materia"
@@ -71,12 +70,12 @@
             android:id="@+id/lbl_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxWidth="140dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
+            android:maxWidth="140dp"
             android:scrollHorizontally="false"
             android:text="R$ 250,00"
             android:textSize="18sp"

@@ -11,15 +11,20 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:src="@drawable/image_main" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
-            android:text="Olá, Camila"
+            android:text="Olá, Alyssa"
             android:textColor="@color/black"
-            android:textSize="28sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -33,7 +38,10 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_year"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            tools:listitem="@layout/card_year" />
 
     </LinearLayout>
 

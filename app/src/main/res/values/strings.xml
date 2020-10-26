@@ -16,4 +16,17 @@
     <string name="rs">R$</string>
     <string name="lancamentos">Lançamentos</string>
     <string name="net_income">Renda líquida</string>
+    <string name="months">Janeiro, Março, Setembro…</string>
+    <string name="years">2020, 2021…</string>
+    <string name="add">Adicionar</string>
+    <string name="desc">Descrição</string>
+    <string name="hintdesc">Pagamento do aluguel, compra de equipamentos de música…</string>
+    <string name="category">Categoria</string>
+    <string name="hintcategory">Salário,Despesa Fixa, Outros</string>
+    <string name="price">Valor</string>
+    <string name="hintprice">R$ 230,99</string>
+    <string name="number_nf">Número da nota fiscal</string>
+    <string name="razao_social">Razão Social</string>
+    <string name="add_lancamento">Adicionar um novo lançamento</string>
+
 </resources>

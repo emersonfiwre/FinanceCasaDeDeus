@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity(), OnClickListener.OnMonthClickListener {
         //Design
         //https://dribbble.com/shots/14359607-Personal-Financial-Manager-Mobile-App------------
         //https://dribbble.com/shots/14295333-Online-banking-finance-app-concept
+        //https://dribbble.com/shots/7407699--Sign-Up-Sign-In-Modal-Windows
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()

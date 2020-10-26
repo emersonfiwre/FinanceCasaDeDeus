@@ -75,7 +75,7 @@
                     android:layout_width="165dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:background="@drawable/shape_card_year"
+                    android:background="@drawable/shape_roundlittle"
                     android:elevation="10dp"
                     android:padding="8dp">
 
@@ -120,7 +120,7 @@
                     android:layout_width="165dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:background="@drawable/shape_card_year"
+                    android:background="@drawable/shape_roundlittle"
                     android:elevation="10dp"
                     android:padding="8dp">
 
