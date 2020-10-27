@@ -11,4 +11,9 @@
         <item name="android:windowFullscreen">true</item-->
     </style>
 
+    <style name="AlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:textColor">@color/textColor</item>  // you can change the color of the yearPiker dialog
+        <item name="android:textColorPrimary">@color/black</item> // you can change the color of the yearPiker dialog
+    </style>
+
 </resources>

@@ -1,10 +1,12 @@
 package br.com.casadedeus.fragment
 
+import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -18,7 +20,8 @@ import br.com.casadedeus.model.MonthModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_year.view.*
 
-class YearFragment : Fragment(), OnClickListener.OnClickFragmentListener{
+class YearFragment : Fragment(), OnClickListener.OnClickFragmentListener,
+    DatePickerDialog.OnDateSetListener{
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -51,7 +54,13 @@ class YearFragment : Fragment(), OnClickListener.OnClickFragmentListener{
     }
 
     override fun onClick(view: View) {
-        Toast.makeText(activity, "OnClick Add Month", Toast.LENGTH_SHORT).show()
+        val monthYearPickerDialog:MonthYearPickerDialog = MonthYearPickerDialog.newInstance(true)
+        monthYearPickerDialog.listener = this
+        monthYearPickerDialog.show(activity!!.supportFragmentManager,"monthPickerDialog")
+    }
+
+    override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
+        TODO("Not yet implemented")
     }
 
 

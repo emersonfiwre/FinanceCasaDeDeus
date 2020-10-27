@@ -16,7 +16,6 @@
     <string name="rs">R$</string>
     <string name="lancamentos">Lançamentos</string>
     <string name="net_income">Renda líquida</string>
-    <string name="months">Janeiro, Março, Setembro…</string>
     <string name="years">2020, 2021…</string>
     <string name="add">Adicionar</string>
     <string name="desc">Descrição</string>
@@ -28,5 +27,7 @@
     <string name="number_nf">Número da nota fiscal</string>
     <string name="razao_social">Razão Social</string>
     <string name="add_lancamento">Adicionar um novo lançamento</string>
+    <string name="year">Ano</string>
+    <string name="months">Meses</string>
 
 </resources>
