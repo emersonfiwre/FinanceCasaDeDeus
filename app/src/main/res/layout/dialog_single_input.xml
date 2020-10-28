@@ -8,11 +8,11 @@
     <View
         android:layout_width="150dp"
         android:layout_height="2dp"
-        android:background="@drawable/shape_roundlittle"
-        android:backgroundTint="@color/textColor"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
-        android:layout_marginBottom="15dp"/>
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/shape_roundlittle"
+        android:backgroundTint="@color/textColor" />
 
     <TextView
         android:layout_width="match_parent"
@@ -59,7 +59,10 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/razao_social" />
+            android:hint="@string/razao_social"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -72,7 +75,10 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/number_nf" />
+            android:hint="@string/number_nf"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -85,7 +91,10 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/price" />
+            android:hint="@string/price"
+            android:imeOptions="actionNext"
+            android:inputType="numberDecimal"
+            android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button

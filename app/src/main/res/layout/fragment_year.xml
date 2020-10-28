@@ -17,11 +17,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:src="@drawable/ic_baseline_arrow_back_32"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:selectableItemBackground"
-            />
+            android:src="@drawable/ic_baseline_arrow_back_32" />
 
         <TextView
             android:layout_width="match_parent"
@@ -74,9 +73,10 @@
             android:orientation="horizontal">
 
             <RelativeLayout
-                android:layout_width="165dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:layout_weight="1"
                 android:background="@drawable/shape_roundlittle"
                 android:elevation="10dp"
                 android:padding="8dp">
@@ -119,9 +119,10 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="165dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:layout_weight="1"
                 android:background="@drawable/shape_roundlittle"
                 android:elevation="10dp"
                 android:padding="8dp">

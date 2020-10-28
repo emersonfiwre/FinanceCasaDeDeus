@@ -72,9 +72,10 @@
                 android:orientation="horizontal">
 
                 <RelativeLayout
-                    android:layout_width="165dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
+                    android:layout_weight="1"
                     android:background="@drawable/shape_roundlittle"
                     android:elevation="10dp"
                     android:padding="8dp">
@@ -117,9 +118,10 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="165dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
+                    android:layout_weight="1"
                     android:background="@drawable/shape_roundlittle"
                     android:elevation="10dp"
                     android:padding="8dp">
@@ -181,11 +183,13 @@
         </LinearLayout>
     </ScrollView>
 
+    <!--include layout="@layout/dialog_single_input" /-->
+
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="20dp"
         android:id="@+id/rv_expenditure"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
         tools:listitem="@layout/card_expenditure" />
 
 </LinearLayout>
