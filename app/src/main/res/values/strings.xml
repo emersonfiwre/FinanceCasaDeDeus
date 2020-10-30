@@ -29,5 +29,7 @@
     <string name="add_lancamento">Adicionar um novo lançamento</string>
     <string name="year">Ano</string>
     <string name="months">Meses</string>
+    <string name="incoming">Entrada</string>
+    <string name="outflow">Saida</string>
 
 </resources>
