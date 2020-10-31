@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +16,7 @@ import br.com.casadedeus.adapter.ExpenditureAdapter
 import br.com.casadedeus.model.ExpenditureModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.android.synthetic.main.dialog_single_input.view.*
 import kotlinx.android.synthetic.main.fragment_month.*
 import kotlinx.android.synthetic.main.fragment_month.view.*
 
@@ -64,8 +66,10 @@ class MonthFragment : Fragment() {
             /*val mBehavior = BottomSheetBehavior.from(bottomSheet.parent as View);
             mBehavior.setPeekHeight(600)*/
             dialog.show()
+            bottomSheet.addExpenditure.setOnClickListener {
+                Toast.makeText(activity,"Módulo em construção", Toast.LENGTH_SHORT).show()
+            }
         }
-
         return view
     }
 

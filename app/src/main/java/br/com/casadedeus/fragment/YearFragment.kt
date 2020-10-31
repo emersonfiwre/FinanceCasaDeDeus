@@ -35,8 +35,6 @@ class YearFragment : Fragment(), OnClickListener.OnClickFragmentListener,
         val rvMonth = view.findViewById<RecyclerView>(R.id.rv_month)
         //****************
         val revenueYear = view.findViewById<TextView>(R.id.revenue_year)
-        val profitYear = view.findViewById<TextView>(R.id.profit_year)
-        val expenditureYear = view.findViewById<TextView>(R.id.expenditure_year)
         //****************
         val model = MonthModel()
         val adapter = MonthAdapter(model.getMonths(), activity)
