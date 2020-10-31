@@ -21,49 +21,54 @@
         android:id="@+id/userTextInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_margin="10dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/user"
             android:imeOptions="actionNext"
-            android:hint="@string/user" />
+            android:inputType="text"
+            android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordTextInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_margin="10dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/password"
             android:imeOptions="actionNext"
-            android:hint="@string/password" />
+            android:inputType="text"
+            android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/shape_btn_login"
+        android:onClick="onLogin"
+        android:paddingHorizontal="120dp"
         android:text="@string/login"
         android:textColor="@color/white"
-        android:textStyle="bold"
-        android:background="@drawable/shape_btn_login"
-        android:paddingHorizontal="120dp"
-        android:onClick="onLogin"/>
+        android:textStyle="bold" />
+
     <Button
-        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_btn_register"
+        android:paddingHorizontal="85dp"
         android:text="@string/register"
         android:textColor="@color/textColor"
-        android:textStyle="bold"
-        android:background="@drawable/shape_btn_register"
-        android:paddingHorizontal="85dp" />
+        android:textStyle="bold" />
 
 </LinearLayout>

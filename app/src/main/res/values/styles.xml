@@ -6,6 +6,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+
         <!--item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item-->
@@ -15,5 +17,18 @@
         <item name="android:textColor">@color/textColor</item>  // you can change the color of the yearPiker dialog
         <item name="android:textColorPrimary">@color/black</item> // you can change the color of the yearPiker dialog
     </style>
+
+
+    <style name="AppBottomSheetDialogTheme"
+        parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/dialog_rounded</item>
+        <item name="behavior_peekHeight">600dp</item>
+    </style>
+
 
 </resources>

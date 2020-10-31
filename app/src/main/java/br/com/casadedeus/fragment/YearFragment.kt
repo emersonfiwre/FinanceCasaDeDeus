@@ -60,7 +60,7 @@ class YearFragment : Fragment(), OnClickListener.OnClickFragmentListener,
     }
 
     override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
-        TODO("Not yet implemented")
+        Toast.makeText(context,"Modulo em construção",Toast.LENGTH_SHORT).show()
     }
 
 
