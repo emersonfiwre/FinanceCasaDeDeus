@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="270dp"
@@ -17,15 +18,38 @@
             android:layout_gravity="center"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/back_month"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:src="@drawable/ic_baseline_arrow_back_32" />
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/back_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/ic_arrow_back" />
+
+                <EditText
+                    android:id="@+id/edtSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:drawableEnd="@drawable/ic_search"
+                    android:drawableRight="@drawable/ic_search"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:paddingStart="20dp"
+                    android:paddingLeft="20dp"
+                    android:paddingEnd="20dp"
+                    android:singleLine="true"
+                    android:textSize="20sp" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/month"
@@ -86,7 +110,7 @@
                         android:background="@drawable/shape_bg_arrow_up"
                         android:contentDescription="@null"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/ic_baseline_trending_up_24" />
+                        android:src="@drawable/ic_trending_up" />
 
                     <TextView
                         android:id="@+id/lbl_lucro"
@@ -132,7 +156,7 @@
                         android:background="@drawable/shape_bg_arrow_down"
                         android:contentDescription="@null"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/ic_baseline_trending_down_24" />
+                        android:src="@drawable/ic_trending_down" />
 
                     <TextView
                         android:id="@+id/lbl_despesa"
@@ -169,16 +193,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@drawable/shape_btn_register"
-                android:drawableStart="@drawable/ic_baseline_add_circle_24"
-                android:drawableLeft="@drawable/ic_baseline_add_circle_24"
+                android:drawableStart="@drawable/ic_add_circle"
+                android:drawableLeft="@drawable/ic_add_circle"
                 android:drawablePadding="8dp"
                 android:drawableTint="@color/colorAccent"
                 android:padding="10dp"
                 android:text="@string/lancamentos"
                 android:textColor="@color/textColor"
                 android:textStyle="bold" />
-
         </LinearLayout>
+
     </ScrollView>
 
     <!--include layout="@layout/dialog_single_input" /-->

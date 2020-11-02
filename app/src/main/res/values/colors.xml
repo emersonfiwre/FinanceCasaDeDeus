@@ -6,6 +6,7 @@
     <color name="white">#fff</color>
     <color name="black">#000</color>
     <color name="textColor">#808080</color>
+    <color name="hintColor">#a8a8a8</color>
     <color name="defaultbg">#FAFAFA</color>
     <color name="light_red">#f5dada</color>
     <color name="light_blue">#dff0f5</color>

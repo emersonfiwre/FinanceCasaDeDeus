@@ -15,6 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity(), OnClickListener.OnMonthClickListener {
     private val yearFragment = YearFragment()
+    private lateinit var monthFragment: MonthFragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -36,20 +37,19 @@ class MainActivity : AppCompatActivity(), OnClickListener.OnMonthClickListener {
     }
 
     override fun onBackPressed() {
-         val count:Int = supportFragmentManager.backStackEntryCount
-
-        if (count == 0) {
-            super.onBackPressed();
-            //additional code
-        } else {
-            supportFragmentManager.popBackStack()
+        if (monthFragment.onBackPressed()) {
+            if (supportFragmentManager.backStackEntryCount == 0) {
+                super.onBackPressed()
+                //additional code
+            } else {
+                supportFragmentManager.popBackStack()
+            }
         }
     }
 
     override fun onMonthClick(month: String) {
         //println("escutou o onclick")
-
-        val monthFragment = MonthFragment.newInstance(month)
+        monthFragment = MonthFragment.newInstance(month)
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.container_root, monthFragment, "monthFragment")

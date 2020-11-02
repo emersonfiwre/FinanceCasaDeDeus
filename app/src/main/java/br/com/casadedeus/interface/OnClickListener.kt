@@ -12,6 +12,9 @@ interface OnClickListener {
     interface OnClickFragmentListener {
         fun onClick(view: View)
     }
+    interface OnBackPressedFragmentListener {
+        fun onBackPressed():Boolean
+    }
     //fun onClickListener(view: View)
     //fun onItemLongPressClickListener(view: View, position:Int)
 }
