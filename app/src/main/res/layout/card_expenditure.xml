@@ -15,18 +15,17 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="5dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/img_materia"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_centerVertical="true"
             android:layout_margin="5dp"
             android:background="@drawable/shape_card_expenditure"
-            android:backgroundTint="@color/colorPrimary"
+            android:backgroundTint="@color/light_yellow"
+            android:elevation="3dp"
             android:padding="10dp"
-            android:src="@drawable/money"
-            app:civ_border_color="@color/transparent"
-            app:civ_border_width="2dp" />
+            android:src="@drawable/ic_money" />
         <!--ImageView
             android:id="@+id/img_materia"
             android:layout_width="wrap_content"
