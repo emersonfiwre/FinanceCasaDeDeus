@@ -113,6 +113,7 @@ class MonthFragment : Fragment(), OnClickListener.OnBackPressedFragmentListener 
             bottomSheet.addExpenditure.setOnClickListener {
                 Toast.makeText(activity, "Módulo em construção", Toast.LENGTH_SHORT).show()
             }
+            //get spinner selected
         }
 
         return view
