@@ -11,6 +11,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         //Design
         //https://dribbble.com/shots/5739539-Log-in-Sign-Up-Screen
+        //https://dribbble.com/shots/5271131-Login-Sign-up-screen
     }
 
     fun onLogin(view: View){
