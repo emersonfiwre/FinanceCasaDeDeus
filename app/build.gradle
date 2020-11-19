@@ -25,6 +25,8 @@ android {
 }
 
 dependencies {
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+
     //MaterialDialogs
     implementation 'com.afollestad.material-dialogs:datetime:3.3.0'
 
