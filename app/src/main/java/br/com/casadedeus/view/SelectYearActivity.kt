@@ -1,26 +1,28 @@
-package br.com.casadedeus
+package br.com.casadedeus.view
 
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.DatePicker
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import br.com.casadedeus.`interface`.OnClickListener
-import br.com.casadedeus.adapter.YearAdapter
-import br.com.casadedeus.fragment.MonthYearPickerDialog
-import br.com.casadedeus.model.YearModel
+import br.com.casadedeus.R
+import br.com.casadedeus.view.listener.OnAdapterListener
+import br.com.casadedeus.view.adapter.YearAdapter
+import br.com.casadedeus.view.fragment.MonthYearPickerDialog
+import br.com.casadedeus.viewmodel.YearViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import java.lang.reflect.Field
 import java.util.*
 
-class SelectYearActivity : AppCompatActivity(), OnClickListener.OnItemClickListener,
+class SelectYearActivity : AppCompatActivity(), OnAdapterListener.OnItemClickListener,
     DatePickerDialog.OnDateSetListener {
     lateinit var rvYear: RecyclerView
     lateinit var fabYear: FloatingActionButton
+    private var mAdapter = YearAdapter()
+    private lateinit var mViewModel: YearViewModel
 
     val mCalendar = Calendar.getInstance();
     val c = Calendar.getInstance()
@@ -32,18 +34,26 @@ class SelectYearActivity : AppCompatActivity(), OnClickListener.OnItemClickListe
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_year)
+
+        mViewModel = ViewModelProvider(this).get(YearViewModel::class.java)
         //Design
         //https://dribbble.com/tags/android_ui
+        observe()
         rvYear = findViewById(R.id.rv_year)
         fabYear = findViewById(R.id.fab_year)
         setupRv()
+        mViewModel.load()
+    }
+
+    private fun observe() {
+        mViewModel.yearlist.observe(this, androidx.lifecycle.Observer {
+            mAdapter.notifyChanged(it)
+        })
     }
 
     private fun setupRv() {
-        val model = YearModel()
-        var adapter = YearAdapter(model.getYears(), this)
-        adapter.onItemClick = this
-        rvYear.adapter = adapter
+        //adapter.onItemClick = this
+        rvYear.adapter = mAdapter
         rvYear.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(this)
         rvYear.layoutManager = layoutManager
@@ -58,9 +68,9 @@ class SelectYearActivity : AppCompatActivity(), OnClickListener.OnItemClickListe
         //Toast.makeText(this,"OnClick Add Year", Toast.LENGTH_SHORT).show()
         /*val datePickerDialog  = DatePickerDialog(
             this, this, year, month, day).show()*/
-        val monthYearPickerDialog:MonthYearPickerDialog = MonthYearPickerDialog.newInstance(false)
+        val monthYearPickerDialog: MonthYearPickerDialog = MonthYearPickerDialog.newInstance(false)
         monthYearPickerDialog.listener = this
-        monthYearPickerDialog.show(supportFragmentManager,"yearPickerDialog")
+        monthYearPickerDialog.show(supportFragmentManager, "yearPickerDialog")
     }
 
     override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {

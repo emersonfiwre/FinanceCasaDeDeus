@@ -11,4 +11,21 @@ class MonthRepository: ViewModel() {
     fun delete(month: String):Boolean{
         return true
     }
+
+    fun getMonths(): List<String> {
+        return listOf(
+            "Janeiro",
+            "Fevereiro",
+            "Março",
+            "Abril",
+            "Maio",
+            "Junho",
+            "Julho",
+            "Agosto",
+            "Setembro",
+            "Outubro",
+            "Novembro",
+            "Dezembro"
+        )
+    }
 }

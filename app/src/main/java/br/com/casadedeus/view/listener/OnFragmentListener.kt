@@ -1,8 +1,8 @@
-package br.com.casadedeus.`interface`
+package br.com.casadedeus.view.listener
 
 import android.view.View
 
-interface OnClickListener {
+interface OnFragmentListener {
     interface OnItemClickListener {
         fun onItemClick(view: View, position: Int)
     }

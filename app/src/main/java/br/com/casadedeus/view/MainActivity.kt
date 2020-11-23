@@ -1,19 +1,14 @@
-package br.com.casadedeus
+package br.com.casadedeus.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import br.com.casadedeus.`interface`.OnClickListener
-import br.com.casadedeus.adapter.MonthAdapter
-import br.com.casadedeus.fragment.MonthFragment
-import br.com.casadedeus.fragment.YearFragment
-import br.com.casadedeus.model.MonthModel
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import br.com.casadedeus.R
+import br.com.casadedeus.view.listener.OnAdapterListener
+import br.com.casadedeus.view.fragment.MonthFragment
+import br.com.casadedeus.view.fragment.YearFragment
 
-class MainActivity : AppCompatActivity(), OnClickListener.OnMonthClickListener {
+class MainActivity : AppCompatActivity(), OnAdapterListener.OnMonthClickListener {
     private val yearFragment = YearFragment()
     private lateinit var monthFragment: MonthFragment
     override fun onCreate(savedInstanceState: Bundle?) {

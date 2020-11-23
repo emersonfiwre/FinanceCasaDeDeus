@@ -1,4 +1,4 @@
-package br.com.casadedeus.fragment
+package br.com.casadedeus.view.fragment
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -13,18 +13,23 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.casadedeus.R
-import br.com.casadedeus.`interface`.OnClickListener
-import br.com.casadedeus.adapter.ExpenditureAdapter
-import br.com.casadedeus.model.ExpenditureModel
+import br.com.casadedeus.view.listener.OnAdapterListener
+import br.com.casadedeus.view.adapter.ExpenditureAdapter
+import br.com.casadedeus.viewmodel.ExpenditureViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.dialog_single_input.view.*
 import kotlinx.android.synthetic.main.fragment_month.view.*
 
 
-class MonthFragment : Fragment(), OnClickListener.OnBackPressedFragmentListener {
+class MonthFragment : Fragment(), OnAdapterListener.OnBackPressedFragmentListener {
+
+    private lateinit var mViewModel:ExpenditureViewModel
+    private val mAdapter: ExpenditureAdapter = ExpenditureAdapter()
 
     companion object {
         fun newInstance(month: String): MonthFragment {
@@ -46,6 +51,7 @@ class MonthFragment : Fragment(), OnClickListener.OnBackPressedFragmentListener 
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        mViewModel = ViewModelProvider(this).get(ExpenditureViewModel::class.java)
         val view = inflater.inflate(R.layout.fragment_month, container, false)
         val activity: Context = activity as Context
         val addLancamento = view.findViewById<Button>(R.id.add_lancamento)
@@ -54,12 +60,17 @@ class MonthFragment : Fragment(), OnClickListener.OnBackPressedFragmentListener 
         val profitMonth = view.findViewById<TextView>(R.id.profit_month)
         val expenditureMonth = view.findViewById<TextView>(R.id.expenditure_month)
         //************
+        // Cria observadores
+        observe()
+
         val rvExpenditure = view.findViewById<RecyclerView>(R.id.rv_expenditure)
-        val model = ExpenditureModel()
-        val adapter = ExpenditureAdapter(activity, model.getExpenditures())
-        rvExpenditure.adapter = adapter
+        rvExpenditure.adapter = mAdapter
         val linearLayoutManager = LinearLayoutManager(activity)
         rvExpenditure.layoutManager = linearLayoutManager
+
+        //Carregar a lista com todos
+        mViewModel.load()
+
 
         view.back_month.setOnClickListener { getActivity()?.onBackPressed() }
         val month = arguments?.getString("month") as String
@@ -117,6 +128,12 @@ class MonthFragment : Fragment(), OnClickListener.OnBackPressedFragmentListener 
         }
 
         return view
+    }
+
+    private fun observe() {
+        mViewModel.expenditurelist.observe(viewLifecycleOwner, Observer {
+            mAdapter.notifyChanged(it)
+        })
     }
 
     private fun hide(edit: EditText, context: Context) {

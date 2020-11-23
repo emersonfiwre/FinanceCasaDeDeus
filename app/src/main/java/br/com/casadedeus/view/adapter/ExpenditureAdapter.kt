@@ -1,6 +1,5 @@
-package br.com.casadedeus.adapter
+package br.com.casadedeus.view.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,28 +8,35 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.casadedeus.R
 import br.com.casadedeus.beans.Expenditure
 import kotlinx.android.synthetic.main.card_expenditure.view.*
-import kotlinx.android.synthetic.main.card_year.view.*
 
-class ExpenditureAdapter(
-    private val context: Context,
-    private val expenditurelist: List<Expenditure>
-) : RecyclerView.Adapter<ExpenditureAdapter.MyViewHolder>() {
+class ExpenditureAdapter : RecyclerView.Adapter<ExpenditureAdapter.MyViewHolder>() {
+
+    private var mExpenditureList: List<Expenditure> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.card_expenditure, parent,false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.card_expenditure, parent,false)
         return MyViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val expenditure = expenditurelist[position]
+        val expenditure = mExpenditureList[position]
         holder.day.text = expenditure.dia
         holder.desc.text = expenditure.desc
         holder.price.text = expenditure.valor
     }
 
     override fun getItemCount(): Int {
-        return expenditurelist.size
+        return mExpenditureList.size
     }
+
+    fun notifyChanged(it: List<Expenditure>?) {
+        if (it != null) {
+            mExpenditureList = it
+            notifyDataSetChanged()
+        }
+
+    }
+
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val day: TextView = itemView.lbl_day

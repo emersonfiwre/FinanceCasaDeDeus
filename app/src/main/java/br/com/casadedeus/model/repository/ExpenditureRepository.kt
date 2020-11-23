@@ -3,19 +3,19 @@ package br.com.casadedeus.model.repository
 import br.com.casadedeus.beans.Expenditure
 
 class ExpenditureRepository {
-    fun insert(expenditure: Expenditure):Boolean{
+    fun insert(expenditure: Expenditure): Boolean {
         return true
     }
 
-    fun update(expenditure: Expenditure):Boolean{
+    fun update(expenditure: Expenditure): Boolean {
         return true
     }
 
-    fun delete(expenditure: Expenditure):Boolean{
+    fun delete(expenditure: Expenditure): Boolean {
         return true
     }
 
-    fun getExpenditure(expenditure: Expenditure):Expenditure?{
+    fun getExpenditure(expenditure: Expenditure): Expenditure? {
         return null
     }
 
@@ -27,7 +27,11 @@ class ExpenditureRepository {
             Expenditure("sáb, 21 set 2020", "Compra de vinhos e pães", "R$235,96"),
             Expenditure("seg, 16 mar 2020", "Compra de vinhos e pães", "R$235,96"),
             Expenditure("qua, 01 jan 2020", "Compra de vinhos e pães", "R$235,96"),
-            Expenditure("qui, 29 out 2020", "Compra de vinhos e pães lorem ipsum, equipamento de som de radio", "R$235,96")
+            Expenditure(
+                "qui, 29 out 2020",
+                "Compra de vinhos e pães lorem ipsum, equipamento de som de radio",
+                "R$235,96"
+            )
         )
     }
 }

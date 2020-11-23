@@ -1,4 +1,4 @@
-package br.com.casadedeus.fragment
+package br.com.casadedeus.view.fragment
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog.OnDateSetListener
