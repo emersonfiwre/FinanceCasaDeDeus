@@ -15,6 +15,16 @@
         android:orientation="vertical"
         android:paddingBottom="30dp">
 
+
+        <View
+            android:layout_width="150dp"
+            android:layout_height="5dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/shape_roundlittle"
+            android:backgroundTint="@color/hintColor" />
+
         <Button
             android:id="@+id/addExpenditure"
             android:layout_width="wrap_content"
@@ -23,15 +33,6 @@
             android:background="@color/transparent"
             android:foreground="?selectableItemBackground"
             android:text="@string/save" />
-
-        <!--View
-            android:layout_width="150dp"
-            android:layout_height="5dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/shape_roundlittle"
-            android:backgroundTint="@color/textColor" /-->
 
         <TextView
             android:layout_width="match_parent"

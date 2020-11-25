@@ -18,7 +18,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.casadedeus.R
-import br.com.casadedeus.view.listener.OnAdapterListener
 import br.com.casadedeus.view.adapter.ExpenditureAdapter
 import br.com.casadedeus.viewmodel.ExpenditureViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -26,9 +25,9 @@ import kotlinx.android.synthetic.main.dialog_single_input.view.*
 import kotlinx.android.synthetic.main.fragment_month.view.*
 
 
-class MonthFragment : Fragment(), OnAdapterListener.OnBackPressedFragmentListener {
+class MonthFragment : Fragment() {
 
-    private lateinit var mViewModel:ExpenditureViewModel
+    private lateinit var mViewModel: ExpenditureViewModel
     private val mAdapter: ExpenditureAdapter = ExpenditureAdapter()
 
     companion object {
@@ -113,6 +112,7 @@ class MonthFragment : Fragment(), OnAdapterListener.OnBackPressedFragmentListene
             false
         }
 
+
         view.add_lancamento.setOnClickListener {
             hide(view.edtSearch, activity)
             val dialog = BottomSheetDialog(activity)
@@ -126,7 +126,7 @@ class MonthFragment : Fragment(), OnAdapterListener.OnBackPressedFragmentListene
             }
             //get spinner selected
         }
-
+        hide(view.edtSearch!!, context)
         return view
     }
 
@@ -136,15 +136,17 @@ class MonthFragment : Fragment(), OnAdapterListener.OnBackPressedFragmentListene
         })
     }
 
-    private fun hide(edit: EditText, context: Context) {
+    private fun hide(edit: EditText, context: Context?) {
         edit.clearFocus()
         edit.isFocusable = false
 
         edit.setText("")
-        val icSearch = ContextCompat.getDrawable(
-            context,
-            R.drawable.ic_search
-        )
+        val icSearch = context?.let {
+            ContextCompat.getDrawable(
+                it,
+                R.drawable.ic_search
+            )
+        }
         edit.setCompoundDrawablesWithIntrinsicBounds(
             null, null, icSearch, null
         )
@@ -152,7 +154,7 @@ class MonthFragment : Fragment(), OnAdapterListener.OnBackPressedFragmentListene
 
     }
 
-    override fun onBackPressed(): Boolean =
+    fun onBackPressed(): Boolean =
         /*if (view?.edtSearch?.isFocusable == true) {
             hide(view?.edtSearch!!, context as Context)
             return false
@@ -160,7 +162,7 @@ class MonthFragment : Fragment(), OnAdapterListener.OnBackPressedFragmentListene
         return true*/
         when (view?.edtSearch?.isFocusable) {
             true -> {
-                hide(view?.edtSearch!!, context as Context)
+                hide(view?.edtSearch!!, context)
                 false
             }
             else -> true

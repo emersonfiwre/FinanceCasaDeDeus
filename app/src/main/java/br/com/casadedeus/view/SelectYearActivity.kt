@@ -42,6 +42,7 @@ class SelectYearActivity : AppCompatActivity(), OnAdapterListener.OnItemClickLis
         rvYear = findViewById(R.id.rv_year)
         fabYear = findViewById(R.id.fab_year)
         setupRv()
+        mAdapter.attachListener(this)
         mViewModel.load()
     }
 

@@ -1,16 +1,15 @@
 package br.com.casadedeus.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import br.com.casadedeus.R
-import br.com.casadedeus.view.listener.OnAdapterListener
 import br.com.casadedeus.view.fragment.MonthFragment
 import br.com.casadedeus.view.fragment.YearFragment
 
-class MainActivity : AppCompatActivity(), OnAdapterListener.OnMonthClickListener {
+class MainActivity : AppCompatActivity() {
     private val yearFragment = YearFragment()
-    private lateinit var monthFragment: MonthFragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -32,24 +31,16 @@ class MainActivity : AppCompatActivity(), OnAdapterListener.OnMonthClickListener
     }
 
     override fun onBackPressed() {
-        if (monthFragment.onBackPressed()) {
-            if (supportFragmentManager.backStackEntryCount == 0) {
+        val monthFragment: MonthFragment? =
+            supportFragmentManager.findFragmentByTag("monthFragment") as MonthFragment?
+        if (monthFragment != null && monthFragment.isVisible) {
+            if (monthFragment.onBackPressed()) {
                 super.onBackPressed()
-                //additional code
-            } else {
-                supportFragmentManager.popBackStack()
             }
+        } else {
+            super.onBackPressed()
         }
     }
 
-    override fun onMonthClick(month: String) {
-        //println("escutou o onclick")
-        monthFragment = MonthFragment.newInstance(month)
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container_root, monthFragment, "monthFragment")
-            .addToBackStack(null)
-            .commit()
-    }
 
 }

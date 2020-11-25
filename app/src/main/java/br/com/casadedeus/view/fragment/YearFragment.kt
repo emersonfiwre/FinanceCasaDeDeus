@@ -15,13 +15,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.casadedeus.R
-import br.com.casadedeus.view.listener.OnAdapterListener
 import br.com.casadedeus.view.adapter.MonthAdapter
+import br.com.casadedeus.view.listener.OnAdapterListener
 import br.com.casadedeus.viewmodel.MonthViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_year.view.*
 
-class YearFragment : Fragment(), OnAdapterListener.OnClickFragmentListener,
+
+class YearFragment : Fragment(), OnAdapterListener.OnItemClickListener,
     DatePickerDialog.OnDateSetListener {
 
     private lateinit var mViewModel: MonthViewModel
@@ -43,8 +44,8 @@ class YearFragment : Fragment(), OnAdapterListener.OnClickFragmentListener,
         observe()
 
         //****************
-        //adapter.onMonthClickListener = context as OnClickListener.OnMonthClickListener
-
+        //mAdapter.attachListener(context as OnAdapterListener.OnItemClickListener)
+        mAdapter.attachListener(this)
         rvMonth?.adapter = mAdapter
         val linearLayoutManager = LinearLayoutManager(activity)
         rvMonth?.layoutManager = linearLayoutManager
@@ -63,14 +64,24 @@ class YearFragment : Fragment(), OnAdapterListener.OnClickFragmentListener,
         })
     }
 
-    override fun onClick(view: View) {
-        val monthYearPickerDialog: MonthYearPickerDialog = MonthYearPickerDialog.newInstance(true)
+    fun onClick(view: View) {
+        val monthYearPickerDialog: MonthYearPickerDialog =
+            MonthYearPickerDialog.newInstance(true)
         monthYearPickerDialog.listener = this
         monthYearPickerDialog.show(activity!!.supportFragmentManager, "monthPickerDialog")
     }
 
     override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
         Toast.makeText(context, "Modulo em construção", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onItemClick(view: View, position: Int) {
+        val monthFragment = MonthFragment.newInstance("Julho")
+        activity!!.supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.container_root, monthFragment, "monthFragment")
+            .addToBackStack(null)
+            .commit()
     }
 
 
