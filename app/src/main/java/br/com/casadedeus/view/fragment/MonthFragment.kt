@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.casadedeus.R
+import br.com.casadedeus.model.constants.ViewConstants
 import br.com.casadedeus.view.adapter.ExpenditureAdapter
 import br.com.casadedeus.viewmodel.ExpenditureViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -25,7 +26,7 @@ import kotlinx.android.synthetic.main.dialog_single_input.view.*
 import kotlinx.android.synthetic.main.fragment_month.view.*
 
 
-class MonthFragment : Fragment() {
+class MonthFragment private constructor(): Fragment() {
 
     private lateinit var mViewModel: ExpenditureViewModel
     private val mAdapter: ExpenditureAdapter = ExpenditureAdapter()
@@ -33,7 +34,7 @@ class MonthFragment : Fragment() {
     companion object {
         fun newInstance(month: String): MonthFragment {
             val args = Bundle()
-            args.putString("month", month);
+            args.putString(ViewConstants.KEYS.TITLEMONTH, month);
             val fragment = MonthFragment()
             fragment.arguments = args
             return fragment
@@ -72,7 +73,7 @@ class MonthFragment : Fragment() {
 
 
         view.back_month.setOnClickListener { getActivity()?.onBackPressed() }
-        val month = arguments?.getString("month") as String
+        val month = arguments?.getString(ViewConstants.KEYS.TITLEMONTH) as String
         view.month.text = month
 
         view.edtSearch.setOnEditorActionListener { textView, i, keyEvent ->

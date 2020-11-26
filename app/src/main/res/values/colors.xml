@@ -8,6 +8,7 @@
     <color name="textColor">#808080</color>
     <color name="hintColor">#a8a8a8</color>
     <color name="defaultbg">#FAFAFA</color>
+    <color name="ligth_gray">#d6d6d6</color>
     <color name="light_red">#f5dada</color>
     <color name="light_blue">#dff0f5</color>
     <color name="light_yellow">#F5F3DF</color>

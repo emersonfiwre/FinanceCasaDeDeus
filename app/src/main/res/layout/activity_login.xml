@@ -71,7 +71,7 @@
         android:layout_margin="10dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/user"
+            android:id="@+id/edit_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/user"
@@ -88,7 +88,7 @@
         android:layout_margin="10dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/password"
+            android:id="@+id/edit_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password"
@@ -98,16 +98,17 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
+        android:id="@+id/button_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_btn_login"
-        android:onClick="onLogin"
         android:paddingHorizontal="120dp"
         android:text="@string/login"
         android:textColor="@color/white"
         android:textStyle="bold" />
 
     <Button
+        android:id="@+id/button_cadastrar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"

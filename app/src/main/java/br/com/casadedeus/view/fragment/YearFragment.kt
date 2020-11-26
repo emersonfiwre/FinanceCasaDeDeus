@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.casadedeus.R
+import br.com.casadedeus.model.constants.ViewConstants
 import br.com.casadedeus.view.adapter.MonthAdapter
 import br.com.casadedeus.view.listener.OnAdapterListener
 import br.com.casadedeus.viewmodel.MonthViewModel
@@ -22,11 +23,23 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_year.view.*
 
 
-class YearFragment : Fragment(), OnAdapterListener.OnItemClickListener,
+class YearFragment private constructor() : Fragment(), View.OnClickListener,
+    OnAdapterListener.OnItemClickListener<String>,
     DatePickerDialog.OnDateSetListener {
 
     private lateinit var mViewModel: MonthViewModel
     private val mAdapter: MonthAdapter = MonthAdapter()
+
+    companion object {
+        fun newInstance(year: String): YearFragment {
+            val args = Bundle()
+            args.putString(ViewConstants.KEYS.TITLEYEAR, year);
+            val fragment = YearFragment()
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,7 +47,6 @@ class YearFragment : Fragment(), OnAdapterListener.OnItemClickListener,
     ): View? {
         mViewModel = ViewModelProvider(this).get(MonthViewModel::class.java)
         val view = inflater.inflate(R.layout.fragment_year, container, false)
-
         val activity = activity as Context
         val fabMonth = view.findViewById<FloatingActionButton>(R.id.fab_month)
 
@@ -55,6 +67,10 @@ class YearFragment : Fragment(), OnAdapterListener.OnItemClickListener,
 
         mViewModel.load()
 
+        val mYear = arguments?.getString(ViewConstants.KEYS.TITLEYEAR) as String
+        view.txt_year.text = mYear
+        view.fab_month.setOnClickListener(this)
+
         return view
     }
 
@@ -64,19 +80,22 @@ class YearFragment : Fragment(), OnAdapterListener.OnItemClickListener,
         })
     }
 
-    fun onClick(view: View) {
-        val monthYearPickerDialog: MonthYearPickerDialog =
-            MonthYearPickerDialog.newInstance(true)
-        monthYearPickerDialog.listener = this
-        monthYearPickerDialog.show(activity!!.supportFragmentManager, "monthPickerDialog")
+    override fun onClick(v: View?) {
+        val id = v?.id
+        if (id == R.id.fab_month) {
+            val monthYearPickerDialog: MonthYearPickerDialog =
+                MonthYearPickerDialog.newInstance(true)
+            monthYearPickerDialog.listener = this
+            monthYearPickerDialog.show(activity!!.supportFragmentManager, "monthPickerDialog")
+        }
     }
 
     override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
         Toast.makeText(context, "Modulo em construção", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onItemClick(view: View, position: Int) {
-        val monthFragment = MonthFragment.newInstance("Julho")
+    override fun onItemClick(item: String) {
+        val monthFragment = MonthFragment.newInstance(item)
         activity!!.supportFragmentManager
             .beginTransaction()
             .replace(R.id.container_root, monthFragment, "monthFragment")

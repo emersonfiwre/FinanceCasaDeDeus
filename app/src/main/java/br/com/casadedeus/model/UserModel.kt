@@ -7,11 +7,12 @@ import java.lang.Exception
 class UserModel {
     private val userRepository = UserRepository()
 
-    fun getLogin(user:User){
-        if(user.name.isNotEmpty() && user.password.isNotEmpty()){
+    @Throws(Exception::class)
+    fun getLogin(user:User):   Boolean{
+        return if(user.email.isNotEmpty() && user.password.isNotEmpty()){
             userRepository.getLogin(user)
         }else{
-           throw Exception("Os campos nome ou senha estão vázios")
+            throw Exception("Os campos nome ou senha estão vázios")
         }
     }
 

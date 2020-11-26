@@ -1,15 +1,15 @@
 package br.com.casadedeus.view
 
 import android.os.Bundle
-import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.com.casadedeus.R
+import br.com.casadedeus.model.constants.ViewConstants
 import br.com.casadedeus.view.fragment.MonthFragment
 import br.com.casadedeus.view.fragment.YearFragment
 
 class MainActivity : AppCompatActivity() {
-    private val yearFragment = YearFragment()
+    private lateinit var mYearFragment: YearFragment
+    private var yearTxt: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -17,22 +17,30 @@ class MainActivity : AppCompatActivity() {
         //https://dribbble.com/shots/14359607-Personal-Financial-Manager-Mobile-App------------
         //https://dribbble.com/shots/14295333-Online-banking-finance-app-concept
         //https://dribbble.com/shots/7407699--Sign-Up-Sign-In-Modal-Windows
+
+        // Carrega dados do usuário, caso haja
+        loadData()
+
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
-                .add(R.id.container_root, yearFragment, "yearFragment")
+                .add(R.id.container_root, mYearFragment, ViewConstants.TAGS.YEAR)
                 .commit()
         }
-
     }
 
-    fun fabMonthOnClick(view: View) {
-        yearFragment.onClick(view)
+    private fun loadData() {
+        val bundle = intent.extras
+        if (bundle != null) {
+            yearTxt = bundle.getString(ViewConstants.KEYS.TITLEYEAR)!!
+            mYearFragment = YearFragment.newInstance(yearTxt)
+        }
     }
+
 
     override fun onBackPressed() {
         val monthFragment: MonthFragment? =
-            supportFragmentManager.findFragmentByTag("monthFragment") as MonthFragment?
+            supportFragmentManager.findFragmentByTag(ViewConstants.TAGS.MONTH) as MonthFragment?
         if (monthFragment != null && monthFragment.isVisible) {
             if (monthFragment.onBackPressed()) {
                 super.onBackPressed()

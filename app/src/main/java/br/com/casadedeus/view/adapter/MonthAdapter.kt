@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.card_month.view.*
 class MonthAdapter : RecyclerView.Adapter<MonthAdapter.MyViewHolder>() {
 
     private var mMonthList: List<String> = arrayListOf()
-    lateinit var mListener: OnAdapterListener.OnItemClickListener
+    lateinit var mListener: OnAdapterListener.OnItemClickListener<String>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.card_month, parent, false)
@@ -22,7 +22,7 @@ class MonthAdapter : RecyclerView.Adapter<MonthAdapter.MyViewHolder>() {
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.month.text = mMonthList[position]
         holder.itemView.setOnClickListener {
-            mListener.onItemClick(holder.itemView,position)
+            mListener.onItemClick(mMonthList[position])
         }
     }
 
@@ -33,7 +33,8 @@ class MonthAdapter : RecyclerView.Adapter<MonthAdapter.MyViewHolder>() {
         }
 
     }
-    fun attachListener(listener: OnAdapterListener.OnItemClickListener) {
+
+    fun attachListener(listener: OnAdapterListener.OnItemClickListener<String>) {
         mListener = listener
     }
 

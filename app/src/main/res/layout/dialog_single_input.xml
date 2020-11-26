@@ -17,13 +17,13 @@
 
 
         <View
-            android:layout_width="150dp"
+            android:layout_width="50dp"
             android:layout_height="5dp"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="15dp"
             android:background="@drawable/shape_roundlittle"
-            android:backgroundTint="@color/hintColor" />
+            android:backgroundTint="@color/ligth_gray" />
 
         <Button
             android:id="@+id/addExpenditure"

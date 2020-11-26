@@ -14,7 +14,8 @@ class ExpenditureAdapter : RecyclerView.Adapter<ExpenditureAdapter.MyViewHolder>
     private var mExpenditureList: List<Expenditure> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.card_expenditure, parent,false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.card_expenditure, parent, false)
         return MyViewHolder(view)
     }
 
