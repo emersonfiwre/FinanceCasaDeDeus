@@ -11,13 +11,14 @@ class YearViewModel : ViewModel() {
     private var mModel = YearModel()
     private val mRepository = YearRepository()
 
-
     private var mYearList = MutableLiveData<List<String>>()
     val yearlist: LiveData<List<String>> = mYearList
 
+    private var mYearSave = MutableLiveData<Boolean>()
+    val yearsave: LiveData<Boolean> = mYearSave
 
-    fun insert(year: Calendar?) {
-        mModel.insert(year)
+    fun save(year: String?) {
+        mYearSave.value = mModel.save(year)
     }
 
     fun delete(year: String?) {

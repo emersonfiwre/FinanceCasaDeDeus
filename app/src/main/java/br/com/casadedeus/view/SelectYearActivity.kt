@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.DatePicker
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -50,18 +51,24 @@ class SelectYearActivity : AppCompatActivity(), View.OnClickListener,
         val id = v?.id
 
         if (id == R.id.fab_year) {
-
             val monthYearPickerDialog: MonthYearPickerDialog =
                 MonthYearPickerDialog.newInstance(false)
             monthYearPickerDialog.listener = this
             monthYearPickerDialog.show(supportFragmentManager, ViewConstants.TAGS.YEARPICKER)
-
         }
     }
 
     private fun observe() {
         mViewModel.yearlist.observe(this, androidx.lifecycle.Observer {
             mAdapter.notifyChanged(it)
+        })
+        mViewModel.yearsave.observe(this, Observer {
+            if (it) {
+                Toast.makeText(this, "Adicionado com sucesso", Toast.LENGTH_SHORT).show()
+                mViewModel.load()
+            } else {
+                Toast.makeText(this, "Houve algum erro ao inserir o ano", Toast.LENGTH_SHORT).show()
+            }
         })
     }
 
@@ -75,9 +82,8 @@ class SelectYearActivity : AppCompatActivity(), View.OnClickListener,
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         println("selecionou uma data $year $month $dayOfMonth")
-
-        Toast.makeText(this, "selecionou uma data $year $month $dayOfMonth", Toast.LENGTH_LONG)
-            .show()
+        //Toast.makeText(this, "selecionou uma data $year $month $dayOfMonth", Toast.LENGTH_LONG).show()
+        mViewModel.save(year.toString())
 
         /*p1 year
         p2 month

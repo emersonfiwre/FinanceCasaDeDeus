@@ -78,6 +78,20 @@ class YearFragment private constructor() : Fragment(), View.OnClickListener,
         mViewModel.monthlist.observe(viewLifecycleOwner, Observer {
             mAdapter.notifyChanged(it)
         })
+        mViewModel.monthsave.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                Toast.makeText(context, "Adicionado com sucesso", Toast.LENGTH_SHORT).show()
+                mViewModel.load()
+            } else {
+                Toast.makeText(context, "Houve algum erro ao inserir o ano", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        })
+    }
+
+    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+        //Toast.makeText(context, "Modulo em construção", Toast.LENGTH_SHORT).show()
+        mViewModel.save(month)
     }
 
     override fun onClick(v: View?) {
@@ -86,19 +100,19 @@ class YearFragment private constructor() : Fragment(), View.OnClickListener,
             val monthYearPickerDialog: MonthYearPickerDialog =
                 MonthYearPickerDialog.newInstance(true)
             monthYearPickerDialog.listener = this
-            monthYearPickerDialog.show(activity!!.supportFragmentManager, "monthPickerDialog")
+            monthYearPickerDialog.show(
+                activity!!.supportFragmentManager,
+                ViewConstants.TAGS.MONTHPICKER
+            )
         }
     }
 
-    override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
-        Toast.makeText(context, "Modulo em construção", Toast.LENGTH_SHORT).show()
-    }
 
     override fun onItemClick(item: String) {
         val monthFragment = MonthFragment.newInstance(item)
         activity!!.supportFragmentManager
             .beginTransaction()
-            .replace(R.id.container_root, monthFragment, "monthFragment")
+            .replace(R.id.container_root, monthFragment, ViewConstants.TAGS.MONTH)
             .addToBackStack(null)
             .commit()
     }

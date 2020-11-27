@@ -8,11 +8,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.DialogFragment
 import br.com.casadedeus.R
+import br.com.casadedeus.model.constants.ViewConstants
 import kotlinx.android.synthetic.main.month_year_picker_dialog.view.*
 import java.util.*
 
 
-class MonthYearPickerDialog : DialogFragment() {
+class MonthYearPickerDialog private constructor() : DialogFragment() {
     private val maxYear = 2100
     var listener: OnDateSetListener? = null
 
@@ -20,7 +21,7 @@ class MonthYearPickerDialog : DialogFragment() {
         fun newInstance(isMonth: Boolean?): MonthYearPickerDialog {
             val args = Bundle()
             if (isMonth != null)
-                args.putBoolean("isMonth", isMonth)
+                args.putBoolean(ViewConstants.KEYS.WHATPICKER, isMonth)
             val fragment = MonthYearPickerDialog()
             fragment.arguments = args
             return fragment
@@ -35,7 +36,7 @@ class MonthYearPickerDialog : DialogFragment() {
         val monthPicker = dialog.picker_month
         val yearPicker = dialog.picker_year
 
-        val isMonth = arguments?.getBoolean("isMonth") as Boolean
+        val isMonth = arguments?.getBoolean(ViewConstants.KEYS.WHATPICKER) as Boolean
         if (isMonth) {
             yearPicker.visibility = View.GONE
             monthPicker.visibility = View.VISIBLE

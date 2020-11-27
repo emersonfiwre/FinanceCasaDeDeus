@@ -6,18 +6,18 @@ import java.util.*
 class YearModel {
     private var yearRepository = YearRepository()
 
-    fun insert(year:Calendar?){
-        if(year != null){
-            yearRepository.insert(year)
-        }else{
-            throw Exception("O ano é nulo")
+    fun save(year: String?): Boolean {
+        return if (year != null) {
+            yearRepository.save(year)
+        } else {
+            throw Exception("Selecione um ano")
         }
     }
 
-    fun delete(year:String?){
-        if(year != null){
+    fun delete(year: String?) {
+        if (year != null) {
             yearRepository.delete(year)
-        }else{
+        } else {
             throw Exception("O ano é nulo")
         }
     }
