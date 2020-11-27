@@ -1,25 +1,21 @@
 package br.com.casadedeus.view.fragment
 
 import android.app.DatePickerDialog
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import br.com.casadedeus.R
 import br.com.casadedeus.model.constants.ViewConstants
 import br.com.casadedeus.view.adapter.MonthAdapter
 import br.com.casadedeus.view.listener.OnAdapterListener
 import br.com.casadedeus.viewmodel.MonthViewModel
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_year.view.*
 
 
@@ -29,6 +25,7 @@ class YearFragment private constructor() : Fragment(), View.OnClickListener,
 
     private lateinit var mViewModel: MonthViewModel
     private val mAdapter: MonthAdapter = MonthAdapter()
+    private lateinit var mViewRoot: View
 
     companion object {
         fun newInstance(year: String): YearFragment {
@@ -46,32 +43,40 @@ class YearFragment private constructor() : Fragment(), View.OnClickListener,
         savedInstanceState: Bundle?
     ): View? {
         mViewModel = ViewModelProvider(this).get(MonthViewModel::class.java)
-        val view = inflater.inflate(R.layout.fragment_year, container, false)
-        val activity = activity as Context
-        val fabMonth = view.findViewById<FloatingActionButton>(R.id.fab_month)
+        mViewRoot = inflater.inflate(R.layout.fragment_year, container, false)
 
-        val rvMonth = view.findViewById<RecyclerView>(R.id.rv_month)
-        //****************
-        val revenueYear = view.findViewById<TextView>(R.id.revenue_year)
+        setupRecycler()
+
+        val mYear = arguments?.getString(ViewConstants.KEYS.TITLEYEAR) as String
+        mViewRoot.txt_year.text = mYear
+
         observe()
 
-        //****************
-        //mAdapter.attachListener(context as OnAdapterListener.OnItemClickListener)
-        mAdapter.attachListener(this)
-        rvMonth?.adapter = mAdapter
-        val linearLayoutManager = LinearLayoutManager(activity)
-        rvMonth?.layoutManager = linearLayoutManager
-        rvMonth?.setHasFixedSize(true)
-
-        view.back_year.setOnClickListener { getActivity()?.onBackPressed() }
+        setListeners()
 
         mViewModel.load()
 
-        val mYear = arguments?.getString(ViewConstants.KEYS.TITLEYEAR) as String
-        view.txt_year.text = mYear
-        view.fab_month.setOnClickListener(this)
+        return mViewRoot
+    }
 
-        return view
+    override fun onResume() {
+        super.onResume()
+        mViewModel.load()
+    }
+
+    private fun setupRecycler() {
+        //****************
+        //mAdapter.attachListener(context as OnAdapterListener.OnItemClickListener)
+        val linearLayoutManager = LinearLayoutManager(activity)
+        mViewRoot.rv_month.layoutManager = linearLayoutManager
+        mAdapter.attachListener(this)
+        mViewRoot.rv_month.adapter = mAdapter
+        mViewRoot.rv_month.setHasFixedSize(true)
+    }
+
+    private fun setListeners() {
+        mViewRoot.fab_month.setOnClickListener(this)
+        mViewRoot.back_year.setOnClickListener(this)
     }
 
     private fun observe() {
@@ -104,6 +109,8 @@ class YearFragment private constructor() : Fragment(), View.OnClickListener,
                 activity!!.supportFragmentManager,
                 ViewConstants.TAGS.MONTHPICKER
             )
+        } else if (id == R.id.back_year) {
+            activity?.onBackPressed()
         }
     }
 

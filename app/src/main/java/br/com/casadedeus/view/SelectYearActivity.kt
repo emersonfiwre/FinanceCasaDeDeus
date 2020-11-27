@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import br.com.casadedeus.R
 import br.com.casadedeus.model.constants.ViewConstants
 import br.com.casadedeus.view.adapter.YearAdapter
@@ -22,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_select_year.*
 class SelectYearActivity : AppCompatActivity(), View.OnClickListener,
     OnAdapterListener.OnItemClickListener<String>,
     DatePickerDialog.OnDateSetListener {
-    lateinit var rvYear: RecyclerView
+
     private var mAdapter = YearAdapter()
     private lateinit var mViewModel: YearViewModel
 
@@ -33,14 +32,27 @@ class SelectYearActivity : AppCompatActivity(), View.OnClickListener,
         mViewModel = ViewModelProvider(this).get(YearViewModel::class.java)
         //Design
         //https://dribbble.com/tags/android_ui
+        setupRecycler()
+
         setListeners()
 
         observe()
 
-        rvYear = findViewById(R.id.rv_year)
-        mAdapter.attachListener(this)
-        setupRv()
         mViewModel.load()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mViewModel.load()
+    }
+
+    private fun setupRecycler() {
+        //adapter.onItemClick = this
+        val layoutManager = LinearLayoutManager(this)
+        rv_year.layoutManager = layoutManager
+        mAdapter.attachListener(this)
+        rv_year.adapter = mAdapter
+        rv_year.setHasFixedSize(true)
     }
 
     private fun setListeners() {
@@ -72,13 +84,6 @@ class SelectYearActivity : AppCompatActivity(), View.OnClickListener,
         })
     }
 
-    private fun setupRv() {
-        //adapter.onItemClick = this
-        rvYear.adapter = mAdapter
-        rvYear.setHasFixedSize(true)
-        val layoutManager = LinearLayoutManager(this)
-        rvYear.layoutManager = layoutManager
-    }
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         println("selecionou uma data $year $month $dayOfMonth")

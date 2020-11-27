@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import br.com.casadedeus.beans.Expenditure
 import br.com.casadedeus.model.ExpenditureModel
 import br.com.casadedeus.model.repository.ExpenditureRepository
+import java.lang.Exception
 
 class ExpenditureViewModel(application: Application) : AndroidViewModel(application) {
     // Contexto e acesso a dados
@@ -17,13 +18,35 @@ class ExpenditureViewModel(application: Application) : AndroidViewModel(applicat
     private var mExpenditureList = MutableLiveData<List<Expenditure>>()
     val expenditurelist: LiveData<List<Expenditure>> = mExpenditureList
 
-    /*private var mGuest = MutableLiveData<ExpenditureModel>()
-    val guest: LiveData<ExpenditureModel> = mGuest*/
+    private var mExpenditureSave = MutableLiveData<Boolean>()
+    val expendituresave: LiveData<Boolean> = mExpenditureSave
 
     private val expenditureModel = ExpenditureModel()
 
-    fun insert(expenditure: Expenditure) {
-        expenditureModel.insert(expenditure)
+    fun save(
+        isEntry: Boolean,
+        desc: String,
+        category: String,
+        razaoSocial: String,
+        notaFiscal: String,
+        valor: Double
+    ) {
+        val expenditure = Expenditure(
+            dia = "sab, 21 set 2020",
+            isEntry = false,
+            desc = desc,
+            category = category,
+            razaoSocial = razaoSocial,
+            notaFiscal = notaFiscal,
+            valor = valor
+        )
+        try {
+            mExpenditureSave.value = expenditureModel.save(expenditure)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            mExpenditureSave.value = false
+        }
+
     }
 
     fun update(expenditure: Expenditure) {

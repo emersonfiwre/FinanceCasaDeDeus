@@ -24,12 +24,14 @@ import br.com.casadedeus.viewmodel.ExpenditureViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.dialog_single_input.view.*
 import kotlinx.android.synthetic.main.fragment_month.view.*
+import kotlinx.android.synthetic.main.fragment_year.*
 
 
-class MonthFragment private constructor(): Fragment() {
+class MonthFragment private constructor() : Fragment(), View.OnClickListener {
 
     private lateinit var mViewModel: ExpenditureViewModel
     private val mAdapter: ExpenditureAdapter = ExpenditureAdapter()
+    private lateinit var mViewRoot: View
 
     companion object {
         fun newInstance(month: String): MonthFragment {
@@ -52,31 +54,24 @@ class MonthFragment private constructor(): Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         mViewModel = ViewModelProvider(this).get(ExpenditureViewModel::class.java)
-        val view = inflater.inflate(R.layout.fragment_month, container, false)
-        val activity: Context = activity as Context
-        val addLancamento = view.findViewById<Button>(R.id.add_lancamento)
+        mViewRoot = inflater.inflate(R.layout.fragment_month, container, false)
+
         //****************** NÃO É NECESSÁRIO FINDVIEWBYID
-        val revenueMonth = view.findViewById<TextView>(R.id.revenue_month)
-        val profitMonth = view.findViewById<TextView>(R.id.profit_month)
-        val expenditureMonth = view.findViewById<TextView>(R.id.expenditure_month)
+        val addLancamento = mViewRoot.findViewById<Button>(R.id.add_lancamento)
+        val revenueMonth = mViewRoot.findViewById<TextView>(R.id.revenue_month)
+        val profitMonth = mViewRoot.findViewById<TextView>(R.id.profit_month)
+        val expenditureMonth = mViewRoot.findViewById<TextView>(R.id.expenditure_month)
+        val rvExpenditure = mViewRoot.findViewById<RecyclerView>(R.id.rv_expenditure)
+        //view.back_month.setOnClickListener { getActivity()?.onBackPressed() }
         //************
-        // Cria observadores
-        observe()
 
-        val rvExpenditure = view.findViewById<RecyclerView>(R.id.rv_expenditure)
-        rvExpenditure.adapter = mAdapter
-        val linearLayoutManager = LinearLayoutManager(activity)
-        rvExpenditure.layoutManager = linearLayoutManager
-
-        //Carregar a lista com todos
-        mViewModel.load()
+        setupRecycler()
 
 
-        view.back_month.setOnClickListener { getActivity()?.onBackPressed() }
         val month = arguments?.getString(ViewConstants.KEYS.TITLEMONTH) as String
-        view.month.text = month
+        mViewRoot.month.text = month
 
-        view.edtSearch.setOnEditorActionListener { textView, i, keyEvent ->
+        mViewRoot.edtSearch.setOnEditorActionListener { textView, i, keyEvent ->
             when (i) {
                 EditorInfo.IME_ACTION_SEARCH -> {
                     Toast.makeText(activity, "Modulo em contrução", Toast.LENGTH_SHORT).show()
@@ -88,10 +83,10 @@ class MonthFragment private constructor(): Fragment() {
                 }
             }
         }
-        view.edtSearch.setOnTouchListener { view, motionEvent ->
+        mViewRoot.edtSearch.setOnTouchListener { view, motionEvent ->
             view.edtSearch.isFocusableInTouchMode = true
             val icSearch = ContextCompat.getDrawable(
-                activity,
+                activity!!,
                 R.drawable.ic_search
             )
             /*Tint drawable
@@ -112,28 +107,51 @@ class MonthFragment private constructor(): Fragment() {
 
             false
         }
+        hide(mViewRoot.edtSearch, context)
+        // Cria observadores
+        observe()
+
+        setListeners()
+
+        //Carregar a lista com todos
+        mViewModel.load()
+
+        return mViewRoot
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mViewModel.load()
+    }
 
 
-        view.add_lancamento.setOnClickListener {
-            hide(view.edtSearch, activity)
-            val dialog = BottomSheetDialog(activity)
-            val bottomSheet = layoutInflater.inflate(R.layout.dialog_single_input, null)
-            dialog.setContentView(bottomSheet)
-            /*val mBehavior = BottomSheetBehavior.from(bottomSheet.parent as View);
-            mBehavior.setPeekHeight(600)*/
-            dialog.show()
-            bottomSheet.addExpenditure.setOnClickListener {
-                Toast.makeText(activity, "Módulo em construção", Toast.LENGTH_SHORT).show()
-            }
-            //get spinner selected
-        }
-        hide(view.edtSearch!!, context)
-        return view
+    private fun setupRecycler() {
+        //****************
+        //mAdapter.attachListener(context as OnAdapterListener.OnItemClickListener)
+        val linearLayoutManager = LinearLayoutManager(activity)
+        mViewRoot.rv_expenditure.layoutManager = linearLayoutManager
+        mViewRoot.rv_expenditure.adapter = mAdapter
+        mViewRoot.rv_expenditure.setHasFixedSize(true)
+    }
+
+
+    private fun setListeners() {
+        mViewRoot.add_lancamento.setOnClickListener(this)
+        mViewRoot.back_month.setOnClickListener(this)
     }
 
     private fun observe() {
         mViewModel.expenditurelist.observe(viewLifecycleOwner, Observer {
             mAdapter.notifyChanged(it)
+        })
+        mViewModel.expendituresave.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                Toast.makeText(context, "Adicionado com sucesso", Toast.LENGTH_SHORT).show()
+                mViewModel.load()
+            } else {
+                Toast.makeText(context, "Houve algum erro ao inserir os dados", Toast.LENGTH_SHORT)
+                    .show()
+            }
         })
     }
 
@@ -161,13 +179,52 @@ class MonthFragment private constructor(): Fragment() {
             return false
         }
         return true*/
-        when (view?.edtSearch?.isFocusable) {
+        when (mViewRoot.edtSearch.isFocusable) {
             true -> {
-                hide(view?.edtSearch!!, context)
+                hide(mViewRoot.edtSearch, context)
                 false
             }
             else -> true
         }
+
+    override fun onClick(v: View?) {
+        val id = v?.id
+        if (id == R.id.add_lancamento) {
+            hide(mViewRoot.edtSearch, activity)
+            val dialog = BottomSheetDialog(activity!!)
+            val bottomSheet = layoutInflater.inflate(R.layout.dialog_single_input, null)
+            dialog.setContentView(bottomSheet)
+            /*val mBehavior = BottomSheetBehavior.from(bottomSheet.parent as View);
+            mBehavior.setPeekHeight(600)*/
+            dialog.show()
+            bottomSheet.save_expenditure.setOnClickListener {
+                Toast.makeText(activity, "Módulo em construção", Toast.LENGTH_SHORT).show()
+
+                val isEntry = bottomSheet.radio_entrada.isChecked
+                val descricao = bottomSheet.edit_descricao.text.toString()
+                val categoria = bottomSheet.spinner_categoria.selectedItem.toString()
+                val razaoSocial = bottomSheet.edit_razao_social.text.toString()
+                val notaFiscal = bottomSheet.edit_nota_fiscal.text.toString()
+                val valor = bottomSheet.edit_valor.text.toString()
+                val dvalor: Double = 0.0
+                if (valor.isNotEmpty()) {
+                    valor.toDouble()
+                }
+                mViewModel.save(
+                    isEntry,
+                    descricao,
+                    categoria,
+                    razaoSocial,
+                    notaFiscal,
+                    dvalor
+                )
+            }
+            //get spinner selected
+        } else if (id == R.id.back_month) {
+            activity?.onBackPressed()
+        }
+
+    }
 
 
 }

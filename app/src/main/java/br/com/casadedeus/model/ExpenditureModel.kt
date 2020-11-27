@@ -8,21 +8,28 @@ class ExpenditureModel {
     //inserir a regra de negocio nas models, campos nao nulos, verificar valores para chamar o repository
     private val expenditureRepository = ExpenditureRepository()
 
-    fun insert(expenditure: Expenditure) {
-        if (expenditure.dia.isNotEmpty()) {
-            throw Exception("O dia está vazio")
-            return
-        }
-        if (expenditure.desc.isNotEmpty()) {
-            throw Exception("O desc está vazio")
-            return
-        }
-        if (expenditure.valor.isNotEmpty()) {
-            throw Exception("O valor está vazio")
-            return
-        }
+    fun save(expenditure: Expenditure?): Boolean {
+        if (expenditure != null) {
+            if (expenditure.dia.isEmpty()) {
+                throw Exception("O dia está vazio")
+                return false
+            }
+            if (expenditure.desc.isEmpty()) {
+                throw Exception("A descrição está vázia")
+                return false
+            }
+            if (expenditure.category.isEmpty()) {
+                throw Exception("Categoria não encontrada")
+                return false
+            }
+            if (expenditure.valor == 0.0) {
+                throw Exception("Valor não encontrada")
+                return false
+            }
 
-        expenditureRepository.insert(expenditure)
+            return expenditureRepository.save(expenditure)
+        }
+        return false
     }
 
     fun update(expenditure: Expenditure) {
@@ -32,10 +39,6 @@ class ExpenditureModel {
         }
         if (expenditure.desc.isNotEmpty()) {
             throw Exception("O desc está vazio")
-            return
-        }
-        if (expenditure.valor.isNotEmpty()) {
-            throw Exception("O valor está vazio")
             return
         }
 

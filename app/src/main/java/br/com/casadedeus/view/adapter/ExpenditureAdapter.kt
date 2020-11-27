@@ -23,7 +23,7 @@ class ExpenditureAdapter : RecyclerView.Adapter<ExpenditureAdapter.MyViewHolder>
         val expenditure = mExpenditureList[position]
         holder.day.text = expenditure.dia
         holder.desc.text = expenditure.desc
-        holder.price.text = expenditure.valor
+        holder.price.text = expenditure.valor.toString()
     }
 
     override fun getItemCount(): Int {
