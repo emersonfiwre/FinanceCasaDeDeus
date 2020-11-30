@@ -21,9 +21,9 @@ class ExpenditureAdapter : RecyclerView.Adapter<ExpenditureAdapter.MyViewHolder>
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val expenditure = mExpenditureList[position]
-        holder.day.text = expenditure.dia
+        holder.day.text = expenditure.day
         holder.desc.text = expenditure.desc
-        holder.price.text = expenditure.valor.toString()
+        holder.price.text = expenditure.amount.toString()
     }
 
     override fun getItemCount(): Int {

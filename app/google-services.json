@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "725421208517",
+    "firebase_url": "https://financial-9f31d.firebaseio.com",
+    "project_id": "financial-9f31d",
+    "storage_bucket": "financial-9f31d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725421208517:android:5579b2b304992008fd51ac",
+        "android_client_info": {
+          "package_name": "br.com.casadedeus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "725421208517-h7n45frj5o87pif6oqf1larelerja085.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHJYwmqbYuJLZXVNskozVjq9rzNEldfc4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "725421208517-h7n45frj5o87pif6oqf1larelerja085.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

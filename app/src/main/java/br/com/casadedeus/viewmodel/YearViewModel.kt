@@ -5,9 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import br.com.casadedeus.model.YearModel
 import br.com.casadedeus.model.repository.YearRepository
+import br.com.casadedeus.view.listener.OnCallbackListener
 import java.util.*
 
-class YearViewModel : ViewModel() {
+class YearViewModel : ViewModel(), OnCallbackListener<List<String>> {
     private var mModel = YearModel()
     private val mRepository = YearRepository()
 
@@ -26,6 +27,10 @@ class YearViewModel : ViewModel() {
     }
 
     fun load() {
-        mYearList.value = mRepository.getYears()
+        mRepository.getYears(this)
+    }
+
+    override fun callback(callback: List<String>) {
+        mYearList.value = callback
     }
 }

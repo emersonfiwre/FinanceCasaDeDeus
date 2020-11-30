@@ -1,8 +1,53 @@
 package br.com.casadedeus.model.repository
 
 import br.com.casadedeus.beans.Expenditure
+import br.com.casadedeus.view.listener.OnCallbackListener
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ExpenditureRepository {
+
+    private val mDatabase = FirebaseFirestore.getInstance()
+
+    fun getExpendituress(path: String, listener: OnCallbackListener<List<Expenditure>>) {
+        val expenditures: MutableList<Expenditure> = arrayListOf()
+        mDatabase.collection("$path/expenditures/")
+            .get()
+            .addOnSuccessListener {
+                for (document in it) {
+                    if (document.exists()) {
+                        val key = document.id
+                        val timestamp = document.data["day"] as Timestamp
+                        val isEntry = document.data["isEntry"] as Boolean
+                        val desc = document.data["description"] as String
+                        val category = document.data["category"] as String
+                        val companyName = document.data["companyName"] as String
+                        val notaFiscal = document.data["notaFiscal"] as String
+                        val amount = document.data["amount"] as Double
+                        val local = Locale("pt", "BR")
+                        val format = SimpleDateFormat("EEE, d MMM 'de' yyyy",local)// dia por extenso
+                        val day = format.format(timestamp.toDate())
+                        val ex = Expenditure(
+                            key,
+                            day,
+                            isEntry,
+                            desc,
+                            category,
+                            companyName,
+                            notaFiscal,
+                            amount
+                        )
+                        expenditures.add(ex)
+                        listener.callback(expenditures)
+                        //println("${document.id} => ${document.data}")
+                    }
+                }
+            }.addOnFailureListener {
+                val message = it.message.toString()
+            }
+    }
 
     companion object {
         private var mList = mutableListOf(
@@ -39,8 +84,7 @@ class ExpenditureRepository {
         )
     }
 
-    fun save(expenditure: Expenditure): Boolean {
-        mList.add(expenditure)
+    fun insert(expenditure: Expenditure): Boolean {
         return true
     }
 
@@ -49,15 +93,12 @@ class ExpenditureRepository {
     }
 
     fun delete(expenditure: Expenditure): Boolean {
-        mList.remove(expenditure)
         return true
     }
 
     fun getExpenditure(expenditure: Expenditure): Expenditure? {
-        return expenditure
+        return null
     }
-
-    fun orderby(list: List<Expenditure>) {}
 
     fun getExpenditures(): List<Expenditure> {
         return mList

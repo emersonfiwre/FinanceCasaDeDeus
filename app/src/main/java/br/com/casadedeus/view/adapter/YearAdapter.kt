@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.card_year.view.*
 class YearAdapter : RecyclerView.Adapter<YearAdapter.MyViewHolder>() {
 
     private var mYearList: List<String> = arrayListOf()
-    lateinit var mListener: OnAdapterListener.OnItemClickListener<String>
+    private lateinit var mListener: OnAdapterListener.OnItemClickListener<String>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.card_year, parent, false)

@@ -7,9 +7,10 @@ import androidx.lifecycle.MutableLiveData
 import br.com.casadedeus.beans.Expenditure
 import br.com.casadedeus.model.ExpenditureModel
 import br.com.casadedeus.model.repository.ExpenditureRepository
-import java.lang.Exception
+import br.com.casadedeus.view.listener.OnCallbackListener
 
-class ExpenditureViewModel(application: Application) : AndroidViewModel(application) {
+class ExpenditureViewModel(application: Application) : AndroidViewModel(application),
+    OnCallbackListener<List<Expenditure>> {
     // Contexto e acesso a dados
     private val mContext = application.applicationContext//quando precisa do contexto
     private val mModel: ExpenditureModel = ExpenditureModel()
@@ -18,35 +19,13 @@ class ExpenditureViewModel(application: Application) : AndroidViewModel(applicat
     private var mExpenditureList = MutableLiveData<List<Expenditure>>()
     val expenditurelist: LiveData<List<Expenditure>> = mExpenditureList
 
-    private var mExpenditureSave = MutableLiveData<Boolean>()
-    val expendituresave: LiveData<Boolean> = mExpenditureSave
+    /*private var mGuest = MutableLiveData<ExpenditureModel>()
+    val guest: LiveData<ExpenditureModel> = mGuest*/
 
     private val expenditureModel = ExpenditureModel()
 
-    fun save(
-        isEntry: Boolean,
-        desc: String,
-        category: String,
-        razaoSocial: String,
-        notaFiscal: String,
-        valor: Double
-    ) {
-        val expenditure = Expenditure(
-            dia = "sab, 21 set 2020",
-            isEntry = false,
-            desc = desc,
-            category = category,
-            razaoSocial = razaoSocial,
-            notaFiscal = notaFiscal,
-            valor = valor
-        )
-        try {
-            mExpenditureSave.value = expenditureModel.save(expenditure)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            mExpenditureSave.value = false
-        }
-
+    fun insert(expenditure: Expenditure) {
+        expenditureModel.insert(expenditure)
     }
 
     fun update(expenditure: Expenditure) {
@@ -61,7 +40,12 @@ class ExpenditureViewModel(application: Application) : AndroidViewModel(applicat
         expenditureModel.getExpenditure(expenditure)
     }
 
-    fun load() {
+    fun load(path: String) {
         mExpenditureList.value = mRepository.getExpenditures()
+        mRepository.getExpendituress(path, this)
+    }
+
+    override fun callback(callback: List<Expenditure>) {
+        mExpenditureList.value = callback
     }
 }

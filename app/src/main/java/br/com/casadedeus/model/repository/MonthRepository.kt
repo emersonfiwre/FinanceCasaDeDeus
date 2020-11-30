@@ -1,10 +1,32 @@
 package br.com.casadedeus.model.repository
 
-import androidx.lifecycle.ViewModel
+import br.com.casadedeus.view.listener.OnCallbackListener
+import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MonthRepository : ViewModel() {
+class MonthRepository {
+
+    private val mDatabase = FirebaseFirestore.getInstance()
+
+    fun getMonthss(path: String, listener: OnCallbackListener<List<String>>) {
+        val months: MutableList<String> = arrayListOf()
+        mDatabase.collection("$path/months/")
+            .get()
+            .addOnSuccessListener {
+                for (document in it) {
+                    if (document.exists()) {
+                        val key = document.id
+                        months.add(key)
+                        listener.callback(orderby(months))
+                        //println("${document.id} => ${document.data}")
+                    }
+                }
+            }.addOnFailureListener {
+                val message = it.message.toString()
+            }
+    }
+
     companion object {
         private var mList = mutableListOf(
 

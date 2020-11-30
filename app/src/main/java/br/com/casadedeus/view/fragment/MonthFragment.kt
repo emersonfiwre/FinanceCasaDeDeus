@@ -22,9 +22,11 @@ import br.com.casadedeus.model.constants.ViewConstants
 import br.com.casadedeus.view.adapter.ExpenditureAdapter
 import br.com.casadedeus.viewmodel.ExpenditureViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.android.synthetic.main.activity_select_year.*
 import kotlinx.android.synthetic.main.dialog_single_input.view.*
+import kotlinx.android.synthetic.main.fragment_month.*
 import kotlinx.android.synthetic.main.fragment_month.view.*
-import kotlinx.android.synthetic.main.fragment_year.*
+import kotlinx.android.synthetic.main.fragment_year.view.*
 
 
 class MonthFragment private constructor() : Fragment(), View.OnClickListener {
@@ -32,6 +34,7 @@ class MonthFragment private constructor() : Fragment(), View.OnClickListener {
     private lateinit var mViewModel: ExpenditureViewModel
     private val mAdapter: ExpenditureAdapter = ExpenditureAdapter()
     private lateinit var mViewRoot: View
+
 
     companion object {
         fun newInstance(month: String): MonthFragment {
@@ -52,7 +55,7 @@ class MonthFragment private constructor() : Fragment(), View.OnClickListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         mViewModel = ViewModelProvider(this).get(ExpenditureViewModel::class.java)
         mViewRoot = inflater.inflate(R.layout.fragment_month, container, false)
 
@@ -62,14 +65,20 @@ class MonthFragment private constructor() : Fragment(), View.OnClickListener {
         val profitMonth = mViewRoot.findViewById<TextView>(R.id.profit_month)
         val expenditureMonth = mViewRoot.findViewById<TextView>(R.id.expenditure_month)
         val rvExpenditure = mViewRoot.findViewById<RecyclerView>(R.id.rv_expenditure)
-        //view.back_month.setOnClickListener { getActivity()?.onBackPressed() }
-        //************
 
+        val mMonth = arguments?.getString(ViewConstants.KEYS.TITLEMONTH) as String
+        mViewRoot.month.text = mMonth
+
+        //************
         setupRecycler()
 
+        // Cria observadores
+        observe()
 
-        val month = arguments?.getString(ViewConstants.KEYS.TITLEMONTH) as String
-        mViewRoot.month.text = month
+        setListeners()
+
+        //Carregar a lista com todos
+        mViewModel.load(mMonth)
 
         mViewRoot.edtSearch.setOnEditorActionListener { textView, i, keyEvent ->
             when (i) {
@@ -107,33 +116,18 @@ class MonthFragment private constructor() : Fragment(), View.OnClickListener {
 
             false
         }
-        hide(mViewRoot.edtSearch, context)
-        // Cria observadores
-        observe()
 
-        setListeners()
 
-        //Carregar a lista com todos
-        mViewModel.load()
-
+        hide(mViewRoot.edtSearch!!, context)
         return mViewRoot
     }
 
-    override fun onResume() {
-        super.onResume()
-        mViewModel.load()
-    }
-
-
     private fun setupRecycler() {
-        //****************
-        //mAdapter.attachListener(context as OnAdapterListener.OnItemClickListener)
         val linearLayoutManager = LinearLayoutManager(activity)
         mViewRoot.rv_expenditure.layoutManager = linearLayoutManager
         mViewRoot.rv_expenditure.adapter = mAdapter
         mViewRoot.rv_expenditure.setHasFixedSize(true)
     }
-
 
     private fun setListeners() {
         mViewRoot.add_lancamento.setOnClickListener(this)
@@ -144,15 +138,26 @@ class MonthFragment private constructor() : Fragment(), View.OnClickListener {
         mViewModel.expenditurelist.observe(viewLifecycleOwner, Observer {
             mAdapter.notifyChanged(it)
         })
-        mViewModel.expendituresave.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                Toast.makeText(context, "Adicionado com sucesso", Toast.LENGTH_SHORT).show()
-                mViewModel.load()
-            } else {
-                Toast.makeText(context, "Houve algum erro ao inserir os dados", Toast.LENGTH_SHORT)
-                    .show()
+    }
+
+    override fun onClick(v: View?) {
+        val id = v?.id
+
+        if (id == R.id.add_lancamento) {
+            hide(mViewRoot.edtSearch, activity)
+            val dialog = BottomSheetDialog(activity!!)
+            val bottomSheet = layoutInflater.inflate(R.layout.dialog_single_input, null)
+            dialog.setContentView(bottomSheet)
+            /*val mBehavior = BottomSheetBehavior.from(bottomSheet.parent as View);
+            mBehavior.setPeekHeight(600)*/
+            dialog.show()
+            bottomSheet.add_expenditure.setOnClickListener {
+                Toast.makeText(activity, "Módulo em construção", Toast.LENGTH_SHORT).show()
             }
-        })
+            //get spinner selected
+        } else if (id == R.id.back_month) {
+            activity?.onBackPressed()
+        }
     }
 
     private fun hide(edit: EditText, context: Context?) {
@@ -179,52 +184,13 @@ class MonthFragment private constructor() : Fragment(), View.OnClickListener {
             return false
         }
         return true*/
-        when (mViewRoot.edtSearch.isFocusable) {
+        when (view?.edtSearch?.isFocusable) {
             true -> {
-                hide(mViewRoot.edtSearch, context)
+                hide(view?.edtSearch!!, context)
                 false
             }
             else -> true
         }
-
-    override fun onClick(v: View?) {
-        val id = v?.id
-        if (id == R.id.add_lancamento) {
-            hide(mViewRoot.edtSearch, activity)
-            val dialog = BottomSheetDialog(activity!!)
-            val bottomSheet = layoutInflater.inflate(R.layout.dialog_single_input, null)
-            dialog.setContentView(bottomSheet)
-            /*val mBehavior = BottomSheetBehavior.from(bottomSheet.parent as View);
-            mBehavior.setPeekHeight(600)*/
-            dialog.show()
-            bottomSheet.save_expenditure.setOnClickListener {
-                Toast.makeText(activity, "Módulo em construção", Toast.LENGTH_SHORT).show()
-
-                val isEntry = bottomSheet.radio_entrada.isChecked
-                val descricao = bottomSheet.edit_descricao.text.toString()
-                val categoria = bottomSheet.spinner_categoria.selectedItem.toString()
-                val razaoSocial = bottomSheet.edit_razao_social.text.toString()
-                val notaFiscal = bottomSheet.edit_nota_fiscal.text.toString()
-                val valor = bottomSheet.edit_valor.text.toString()
-                val dvalor: Double = 0.0
-                if (valor.isNotEmpty()) {
-                    valor.toDouble()
-                }
-                mViewModel.save(
-                    isEntry,
-                    descricao,
-                    categoria,
-                    razaoSocial,
-                    notaFiscal,
-                    dvalor
-                )
-            }
-            //get spinner selected
-        } else if (id == R.id.back_month) {
-            activity?.onBackPressed()
-        }
-
-    }
 
 
 }

@@ -7,9 +7,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import br.com.casadedeus.model.MonthModel
 import br.com.casadedeus.model.repository.MonthRepository
+import br.com.casadedeus.view.listener.OnCallbackListener
 import java.util.*
 
-class MonthViewModel(application: Application) : AndroidViewModel(application) {
+class MonthViewModel(application: Application) : AndroidViewModel(application),
+    OnCallbackListener<List<String>> {
 
     private val mContext = application.applicationContext
     private var mModel = MonthModel()
@@ -22,14 +24,19 @@ class MonthViewModel(application: Application) : AndroidViewModel(application) {
     var monthsave: LiveData<Boolean> = mMonthSave
 
     fun save(month: Int) {
-        mMonthSave.value = mModel.save(month,mContext)
+        mMonthSave.value = mModel.save(month, mContext)
     }
 
     fun delete(month: String) {
         mModel.delete(month)
     }
 
-    fun load() {
-        mMonthList.value = mRepository.getMonths()
+    fun load(path: String) {
+        //mMonthList.value = mRepository.getMonths()
+        mRepository.getMonthss(path, this)
+    }
+
+    override fun callback(callback: List<String>) {
+        mMonthList.value = callback
     }
 }
