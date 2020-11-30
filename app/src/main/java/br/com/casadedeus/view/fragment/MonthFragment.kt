@@ -22,11 +22,8 @@ import br.com.casadedeus.model.constants.ViewConstants
 import br.com.casadedeus.view.adapter.ExpenditureAdapter
 import br.com.casadedeus.viewmodel.ExpenditureViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import kotlinx.android.synthetic.main.activity_select_year.*
 import kotlinx.android.synthetic.main.dialog_single_input.view.*
-import kotlinx.android.synthetic.main.fragment_month.*
 import kotlinx.android.synthetic.main.fragment_month.view.*
-import kotlinx.android.synthetic.main.fragment_year.view.*
 
 
 class MonthFragment private constructor() : Fragment(), View.OnClickListener {
