@@ -1,5 +1,7 @@
 package br.com.casadedeus.model.repository
 
+import android.util.Log
+import br.com.casadedeus.beans.Year
 import br.com.casadedeus.view.listener.OnCallbackListener
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -7,15 +9,16 @@ class YearRepository {
 
     private val mDatabase = FirebaseFirestore.getInstance()
 
-    fun getYears(listener: OnCallbackListener<List<String>>) {
-        val years: MutableList<String> = arrayListOf()
-        mDatabase.collection("users/2D6MxXyqAA2gaDM3Ya9y/years/")
+    fun getYears(listener: OnCallbackListener<List<Year>>) {
+        val years: MutableList<Year> = arrayListOf()
+        mDatabase.collection("users/WqVSBEFTfLTRSPLNV52k/years/")
             .get()
             .addOnSuccessListener {
                 for (document in it) {
                     if (document.exists()) {
                         val key = document.id
-                        years.add(key)
+                        val yearTitle = document.data["yearTitle"].toString()
+                        years.add(Year(key,yearTitle))
                         listener.onSuccess(orderby(years))
                         //println("${document.id} => ${document.data}")
                     }
@@ -34,20 +37,35 @@ class YearRepository {
             "2016",
             "2015"
         )
+        private const val TAG: String = "YearRepository"
     }
 
-    private fun orderby(list: List<String>): List<String> {
-        return list.sortedByDescending { it }
+    private fun orderby(list: List<Year>): List<Year> {
+        return list.sortedByDescending { it.yearTitle }
     }
 
-    fun save(year: String): Boolean {
-        mList.add(year)
-        return true
+    fun save(year: Year, listener: OnCallbackListener<Boolean>) {
+        /*val hashYear = hashMapOf(
+            "yearTitle" to year
+        )*/
+        mDatabase.collection("users/2D6MxXyqAA2gaDM3Ya9y/years/")
+            .add(year)
+            .addOnSuccessListener { documentReference ->
+                println("DocumentSnapshot added with ID: ${documentReference.id}")
+                listener.onSuccess(true)
+            }
+            .addOnFailureListener { e ->
+                println("Error adding document $e")
+                listener.onSuccess(false)
+            }
     }
 
-    fun delete(year: String): Boolean {
-        mList.remove(year)
-        return true
+    fun delete(year: Year) {
+        //mList.remove(year)
+        mDatabase.collection("cities").document(year.key)
+            .delete()
+            .addOnSuccessListener { Log.i(Companion.TAG, "DocumentSnapshot successfully deleted!") }
+            .addOnFailureListener { e -> Log.w(Companion.TAG, "Error deleting document", e) }
     }
 
 }

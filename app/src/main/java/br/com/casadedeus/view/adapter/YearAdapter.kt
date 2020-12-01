@@ -6,14 +6,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import br.com.casadedeus.R
+import br.com.casadedeus.beans.Year
 import br.com.casadedeus.view.listener.OnAdapterListener
 import kotlinx.android.synthetic.main.card_year.view.*
 
 
 class YearAdapter : RecyclerView.Adapter<YearAdapter.MyViewHolder>() {
 
-    private var mYearList: List<String> = arrayListOf()
-    private lateinit var mListener: OnAdapterListener.OnItemClickListener<String>
+    private var mYearList: List<Year> = arrayListOf()
+    private lateinit var mListener: OnAdapterListener.OnItemClickListener<Year>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.card_year, parent, false)
@@ -21,7 +22,7 @@ class YearAdapter : RecyclerView.Adapter<YearAdapter.MyViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.title.text = mYearList[position]
+        holder.title.text = mYearList[position].yearTitle
         holder.itemView.setOnClickListener {
             /*val intent = Intent(context, MainActivity::class.java)
             context.startActivity(intent)*/
@@ -29,14 +30,14 @@ class YearAdapter : RecyclerView.Adapter<YearAdapter.MyViewHolder>() {
         }
     }
 
-    fun notifyChanged(it: List<String>?) {
+    fun notifyChanged(it: List<Year>?) {
         if (it != null) {
             mYearList = it
             notifyDataSetChanged()
         }
     }
 
-    fun attachListener(listener: OnAdapterListener.OnItemClickListener<String>) {
+    fun attachListener(listener: OnAdapterListener.OnItemClickListener<Year>) {
         mListener = listener
     }
 

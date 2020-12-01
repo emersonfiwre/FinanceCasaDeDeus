@@ -5,13 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.com.casadedeus.R
+import br.com.casadedeus.beans.Month
 import br.com.casadedeus.view.listener.OnAdapterListener
 import kotlinx.android.synthetic.main.card_month.view.*
 
 class MonthAdapter : RecyclerView.Adapter<MonthAdapter.MyViewHolder>() {
 
-    private var mMonthList: List<String> = arrayListOf()
-    private lateinit var mListener: OnAdapterListener.OnItemClickListener<String>
+    private var mMonthList: List<Month> = arrayListOf()
+    private lateinit var mListener: OnAdapterListener.OnItemClickListener<Month>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.card_month, parent, false)
@@ -19,13 +20,13 @@ class MonthAdapter : RecyclerView.Adapter<MonthAdapter.MyViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.month.text = mMonthList[position]
+        holder.month.text = mMonthList[position].montTitle
         holder.itemView.setOnClickListener {
             mListener.onItemClick(mMonthList[position])
         }
     }
 
-    fun notifyChanged(it: List<String>?) {
+    fun notifyChanged(it: List<Month>?) {
         if (it != null) {
             mMonthList = it
             notifyDataSetChanged()
@@ -33,7 +34,7 @@ class MonthAdapter : RecyclerView.Adapter<MonthAdapter.MyViewHolder>() {
 
     }
 
-    fun attachListener(listener: OnAdapterListener.OnItemClickListener<String>) {
+    fun attachListener(listener: OnAdapterListener.OnItemClickListener<Month>) {
         mListener = listener
     }
 

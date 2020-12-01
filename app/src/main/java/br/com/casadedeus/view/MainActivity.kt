@@ -4,8 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import br.com.casadedeus.R
 import br.com.casadedeus.model.constants.ViewConstants
-import br.com.casadedeus.view.fragment.MonthFragment
-import br.com.casadedeus.view.fragment.YearFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mYearFragment: YearFragment

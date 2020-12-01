@@ -1,5 +1,6 @@
 package br.com.casadedeus.model.repository
 
+import br.com.casadedeus.beans.Month
 import br.com.casadedeus.view.listener.OnCallbackListener
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
@@ -9,17 +10,18 @@ class MonthRepository {
 
     private val mDatabase = FirebaseFirestore.getInstance()
 
-    fun getMonthss(path: String, listener: OnCallbackListener<List<String>>) {
-        val months: MutableList<String> = arrayListOf()
+    fun getMonths(path: String, listener: OnCallbackListener<List<Month>>) {
+        val months: MutableList<Month> = arrayListOf()
         mDatabase.collection("$path/months/")
             .get()
             .addOnSuccessListener {
                 for (document in it) {
                     if (document.exists()) {
                         val key = document.id
-                        months.add(key)
+                        val monthTitle = document.data["monthTitle"].toString()
+                        months.add(Month(key, monthTitle))
                         listener.onSuccess(orderby(months))
-                        //println("${document.id} => ${document.data}")
+                        println("${document.id} => ${document.data}")
                     }
                 }
             }.addOnFailureListener {
@@ -44,11 +46,11 @@ class MonthRepository {
         )
     }
 
-    private fun orderby(list: List<String>): List<String> {
+    private fun orderby(list: List<Month>): List<Month> {
         val local = Locale("pt", "BR")
         return list.sortedBy {
             SimpleDateFormat("MMMM", local)
-                .parse(it)
+                .parse(it.montTitle)
         }
     }
 
@@ -65,7 +67,4 @@ class MonthRepository {
         return true
     }
 
-    fun getMonths(): List<String> {
-        return orderby(mList)
-    }
 }

@@ -1,4 +1,4 @@
-package br.com.casadedeus.view.fragment
+package br.com.casadedeus.view
 
 import android.annotation.SuppressLint
 import android.content.Context

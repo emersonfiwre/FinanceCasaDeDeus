@@ -1,3 +1,12 @@
 package br.com.casadedeus.beans
 
-data class Month(val montTitle: String, val expenditures: List<Expenditure>)
+import com.google.firebase.firestore.Exclude
+
+data class Month(
+    @get:Exclude
+    var key: String = "",
+    val montTitle: String
+) {
+
+
+}

@@ -1,4 +1,4 @@
-package br.com.casadedeus.view.fragment
+package br.com.casadedeus.view
 
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.casadedeus.R
+import br.com.casadedeus.beans.Month
 import br.com.casadedeus.model.constants.ViewConstants
 import br.com.casadedeus.view.adapter.MonthAdapter
 import br.com.casadedeus.view.listener.OnAdapterListener
 import br.com.casadedeus.viewmodel.MonthViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.main.fragment_year.*
 import kotlinx.android.synthetic.main.fragment_year.view.*
 
 
 class YearFragment private constructor() : Fragment(), View.OnClickListener,
-    OnAdapterListener.OnItemClickListener<String>,
+    OnAdapterListener.OnItemClickListener<Month>,
     DatePickerDialog.OnDateSetListener {
 
     private lateinit var mViewModel: MonthViewModel
@@ -60,7 +60,7 @@ class YearFragment private constructor() : Fragment(), View.OnClickListener,
         val mYear = arguments?.getString(ViewConstants.KEYS.TITLEYEAR) as String
         mViewRoot.txt_year.text = mYear
 
-        mPath = "users/2D6MxXyqAA2gaDM3Ya9y/years/$mYear"
+        mPath = "users/WqVSBEFTfLTRSPLNV52k/years/$mYear"
 
         setupRecycler()
 
@@ -88,7 +88,7 @@ class YearFragment private constructor() : Fragment(), View.OnClickListener,
 
     private fun observe() {
         mViewModel.monthlist.observe(viewLifecycleOwner, Observer {
-            println("calback observer $it")
+            println("callback observer $it")
             mAdapter.notifyChanged(it)
         })
         mViewModel.monthsave.observe(viewLifecycleOwner, Observer {
@@ -123,8 +123,8 @@ class YearFragment private constructor() : Fragment(), View.OnClickListener,
     }
 
 
-    override fun onItemClick(item: String) {
-        val monthFragment = MonthFragment.newInstance("$mPath/months/$item")
+    override fun onItemClick(item: Month) {
+        val monthFragment = MonthFragment.newInstance("$mPath/months/${item.montTitle}")
         activity!!.supportFragmentManager
             .beginTransaction()
             .replace(R.id.container_root, monthFragment, ViewConstants.TAGS.MONTH)

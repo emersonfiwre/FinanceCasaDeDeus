@@ -10,17 +10,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import br.com.casadedeus.R
+import br.com.casadedeus.beans.Year
 import br.com.casadedeus.model.constants.ViewConstants
 import br.com.casadedeus.view.adapter.YearAdapter
-import br.com.casadedeus.view.fragment.MonthYearPickerDialog
 import br.com.casadedeus.view.listener.OnAdapterListener
 import br.com.casadedeus.viewmodel.YearViewModel
 import kotlinx.android.synthetic.main.activity_select_year.*
 
 class SelectYearActivity : AppCompatActivity(), View.OnClickListener,
-    OnAdapterListener.OnItemClickListener<String>,
+    OnAdapterListener.OnItemClickListener<Year>,
     DatePickerDialog.OnDateSetListener {
     private var mAdapter = YearAdapter()
     private lateinit var mViewModel: YearViewModel
@@ -71,15 +70,15 @@ class SelectYearActivity : AppCompatActivity(), View.OnClickListener,
             mAdapter.notifyChanged(it)
         })
         mViewModel.yearsave.observe(this, Observer {
-            if (it) {
+            if (it.success()) {
                 Toast.makeText(this, "Adicionado com sucesso", Toast.LENGTH_SHORT).show()
                 mViewModel.load()
             } else {
-                Toast.makeText(this, "Houve algum erro ao inserir o ano", Toast.LENGTH_SHORT).show()
+                println(it.failure())
+                Toast.makeText(this, it.failure(), Toast.LENGTH_SHORT).show()
             }
         })
     }
-
 
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
@@ -92,10 +91,10 @@ class SelectYearActivity : AppCompatActivity(), View.OnClickListener,
         p3 day*/
     }
 
-    override fun onItemClick(item: String) {
+    override fun onItemClick(item: Year) {
         val intent = Intent(this, MainActivity::class.java)
         val bundle = Bundle()
-        bundle.putString(ViewConstants.KEYS.TITLEYEAR, item)
+        bundle.putString(ViewConstants.KEYS.TITLEYEAR, item.key)
         intent.putExtras(bundle)
         startActivity(intent)
     }
