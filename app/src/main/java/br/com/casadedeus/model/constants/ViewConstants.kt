@@ -3,14 +3,14 @@ package br.com.casadedeus.model.constants
 class ViewConstants private constructor() {
 
     object KEYS {
-        const val TITLEYEAR = "yearTitle"
-        const val TITLEMONTH = "monthTitle"
-        const val WHATPICKER= "isMonth"
+        const val EXTRAS_YEAR = "yearExtras"
+        const val EXTRAS_MONTH = "monthExtras"
+        const val WHAT_PICKER= "isMonth"
     }
     object TAGS{
-        const val YEAR = "yearFragment"
-        const val MONTH = "monthFragment"
-        const val YEARPICKER = "yearPickerDialog"
-        const val MONTHPICKER = "monthPickerDialog"
+        const val YEAR_FRAG = "yearFragment"
+        const val MONTH_FRAG = "monthFragment"
+        const val YEAR_PICKER = "yearPickerDialog"
+        const val MONTH_PICKER = "monthPickerDialog"
     }
 }

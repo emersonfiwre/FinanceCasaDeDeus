@@ -13,7 +13,7 @@ class ExpenditureRepository {
 
     fun getExpendituress(path: String, listener: OnCallbackListener<List<Expenditure>>) {
         val expenditures: MutableList<Expenditure> = arrayListOf()
-        mDatabase.collection("$path/expenditures/")
+        mDatabase.collection("months/$path/expenditures")
             .get()
             .addOnSuccessListener {
                 for (document in it) {

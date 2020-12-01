@@ -6,7 +6,7 @@ import br.com.casadedeus.view.listener.OnCallbackListener
 import com.google.firebase.firestore.FirebaseFirestore
 
 class YearRepository {
-
+    //****FAZER VALIDAÇÃO PARA VER SE NÃO JA EXISTE ESTE ANO*******/
     private val mDatabase = FirebaseFirestore.getInstance()
 
     fun getYears(listener: OnCallbackListener<List<Year>>) {
@@ -56,7 +56,7 @@ class YearRepository {
             }
             .addOnFailureListener { e ->
                 println("Error adding document $e")
-                listener.onSuccess(false)
+                listener.onFailure(e.message.toString())
             }
     }
 

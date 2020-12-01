@@ -34,6 +34,7 @@ class YearViewModel : ViewModel() {
 
                 override fun onFailure(message: String) {
                     val s = message
+                    mYearSave.value = ValidationListener(message)
                 }
             })
         } catch (e: Exception) {

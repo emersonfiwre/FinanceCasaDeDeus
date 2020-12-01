@@ -8,6 +8,8 @@ import br.com.casadedeus.beans.Month
 import br.com.casadedeus.model.MonthModel
 import br.com.casadedeus.model.repository.MonthRepository
 import br.com.casadedeus.view.listener.OnCallbackListener
+import br.com.casadedeus.view.listener.ValidationListener
+import java.lang.Exception
 
 class MonthViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -18,15 +20,42 @@ class MonthViewModel(application: Application) : AndroidViewModel(application) {
     private var mMonthList = MutableLiveData<List<Month>>()
     var monthlist: LiveData<List<Month>> = mMonthList
 
-    private var mMonthSave = MutableLiveData<Boolean>()
-    var monthsave: LiveData<Boolean> = mMonthSave
+    private var mMonthSave = MutableLiveData<ValidationListener>()
+    var monthsave: LiveData<ValidationListener> = mMonthSave
 
-    fun save(month: Int) {
-        mMonthSave.value = mModel.save(month, mContext)
+    private var mMonthDelete = MutableLiveData<ValidationListener>()
+    var monthdelete: LiveData<ValidationListener> = mMonthDelete
+
+    fun save(month: Int?) {
+        try {
+            month?.let {
+                mModel.save(it, mContext, object : OnCallbackListener<Boolean> {
+                    override fun onSuccess(result: Boolean) {
+                        mMonthSave.value = ValidationListener()
+
+                    }
+
+                    override fun onFailure(message: String) {
+                        mMonthSave.value = ValidationListener(message)
+                    }
+
+                })
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            mMonthSave.value = ValidationListener(e.message.toString())
+        }
+
     }
 
-    fun delete(month: String) {
-        mModel.delete(month)
+    fun delete(month: Month?) {
+        try {
+            month.let { mModel.delete(it) }
+            mMonthDelete.value = ValidationListener()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            mMonthDelete.value = ValidationListener(e.message.toString())
+        }
     }
 
     fun load(path: String) {

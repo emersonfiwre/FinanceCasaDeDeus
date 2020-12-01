@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.casadedeus.R
 import br.com.casadedeus.beans.Month
+import br.com.casadedeus.beans.Year
 import br.com.casadedeus.model.constants.ViewConstants
 import br.com.casadedeus.view.adapter.MonthAdapter
 import br.com.casadedeus.view.listener.OnAdapterListener
@@ -33,9 +34,9 @@ class YearFragment private constructor() : Fragment(), View.OnClickListener,
     private lateinit var mPath: String
 
     companion object {
-        fun newInstance(year: String): YearFragment {
+        fun newInstance(year: Year): YearFragment {
             val args = Bundle()
-            args.putString(ViewConstants.KEYS.TITLEYEAR, year);
+            args.putSerializable(ViewConstants.KEYS.EXTRAS_YEAR, year);
             val fragment = YearFragment()
             fragment.arguments = args
             return fragment
@@ -57,10 +58,10 @@ class YearFragment private constructor() : Fragment(), View.OnClickListener,
 
         //mAdapter.attachListener(context as OnAdapterListener.OnItemClickListener)
         //view.back_year.setOnClickListener { getActivity()?.onBackPressed() }
-        val mYear = arguments?.getString(ViewConstants.KEYS.TITLEYEAR) as String
-        mViewRoot.txt_year.text = mYear
+        val mYear = arguments?.getSerializable(ViewConstants.KEYS.EXTRAS_YEAR) as Year
+        mViewRoot.txt_year.text = mYear.yearTitle
 
-        mPath = "users/WqVSBEFTfLTRSPLNV52k/years/$mYear"
+        mPath = "users/WqVSBEFTfLTRSPLNV52k/years/${mYear.key}"
 
         setupRecycler()
 
@@ -88,15 +89,15 @@ class YearFragment private constructor() : Fragment(), View.OnClickListener,
 
     private fun observe() {
         mViewModel.monthlist.observe(viewLifecycleOwner, Observer {
-            println("callback observer $it")
+            //println("callback observer $it")
             mAdapter.notifyChanged(it)
         })
         mViewModel.monthsave.observe(viewLifecycleOwner, Observer {
-            if (it) {
+            if (it.success()) {
                 Toast.makeText(context, "Adicionado com sucesso", Toast.LENGTH_SHORT).show()
                 mViewModel.load(mPath)
             } else {
-                Toast.makeText(context, "Houve algum erro ao inserir o ano", Toast.LENGTH_SHORT)
+                Toast.makeText(context, it.failure(), Toast.LENGTH_LONG)
                     .show()
             }
         })
@@ -110,7 +111,7 @@ class YearFragment private constructor() : Fragment(), View.OnClickListener,
             monthYearPickerDialog.listener = this
             monthYearPickerDialog.show(
                 activity!!.supportFragmentManager,
-                ViewConstants.TAGS.MONTHPICKER
+                ViewConstants.TAGS.MONTH_PICKER
             )
         } else if (id == R.id.back_year) {
             activity?.onBackPressed()
@@ -124,10 +125,10 @@ class YearFragment private constructor() : Fragment(), View.OnClickListener,
 
 
     override fun onItemClick(item: Month) {
-        val monthFragment = MonthFragment.newInstance("$mPath/months/${item.montTitle}")
+        val monthFragment = MonthFragment.newInstance(item)
         activity!!.supportFragmentManager
             .beginTransaction()
-            .replace(R.id.container_root, monthFragment, ViewConstants.TAGS.MONTH)
+            .replace(R.id.container_root, monthFragment, ViewConstants.TAGS.MONTH_FRAG)
             .addToBackStack(null)
             .commit()
     }

@@ -21,7 +21,7 @@ class MonthYearPickerDialog private constructor() : DialogFragment() {
         fun newInstance(isMonth: Boolean?): MonthYearPickerDialog {
             val args = Bundle()
             if (isMonth != null)
-                args.putBoolean(ViewConstants.KEYS.WHATPICKER, isMonth)
+                args.putBoolean(ViewConstants.KEYS.WHAT_PICKER, isMonth)
             val fragment = MonthYearPickerDialog()
             fragment.arguments = args
             return fragment
@@ -36,7 +36,7 @@ class MonthYearPickerDialog private constructor() : DialogFragment() {
         val monthPicker = dialog.picker_month
         val yearPicker = dialog.picker_year
 
-        val isMonth = arguments?.getBoolean(ViewConstants.KEYS.WHATPICKER) as Boolean
+        val isMonth = arguments?.getBoolean(ViewConstants.KEYS.WHAT_PICKER) as Boolean
         if (isMonth) {
             yearPicker.visibility = View.GONE
             monthPicker.visibility = View.VISIBLE

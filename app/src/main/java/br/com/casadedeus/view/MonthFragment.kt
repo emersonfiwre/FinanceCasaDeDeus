@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.casadedeus.R
+import br.com.casadedeus.beans.Month
 import br.com.casadedeus.model.constants.ViewConstants
 import br.com.casadedeus.view.adapter.ExpenditureAdapter
 import br.com.casadedeus.viewmodel.ExpenditureViewModel
@@ -34,9 +35,9 @@ class MonthFragment private constructor() : Fragment(), View.OnClickListener {
 
 
     companion object {
-        fun newInstance(month: String): MonthFragment {
+        fun newInstance(month: Month): MonthFragment {
             val args = Bundle()
-            args.putString(ViewConstants.KEYS.TITLEMONTH, month);
+            args.putSerializable(ViewConstants.KEYS.EXTRAS_MONTH, month);
             val fragment = MonthFragment()
             fragment.arguments = args
             return fragment
@@ -63,8 +64,10 @@ class MonthFragment private constructor() : Fragment(), View.OnClickListener {
         val expenditureMonth = mViewRoot.findViewById<TextView>(R.id.expenditure_month)
         val rvExpenditure = mViewRoot.findViewById<RecyclerView>(R.id.rv_expenditure)
 
-        val mMonth = arguments?.getString(ViewConstants.KEYS.TITLEMONTH) as String
-        mViewRoot.month.text = mMonth
+        val mMonth = arguments?.getSerializable(ViewConstants.KEYS.EXTRAS_MONTH) as Month
+        mViewRoot.month.text = mMonth.montTitle
+
+
 
         //************
         setupRecycler()
@@ -75,7 +78,7 @@ class MonthFragment private constructor() : Fragment(), View.OnClickListener {
         setListeners()
 
         //Carregar a lista com todos
-        mViewModel.load(mMonth)
+        mViewModel.load(mMonth.key)
 
         mViewRoot.edtSearch.setOnEditorActionListener { textView, i, keyEvent ->
             when (i) {

@@ -61,7 +61,7 @@ class SelectYearActivity : AppCompatActivity(), View.OnClickListener,
             val monthYearPickerDialog: MonthYearPickerDialog =
                 MonthYearPickerDialog.newInstance(false)
             monthYearPickerDialog.listener = this
-            monthYearPickerDialog.show(supportFragmentManager, ViewConstants.TAGS.YEARPICKER)
+            monthYearPickerDialog.show(supportFragmentManager, ViewConstants.TAGS.YEAR_PICKER)
         }
     }
 
@@ -75,7 +75,7 @@ class SelectYearActivity : AppCompatActivity(), View.OnClickListener,
                 mViewModel.load()
             } else {
                 println(it.failure())
-                Toast.makeText(this, it.failure(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, it.failure(), Toast.LENGTH_LONG).show()
             }
         })
     }
@@ -94,7 +94,7 @@ class SelectYearActivity : AppCompatActivity(), View.OnClickListener,
     override fun onItemClick(item: Year) {
         val intent = Intent(this, MainActivity::class.java)
         val bundle = Bundle()
-        bundle.putString(ViewConstants.KEYS.TITLEYEAR, item.key)
+        bundle.putSerializable(ViewConstants.KEYS.EXTRAS_YEAR, item)
         intent.putExtras(bundle)
         startActivity(intent)
     }
