@@ -61,7 +61,7 @@ class MonthRepository {
         /*if (!mList.contains(month)) {
             mList.add(month)
         }*/
-        mDatabase.collection("users/2D6MxXyqAA2gaDM3Ya9y/years/dJ0VRxauGWo7akOBpadH/months/")
+        mDatabase.collection("users/WqVSBEFTfLTRSPLNV52k/years/dJ0VRxauGWo7akOBpadH/months/")
             .add(month)
             .addOnSuccessListener { documentReference ->
                 println("DocumentSnapshot added with ID: ${documentReference.id}")

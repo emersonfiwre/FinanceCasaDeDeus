@@ -48,7 +48,7 @@ class YearRepository {
         /*val hashYear = hashMapOf(
             "yearTitle" to year
         )*/
-        mDatabase.collection("users/2D6MxXyqAA2gaDM3Ya9y/years/")
+        mDatabase.collection("users/WqVSBEFTfLTRSPLNV52k/years/")
             .add(year)
             .addOnSuccessListener { documentReference ->
                 println("DocumentSnapshot added with ID: ${documentReference.id}")
