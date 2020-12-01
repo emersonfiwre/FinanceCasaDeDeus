@@ -8,7 +8,7 @@ import br.com.casadedeus.model.repository.YearRepository
 import br.com.casadedeus.view.listener.OnCallbackListener
 import java.util.*
 
-class YearViewModel : ViewModel(), OnCallbackListener<List<String>> {
+class YearViewModel : ViewModel() {
     private var mModel = YearModel()
     private val mRepository = YearRepository()
 
@@ -27,10 +27,16 @@ class YearViewModel : ViewModel(), OnCallbackListener<List<String>> {
     }
 
     fun load() {
-        mRepository.getYears(this)
+        mRepository.getYears(object : OnCallbackListener<List<String>> {
+            override fun onSuccess(result: List<String>) {
+                mYearList.value = result
+            }
+
+            override fun onFailure(message: String) {
+                val s = message
+            }
+        })
     }
 
-    override fun callback(callback: List<String>) {
-        mYearList.value = callback
-    }
+
 }

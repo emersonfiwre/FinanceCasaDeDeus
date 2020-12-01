@@ -1,6 +1,5 @@
 package br.com.casadedeus.model.repository
 
-import androidx.lifecycle.ViewModel
 import br.com.casadedeus.view.listener.OnCallbackListener
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -17,12 +16,13 @@ class YearRepository {
                     if (document.exists()) {
                         val key = document.id
                         years.add(key)
-                        listener.callback(orderby(years))
+                        listener.onSuccess(orderby(years))
                         //println("${document.id} => ${document.data}")
                     }
                 }
             }.addOnFailureListener {
                 val message = it.message.toString()
+                listener.onFailure(message)
             }
     }
 

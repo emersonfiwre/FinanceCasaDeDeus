@@ -18,12 +18,13 @@ class MonthRepository {
                     if (document.exists()) {
                         val key = document.id
                         months.add(key)
-                        listener.callback(orderby(months))
+                        listener.onSuccess(orderby(months))
                         //println("${document.id} => ${document.data}")
                     }
                 }
             }.addOnFailureListener {
                 val message = it.message.toString()
+                listener.onFailure(message)
             }
     }
 

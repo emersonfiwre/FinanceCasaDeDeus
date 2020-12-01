@@ -27,7 +27,8 @@ class ExpenditureRepository {
                         val notaFiscal = document.data["notaFiscal"] as String
                         val amount = document.data["amount"] as Double
                         val local = Locale("pt", "BR")
-                        val format = SimpleDateFormat("EEE, d MMM 'de' yyyy",local)// dia por extenso
+                        val format =
+                            SimpleDateFormat("EEE, d MMM 'de' yyyy", local)// dia por extenso
                         val day = format.format(timestamp.toDate())
                         val ex = Expenditure(
                             key,
@@ -40,12 +41,13 @@ class ExpenditureRepository {
                             amount
                         )
                         expenditures.add(ex)
-                        listener.callback(expenditures)
+                        listener.onSuccess(expenditures)
                         //println("${document.id} => ${document.data}")
                     }
                 }
             }.addOnFailureListener {
                 val message = it.message.toString()
+                listener.onFailure(message)
             }
     }
 

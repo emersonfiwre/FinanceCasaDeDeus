@@ -10,8 +10,7 @@ import br.com.casadedeus.model.repository.MonthRepository
 import br.com.casadedeus.view.listener.OnCallbackListener
 import java.util.*
 
-class MonthViewModel(application: Application) : AndroidViewModel(application),
-    OnCallbackListener<List<String>> {
+class MonthViewModel(application: Application) : AndroidViewModel(application){
 
     private val mContext = application.applicationContext
     private var mModel = MonthModel()
@@ -33,10 +32,16 @@ class MonthViewModel(application: Application) : AndroidViewModel(application),
 
     fun load(path: String) {
         //mMonthList.value = mRepository.getMonths()
-        mRepository.getMonthss(path, this)
+        mRepository.getMonthss(path, object:   OnCallbackListener<List<String>>{
+            override fun onSuccess(result: List<String>) {
+                mMonthList.value = result
+            }
+
+            override fun onFailure(message: String) {
+                val s = message
+            }
+
+        })
     }
 
-    override fun callback(callback: List<String>) {
-        mMonthList.value = callback
-    }
 }

@@ -9,8 +9,7 @@ import br.com.casadedeus.model.ExpenditureModel
 import br.com.casadedeus.model.repository.ExpenditureRepository
 import br.com.casadedeus.view.listener.OnCallbackListener
 
-class ExpenditureViewModel(application: Application) : AndroidViewModel(application),
-    OnCallbackListener<List<Expenditure>> {
+class ExpenditureViewModel(application: Application) : AndroidViewModel(application) {
     // Contexto e acesso a dados
     private val mContext = application.applicationContext//quando precisa do contexto
     private val mModel: ExpenditureModel = ExpenditureModel()
@@ -42,10 +41,16 @@ class ExpenditureViewModel(application: Application) : AndroidViewModel(applicat
 
     fun load(path: String) {
         mExpenditureList.value = mRepository.getExpenditures()
-        mRepository.getExpendituress(path, this)
+        mRepository.getExpendituress(path, object : OnCallbackListener<List<Expenditure>> {
+            override fun onSuccess(result: List<Expenditure>) {
+                mExpenditureList.value = result
+            }
+
+            override fun onFailure(message: String) {
+                val s = message
+            }
+
+        })
     }
 
-    override fun callback(callback: List<Expenditure>) {
-        mExpenditureList.value = callback
-    }
 }
