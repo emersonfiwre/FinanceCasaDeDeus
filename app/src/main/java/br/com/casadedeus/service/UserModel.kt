@@ -1,7 +1,7 @@
-package br.com.casadedeus.model
+package br.com.casadedeus.service
 
 import br.com.casadedeus.beans.User
-import br.com.casadedeus.model.repository.UserRepository
+import br.com.casadedeus.service.repository.UserRepository
 import java.lang.Exception
 
 class UserModel {

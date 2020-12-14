@@ -8,7 +8,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.DialogFragment
 import br.com.casadedeus.R
-import br.com.casadedeus.model.constants.ViewConstants
+import br.com.casadedeus.service.constants.ViewConstants
 import kotlinx.android.synthetic.main.month_year_picker_dialog.view.*
 import java.util.*
 

@@ -1,6 +1,4 @@
-package br.com.casadedeus.view.listener
-
-import android.view.View
+package br.com.casadedeus.service.listener
 
 interface OnAdapterListener {
     interface OnItemClickListener<in V>{

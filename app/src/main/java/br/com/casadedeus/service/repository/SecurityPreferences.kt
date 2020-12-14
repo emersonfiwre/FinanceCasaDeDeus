@@ -1,4 +1,4 @@
-package br.com.casadedeus.model.repository
+package br.com.casadedeus.service.repository
 
 import android.content.Context
 import android.content.SharedPreferences

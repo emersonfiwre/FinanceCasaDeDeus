@@ -1,4 +1,4 @@
-package br.com.casadedeus.model.constants
+package br.com.casadedeus.service.constants
 
 class ViewConstants private constructor() {
 

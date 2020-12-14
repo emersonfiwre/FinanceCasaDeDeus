@@ -1,7 +1,7 @@
-package br.com.casadedeus.model.repository
+package br.com.casadedeus.service.repository
 
 import br.com.casadedeus.beans.Expenditure
-import br.com.casadedeus.view.listener.OnCallbackListener
+import br.com.casadedeus.service.listener.OnCallbackListener
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat

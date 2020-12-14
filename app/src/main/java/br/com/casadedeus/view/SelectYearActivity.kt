@@ -11,15 +11,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.casadedeus.R
-import br.com.casadedeus.beans.Year
-import br.com.casadedeus.model.constants.ViewConstants
+import br.com.casadedeus.beans.YearModel
+import br.com.casadedeus.service.constants.ViewConstants
 import br.com.casadedeus.view.adapter.YearAdapter
-import br.com.casadedeus.view.listener.OnAdapterListener
+import br.com.casadedeus.service.listener.OnAdapterListener
 import br.com.casadedeus.viewmodel.YearViewModel
 import kotlinx.android.synthetic.main.activity_select_year.*
 
 class SelectYearActivity : AppCompatActivity(), View.OnClickListener,
-    OnAdapterListener.OnItemClickListener<Year>,
+    OnAdapterListener.OnItemClickListener<YearModel>,
     DatePickerDialog.OnDateSetListener {
     private var mAdapter = YearAdapter()
     private lateinit var mViewModel: YearViewModel
@@ -78,6 +78,15 @@ class SelectYearActivity : AppCompatActivity(), View.OnClickListener,
                 Toast.makeText(this, it.failure(), Toast.LENGTH_LONG).show()
             }
         })
+        mViewModel.validation.observe(this, Observer {
+            if (it.success()) {
+                Toast.makeText(this, "Validation com sucesso", Toast.LENGTH_SHORT).show()
+                mViewModel.load()
+            } else {
+                println(it.failure())
+                Toast.makeText(this, it.failure(), Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
 
@@ -91,7 +100,7 @@ class SelectYearActivity : AppCompatActivity(), View.OnClickListener,
         p3 day*/
     }
 
-    override fun onItemClick(item: Year) {
+    override fun onItemClick(item: YearModel) {
         val intent = Intent(this, MainActivity::class.java)
         val bundle = Bundle()
         bundle.putSerializable(ViewConstants.KEYS.EXTRAS_YEAR, item)

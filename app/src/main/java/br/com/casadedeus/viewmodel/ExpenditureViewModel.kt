@@ -5,14 +5,14 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import br.com.casadedeus.beans.Expenditure
-import br.com.casadedeus.model.ExpenditureModel
-import br.com.casadedeus.model.repository.ExpenditureRepository
-import br.com.casadedeus.view.listener.OnCallbackListener
+import br.com.casadedeus.service.ExpenditureModel
+import br.com.casadedeus.service.repository.ExpenditureRepository
+import br.com.casadedeus.service.listener.OnCallbackListener
+import java.lang.Exception
 
 class ExpenditureViewModel(application: Application) : AndroidViewModel(application) {
     // Contexto e acesso a dados
     private val mContext = application.applicationContext//quando precisa do contexto
-    private val mModel: ExpenditureModel = ExpenditureModel()
     private val mRepository: ExpenditureRepository = ExpenditureRepository()
 
     private var mExpenditureList = MutableLiveData<List<Expenditure>>()
@@ -24,7 +24,19 @@ class ExpenditureViewModel(application: Application) : AndroidViewModel(applicat
     private val expenditureModel = ExpenditureModel()
 
     fun insert(expenditure: Expenditure) {
-        expenditureModel.insert(expenditure)
+        if (expenditure.day.isNotEmpty()) {
+            throw Exception("O dia está vazio")
+            return
+        }
+        if (expenditure.desc.isNotEmpty()) {
+            throw Exception("O desc está vazio")
+            return
+        }
+        if (expenditure.amount != 0.0) {
+            throw Exception("O valor está vazio")
+            return
+        }
+        mRepository.insert(expenditure)
     }
 
     fun update(expenditure: Expenditure) {
@@ -32,11 +44,11 @@ class ExpenditureViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     fun delete(expenditure: Expenditure) {
-        expenditureModel.delete(expenditure)
+        mRepository.delete(expenditure)
     }
 
     fun get(expenditure: Expenditure) {
-        expenditureModel.getExpenditure(expenditure)
+        mRepository.getExpenditure(expenditure)
     }
 
     fun load(path: String) {

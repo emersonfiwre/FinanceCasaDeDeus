@@ -1,4 +1,4 @@
-package br.com.casadedeus.model.repository
+package br.com.casadedeus.service.repository
 
 import br.com.casadedeus.beans.User
 

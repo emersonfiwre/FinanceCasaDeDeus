@@ -14,18 +14,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.casadedeus.R
-import br.com.casadedeus.beans.Month
-import br.com.casadedeus.beans.Year
-import br.com.casadedeus.model.constants.ViewConstants
+import br.com.casadedeus.beans.MonthModel
+import br.com.casadedeus.beans.YearModel
+import br.com.casadedeus.service.constants.ViewConstants
 import br.com.casadedeus.view.adapter.MonthAdapter
-import br.com.casadedeus.view.listener.OnAdapterListener
+import br.com.casadedeus.service.listener.OnAdapterListener
 import br.com.casadedeus.viewmodel.MonthViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_year.view.*
 
 
 class YearFragment private constructor() : Fragment(), View.OnClickListener,
-    OnAdapterListener.OnItemClickListener<Month>,
+    OnAdapterListener.OnItemClickListener<MonthModel>,
     DatePickerDialog.OnDateSetListener {
 
     private lateinit var mViewModel: MonthViewModel
@@ -34,9 +34,9 @@ class YearFragment private constructor() : Fragment(), View.OnClickListener,
     private lateinit var mPath: String
 
     companion object {
-        fun newInstance(year: Year): YearFragment {
+        fun newInstance(yearModel: YearModel): YearFragment {
             val args = Bundle()
-            args.putSerializable(ViewConstants.KEYS.EXTRAS_YEAR, year);
+            args.putSerializable(ViewConstants.KEYS.EXTRAS_YEAR, yearModel);
             val fragment = YearFragment()
             fragment.arguments = args
             return fragment
@@ -58,7 +58,7 @@ class YearFragment private constructor() : Fragment(), View.OnClickListener,
 
         //mAdapter.attachListener(context as OnAdapterListener.OnItemClickListener)
         //view.back_year.setOnClickListener { getActivity()?.onBackPressed() }
-        val mYear = arguments?.getSerializable(ViewConstants.KEYS.EXTRAS_YEAR) as Year
+        val mYear = arguments?.getSerializable(ViewConstants.KEYS.EXTRAS_YEAR) as YearModel
         mViewRoot.txt_year.text = mYear.yearTitle
 
         mPath = "users/WqVSBEFTfLTRSPLNV52k/years/${mYear.key}"
@@ -124,7 +124,7 @@ class YearFragment private constructor() : Fragment(), View.OnClickListener,
     }
 
 
-    override fun onItemClick(item: Month) {
+    override fun onItemClick(item: MonthModel) {
         val monthFragment = MonthFragment.newInstance(item)
         activity!!.supportFragmentManager
             .beginTransaction()

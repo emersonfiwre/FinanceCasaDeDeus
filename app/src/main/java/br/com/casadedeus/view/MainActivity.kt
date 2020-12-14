@@ -3,12 +3,12 @@ package br.com.casadedeus.view
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import br.com.casadedeus.R
-import br.com.casadedeus.beans.Year
-import br.com.casadedeus.model.constants.ViewConstants
+import br.com.casadedeus.beans.YearModel
+import br.com.casadedeus.service.constants.ViewConstants
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mYearFragment: YearFragment
-    private lateinit var year: Year
+    private lateinit var yearModel: YearModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -29,8 +29,8 @@ class MainActivity : AppCompatActivity() {
     private fun loadData() {
         val bundle = intent.extras
         if (bundle != null) {
-            year = bundle.getSerializable(ViewConstants.KEYS.EXTRAS_YEAR) as Year
-            mYearFragment = YearFragment.newInstance(year)
+            yearModel = bundle.getSerializable(ViewConstants.KEYS.EXTRAS_YEAR) as YearModel
+            mYearFragment = YearFragment.newInstance(yearModel)
         }
     }
 

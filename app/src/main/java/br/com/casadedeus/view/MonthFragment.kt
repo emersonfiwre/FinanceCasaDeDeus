@@ -18,8 +18,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.casadedeus.R
-import br.com.casadedeus.beans.Month
-import br.com.casadedeus.model.constants.ViewConstants
+import br.com.casadedeus.beans.MonthModel
+import br.com.casadedeus.service.constants.ViewConstants
 import br.com.casadedeus.view.adapter.ExpenditureAdapter
 import br.com.casadedeus.viewmodel.ExpenditureViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -35,9 +35,9 @@ class MonthFragment private constructor() : Fragment(), View.OnClickListener {
 
 
     companion object {
-        fun newInstance(month: Month): MonthFragment {
+        fun newInstance(monthModel: MonthModel): MonthFragment {
             val args = Bundle()
-            args.putSerializable(ViewConstants.KEYS.EXTRAS_MONTH, month);
+            args.putSerializable(ViewConstants.KEYS.EXTRAS_MONTH, monthModel);
             val fragment = MonthFragment()
             fragment.arguments = args
             return fragment
@@ -64,8 +64,8 @@ class MonthFragment private constructor() : Fragment(), View.OnClickListener {
         val expenditureMonth = mViewRoot.findViewById<TextView>(R.id.expenditure_month)
         val rvExpenditure = mViewRoot.findViewById<RecyclerView>(R.id.rv_expenditure)
 
-        val mMonth = arguments?.getSerializable(ViewConstants.KEYS.EXTRAS_MONTH) as Month
-        mViewRoot.month.text = mMonth.montTitle
+        val mMonth = arguments?.getSerializable(ViewConstants.KEYS.EXTRAS_MONTH) as MonthModel
+        mViewRoot.month.text = mMonth.monthTitle
 
 
 
