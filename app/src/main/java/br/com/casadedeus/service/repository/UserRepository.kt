@@ -1,10 +1,10 @@
 package br.com.casadedeus.service.repository
 
-import br.com.casadedeus.beans.User
+import br.com.casadedeus.beans.UserModel
 
 class UserRepository {
 
-    fun getLogin(user: User):Boolean{
+    fun getLogin(userModel: UserModel):Boolean{
         return true
     }
 }

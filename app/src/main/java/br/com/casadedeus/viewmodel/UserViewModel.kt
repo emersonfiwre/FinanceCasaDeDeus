@@ -3,7 +3,7 @@ package br.com.casadedeus.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import br.com.casadedeus.beans.User
+import br.com.casadedeus.beans.UserModel
 import br.com.casadedeus.service.repository.UserRepository
 
 class UserViewModel : ViewModel() {
@@ -13,7 +13,7 @@ class UserViewModel : ViewModel() {
     var login: LiveData<Boolean> = mLogin
 
     fun login(email: String, password: String) {
-        val user = User(email = email, password = password)
+        val user = UserModel(email = email, password = password)
         mLogin.value = mRepository.getLogin(user)
 
         mLogin.value = false

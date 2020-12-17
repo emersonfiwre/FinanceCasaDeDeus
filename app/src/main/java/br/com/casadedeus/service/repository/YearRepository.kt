@@ -18,7 +18,7 @@ class YearRepository {
                     if (document.exists()) {
                         val key = document.id
                         val yearTitle = document.data["yearTitle"].toString()
-                        yearModels.add(YearModel(key,yearTitle))
+                        yearModels.add(YearModel(key, yearTitle))
                         listener.onSuccess(orderby(yearModels))
                         //println("${document.id} => ${document.data}")
                     }

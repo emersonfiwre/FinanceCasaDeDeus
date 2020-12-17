@@ -52,8 +52,7 @@ class ExpenditureViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     fun load(path: String) {
-        mExpenditureList.value = mRepository.getExpenditures()
-        mRepository.getExpendituress(path, object : OnCallbackListener<List<Expenditure>> {
+        mRepository.getExpenditures(path, object : OnCallbackListener<List<Expenditure>> {
             override fun onSuccess(result: List<Expenditure>) {
                 mExpenditureList.value = result
             }
@@ -61,7 +60,6 @@ class ExpenditureViewModel(application: Application) : AndroidViewModel(applicat
             override fun onFailure(message: String) {
                 val s = message
             }
-
         })
     }
 

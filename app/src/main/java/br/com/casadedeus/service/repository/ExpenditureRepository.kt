@@ -11,9 +11,10 @@ class ExpenditureRepository {
 
     private val mDatabase = FirebaseFirestore.getInstance()
 
-    fun getExpendituress(path: String, listener: OnCallbackListener<List<Expenditure>>) {
+    fun getExpenditures(path: String, listener: OnCallbackListener<List<Expenditure>>) {
         val expenditures: MutableList<Expenditure> = arrayListOf()
-        mDatabase.collection("months/$path/expenditures")
+        //mDatabase.collection("months").document(path).collection("expenditures")
+        mDatabase.collection("users/WqVSBEFTfLTRSPLNV52k/years/dJ0VRxauGWo7akOBpadH/months/$path/expenditures")
             .get()
             .addOnSuccessListener {
                 for (document in it) {
@@ -41,14 +42,17 @@ class ExpenditureRepository {
                             amount
                         )
                         expenditures.add(ex)
-                        listener.onSuccess(expenditures)
+
                         //println("${document.id} => ${document.data}")
                     }
+                    listener.onSuccess(expenditures)
                 }
+
             }.addOnFailureListener {
                 val message = it.message.toString()
                 listener.onFailure(message)
             }
+        val s = ""
     }
 
     companion object {
@@ -102,7 +106,4 @@ class ExpenditureRepository {
         return null
     }
 
-    fun getExpenditures(): List<Expenditure> {
-        return mList
-    }
 }

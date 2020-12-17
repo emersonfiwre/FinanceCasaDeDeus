@@ -53,8 +53,11 @@ class MonthRepository private constructor(private val mYearKey: String) {
         /*if (!mList.contains(month)) {
             mList.add(month)
         }*/
-        mDatabase.collection("users")
-            .document("WqVSBEFTfLTRSPLNV52k").collection("years").document(mYearKey)
+        mDatabase
+//            .collection("users")
+//            .document("WqVSBEFTfLTRSPLNV52k")
+//            .collection("years")
+            .document(mYearKey)
             .collection("months")
             .add(monthModel)
             .addOnSuccessListener { documentReference ->

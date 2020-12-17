@@ -42,16 +42,6 @@ class MonthViewModel(application: Application) : AndroidViewModel(application) {
     }
 
 
-    fun delete(monthModel: MonthModel?) {
-        monthModel.let {
-            if (it != null) {
-                mRepository.delete(it)
-            }
-        }
-        mMonthDelete.value = ValidationListener()
-
-    }
-
     fun load(yearKey: String) {
         mRepository = MonthRepository.newInstance(yearKey)
         //mMonthList.value = mRepository.getMonths()
@@ -65,6 +55,16 @@ class MonthViewModel(application: Application) : AndroidViewModel(application) {
             }
 
         })
+    }
+
+    fun delete(monthModel: MonthModel?) {
+        monthModel.let {
+            if (it != null) {
+                mRepository.delete(it)
+            }
+        }
+        mMonthDelete.value = ValidationListener()
+
     }
 
 }

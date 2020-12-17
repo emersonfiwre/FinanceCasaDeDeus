@@ -68,7 +68,6 @@ class MonthFragment private constructor() : Fragment(), View.OnClickListener {
         mViewRoot.month.text = mMonth.monthTitle
 
 
-
         //************
         setupRecycler()
 
