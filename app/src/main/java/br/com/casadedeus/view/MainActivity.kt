@@ -7,7 +7,7 @@ import br.com.casadedeus.beans.YearModel
 import br.com.casadedeus.service.constants.ViewConstants
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var mYearFragment: YearFragment
+    //    private lateinit var mYearFragment: YearFragment
     private lateinit var yearModel: YearModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,25 +21,26 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
-                .add(R.id.container_root, mYearFragment, ViewConstants.TAGS.YEAR_FRAG)
+                .add(R.id.container_root, YearFragment(), ViewConstants.TAGS.YEAR_FRAG)
                 .commit()
         }
+
     }
 
     private fun loadData() {
         val bundle = intent.extras
         if (bundle != null) {
             yearModel = bundle.getSerializable(ViewConstants.KEYS.EXTRAS_YEAR) as YearModel
-            mYearFragment = YearFragment.newInstance(yearModel)
+            //mMonthFragment = MonthFragment.newInstance(yearModel)
         }
     }
 
 
     override fun onBackPressed() {
-        val monthFragment: MonthFragment? =
-            supportFragmentManager.findFragmentByTag(ViewConstants.TAGS.MONTH_FRAG) as MonthFragment?
-        if (monthFragment != null && monthFragment.isVisible) {
-            if (monthFragment.onBackPressed()) {
+        val expenditureFragment: ExpenditureFragment? =
+            supportFragmentManager.findFragmentByTag(ViewConstants.TAGS.MONTH_FRAG) as ExpenditureFragment?
+        if (expenditureFragment != null && expenditureFragment.isVisible) {
+            if (expenditureFragment.onBackPressed()) {
                 super.onBackPressed()
             }
         } else {

@@ -1,18 +1,20 @@
 package br.com.casadedeus.service.repository
 
-import br.com.casadedeus.beans.Expenditure
+import android.content.Context
+import br.com.casadedeus.R
+import br.com.casadedeus.beans.ExpenditureModel
 import br.com.casadedeus.service.listener.OnCallbackListener
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ExpenditureRepository {
+class ExpenditureRepository(private val mContext: Context, private val mMonthKey: String) {
 
     private val mDatabase = FirebaseFirestore.getInstance()
 
-    fun getExpenditures(path: String, listener: OnCallbackListener<List<Expenditure>>) {
-        val expenditures: MutableList<Expenditure> = arrayListOf()
+    fun getExpenditures(path: String, listener: OnCallbackListener<List<ExpenditureModel>>) {
+        val expenditureModels: MutableList<ExpenditureModel> = arrayListOf()
         //mDatabase.collection("months").document(path).collection("expenditures")
         mDatabase.collection("users/WqVSBEFTfLTRSPLNV52k/years/dJ0VRxauGWo7akOBpadH/months/$path/expenditures")
             .get()
@@ -31,7 +33,7 @@ class ExpenditureRepository {
                         val format =
                             SimpleDateFormat("EEE, d MMM 'de' yyyy", local)// dia por extenso
                         val day = format.format(timestamp.toDate())
-                        val ex = Expenditure(
+                        val ex = ExpenditureModel(
                             key,
                             day,
                             isEntry,
@@ -41,11 +43,10 @@ class ExpenditureRepository {
                             notaFiscal,
                             amount
                         )
-                        expenditures.add(ex)
-
+                        expenditureModels.add(ex)
                         //println("${document.id} => ${document.data}")
                     }
-                    listener.onSuccess(expenditures)
+                    listener.onSuccess(expenditureModels)
                 }
 
             }.addOnFailureListener {
@@ -57,7 +58,7 @@ class ExpenditureRepository {
 
     companion object {
         private var mList = mutableListOf(
-            Expenditure(
+            ExpenditureModel(
                 "-Mfgsdjng",
                 "qui, 29 out 2020",
                 false,
@@ -67,7 +68,7 @@ class ExpenditureRepository {
                 "675s",
                 235.96
             ),
-            Expenditure(
+            ExpenditureModel(
                 "-Grjssnds",
                 "sáb, 21 set 2020",
                 false,
@@ -77,7 +78,7 @@ class ExpenditureRepository {
                 "1234",
                 5599.11
             ),
-            Expenditure(
+            ExpenditureModel(
                 "-Ropksdbs",
                 "seg, 16 mar 2020",
                 true,
@@ -90,19 +91,31 @@ class ExpenditureRepository {
         )
     }
 
-    fun insert(expenditure: Expenditure): Boolean {
+    fun save(expenditureModel: ExpenditureModel, listener: OnCallbackListener<Boolean>) {
+        mDatabase
+            .document(mMonthKey)
+            .collection("months")
+            .add(expenditureModel)
+            .addOnSuccessListener { documentReference ->
+                //println("DocumentSnapshot added with ID: ${documentReference.id}")
+                listener.onSuccess(true)
+            }
+            .addOnFailureListener { e ->
+                println("Error adding document $e")
+                listener.onFailure(mContext.getString(R.string.ERROR_UNEXPECTED))
+
+            }
+    }
+
+    fun update(expenditureModel: ExpenditureModel): Boolean {
         return true
     }
 
-    fun update(expenditure: Expenditure): Boolean {
+    fun delete(expenditureModel: ExpenditureModel): Boolean {
         return true
     }
 
-    fun delete(expenditure: Expenditure): Boolean {
-        return true
-    }
-
-    fun getExpenditure(expenditure: Expenditure): Expenditure? {
+    fun getExpenditure(expenditureModel: ExpenditureModel): ExpenditureModel? {
         return null
     }
 

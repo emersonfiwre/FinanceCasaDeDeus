@@ -1,17 +1,13 @@
 package br.com.casadedeus.view
 
-import android.annotation.SuppressLint
-import android.content.Context
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import android.widget.EditText
+import android.widget.DatePicker
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -19,177 +15,128 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.casadedeus.R
 import br.com.casadedeus.beans.MonthModel
+import br.com.casadedeus.beans.YearModel
 import br.com.casadedeus.service.constants.ViewConstants
-import br.com.casadedeus.view.adapter.ExpenditureAdapter
-import br.com.casadedeus.viewmodel.ExpenditureViewModel
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import kotlinx.android.synthetic.main.dialog_single_input.view.*
+import br.com.casadedeus.view.adapter.MonthAdapter
+import br.com.casadedeus.service.listener.OnAdapterListener
+import br.com.casadedeus.viewmodel.MonthViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_month.view.*
 
 
-class MonthFragment private constructor() : Fragment(), View.OnClickListener {
+class MonthFragment private constructor() : Fragment(), View.OnClickListener,
+    OnAdapterListener.OnItemClickListener<MonthModel>,
+    DatePickerDialog.OnDateSetListener {
 
-    private lateinit var mViewModel: ExpenditureViewModel
-    private val mAdapter: ExpenditureAdapter = ExpenditureAdapter()
+    private lateinit var mViewModel: MonthViewModel
+    private val mAdapter: MonthAdapter = MonthAdapter()
     private lateinit var mViewRoot: View
-
+    private lateinit var mPath: String
 
     companion object {
-        fun newInstance(monthModel: MonthModel): MonthFragment {
+        fun newInstance(yearModel: YearModel): MonthFragment {
             val args = Bundle()
-            args.putSerializable(ViewConstants.KEYS.EXTRAS_MONTH, monthModel);
+            args.putSerializable(ViewConstants.KEYS.EXTRAS_YEAR, yearModel);
             val fragment = MonthFragment()
             fragment.arguments = args
             return fragment
         }
     }
 
-    /*Design
-    * radio button https://dribbble.com/shots/9890260-Card-Theme-Switch-Light-Theme
-    * btnSave top rigth https://stackoverflow.com/questions/58651661/how-to-set-max-height-in-bottomsheetdialogfragment
-    * ?android:textColorHint*/
-    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        mViewModel = ViewModelProvider(this).get(ExpenditureViewModel::class.java)
+        mViewModel = ViewModelProvider(this).get(MonthViewModel::class.java)
         mViewRoot = inflater.inflate(R.layout.fragment_month, container, false)
+        //****************
+        val fabMonth = mViewRoot.findViewById<FloatingActionButton>(R.id.fab_month)
+        val rvMonth = mViewRoot.findViewById<RecyclerView>(R.id.rv_month)
+        val revenueYear = mViewRoot.findViewById<TextView>(R.id.revenue_year)
+        //****************
 
-        //****************** NÃO É NECESSÁRIO FINDVIEWBYID
-        val addLancamento = mViewRoot.findViewById<Button>(R.id.add_lancamento)
-        val revenueMonth = mViewRoot.findViewById<TextView>(R.id.revenue_month)
-        val profitMonth = mViewRoot.findViewById<TextView>(R.id.profit_month)
-        val expenditureMonth = mViewRoot.findViewById<TextView>(R.id.expenditure_month)
-        val rvExpenditure = mViewRoot.findViewById<RecyclerView>(R.id.rv_expenditure)
+        //mAdapter.attachListener(context as OnAdapterListener.OnItemClickListener)
+        //view.back_year.setOnClickListener { getActivity()?.onBackPressed() }
+        val mYear = arguments?.getSerializable(ViewConstants.KEYS.EXTRAS_YEAR) as YearModel
+        mViewRoot.txt_year.text = mYear.yearTitle
 
-        val mMonth = arguments?.getSerializable(ViewConstants.KEYS.EXTRAS_MONTH) as MonthModel
-        mViewRoot.month.text = mMonth.monthTitle
+        mPath = "users/WqVSBEFTfLTRSPLNV52k/years/${mYear.key}"
 
-
-        //************
         setupRecycler()
 
-        // Cria observadores
         observe()
 
         setListeners()
 
-        //Carregar a lista com todos
-        mViewModel.load(mMonth.key)
+        mViewModel.load(mPath)
 
-        mViewRoot.edtSearch.setOnEditorActionListener { textView, i, keyEvent ->
-            when (i) {
-                EditorInfo.IME_ACTION_SEARCH -> {
-                    Toast.makeText(activity, "Modulo em contrução", Toast.LENGTH_SHORT).show()
-                    true
-                }
-                else -> { // Note the block
-                    println("default case")
-                    false
-                }
-            }
-        }
-        mViewRoot.edtSearch.setOnTouchListener { view, motionEvent ->
-            view.edtSearch.isFocusableInTouchMode = true
-            val icSearch = ContextCompat.getDrawable(
-                activity!!,
-                R.drawable.ic_search
-            )
-            /*Tint drawable
-            DrawableCompat.setTint(
-            icSearch as Drawable,
-            ContextCompat.getColor(activity, R.color.hintColor)
-            )*/
-            view.edtSearch.setCompoundDrawablesWithIntrinsicBounds(
-                icSearch, null, null, null
-            )
-            view.edtSearch.hint = getString(R.string.hint_search)
-            /*Open Keyboard
-            val inputMethodManager =
-                activity.getSystemService(Context.INPUT_METHOD_SERVICE) as (InputMethodManager)
-            inputMethodManager.toggleSoftInput(
-                InputMethodManager.SHOW_FORCED, 0
-            )*/
-
-            false
-        }
-
-
-        hide(mViewRoot.edtSearch!!, context)
         return mViewRoot
     }
 
     private fun setupRecycler() {
         val linearLayoutManager = LinearLayoutManager(activity)
-        mViewRoot.rv_expenditure.layoutManager = linearLayoutManager
-        mViewRoot.rv_expenditure.adapter = mAdapter
-        mViewRoot.rv_expenditure.setHasFixedSize(true)
+        mViewRoot.rv_month?.layoutManager = linearLayoutManager
+        mAdapter.attachListener(this)
+        mViewRoot.rv_month?.adapter = mAdapter
+        mViewRoot.rv_month?.setHasFixedSize(true)
     }
 
     private fun setListeners() {
-        mViewRoot.add_lancamento.setOnClickListener(this)
-        mViewRoot.back_month.setOnClickListener(this)
+        mViewRoot.back_year.setOnClickListener(this)
+        mViewRoot.fab_month.setOnClickListener(this)
     }
 
     private fun observe() {
-        mViewModel.expenditurelist.observe(viewLifecycleOwner, Observer {
+        mViewModel.monthlist.observe(viewLifecycleOwner, Observer {
+            //println("callback observer $it")
             mAdapter.notifyChanged(it)
+        })
+        mViewModel.monthsave.observe(viewLifecycleOwner, Observer {
+            if (it.success()) {
+                Toast.makeText(context, "Adicionado com sucesso", Toast.LENGTH_SHORT).show()
+                mViewModel.load(mPath)
+            } else {
+                Toast.makeText(context, it.failure(), Toast.LENGTH_LONG)
+                    .show()
+            }
         })
     }
 
     override fun onClick(v: View?) {
         val id = v?.id
-
-        if (id == R.id.add_lancamento) {
-            hide(mViewRoot.edtSearch, activity)
-            val dialog = BottomSheetDialog(activity!!)
-            val bottomSheet = layoutInflater.inflate(R.layout.dialog_single_input, null)
-            dialog.setContentView(bottomSheet)
-            /*val mBehavior = BottomSheetBehavior.from(bottomSheet.parent as View);
-            mBehavior.setPeekHeight(600)*/
-            dialog.show()
-            bottomSheet.add_expenditure.setOnClickListener {
-                Toast.makeText(activity, "Módulo em construção", Toast.LENGTH_SHORT).show()
-            }
-            //get spinner selected
-        } else if (id == R.id.back_month) {
+        if (id == R.id.fab_month) {
+            val monthYearPickerDialog: MonthYearPickerDialog =
+                MonthYearPickerDialog.newInstance(true)
+            monthYearPickerDialog.listener = this
+            monthYearPickerDialog.show(
+                activity!!.supportFragmentManager,
+                ViewConstants.TAGS.MONTH_PICKER
+            )
+        } else if (id == R.id.back_year) {
             activity?.onBackPressed()
         }
     }
 
-    private fun hide(edit: EditText, context: Context?) {
-        edit.clearFocus()
-        edit.isFocusable = false
-
-        edit.setText("")
-        val icSearch = context?.let {
-            ContextCompat.getDrawable(
-                it,
-                R.drawable.ic_search
-            )
-        }
-        edit.setCompoundDrawablesWithIntrinsicBounds(
-            null, null, icSearch, null
-        )
-        edit.hint = ""
-
+    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+        //Toast.makeText(context, "Modulo em construção", Toast.LENGTH_SHORT).show()
+        mViewModel.save(month)
     }
 
-    fun onBackPressed(): Boolean =
-        /*if (view?.edtSearch?.isFocusable == true) {
-            hide(view?.edtSearch!!, context as Context)
-            return false
-        }
-        return true*/
-        when (view?.edtSearch?.isFocusable) {
-            true -> {
-                hide(view?.edtSearch!!, context)
-                false
-            }
-            else -> true
-        }
+
+    override fun onItemClick(item: MonthModel) {
+        val monthFragment = ExpenditureFragment.newInstance(item)
+        activity!!.supportFragmentManager
+            .beginTransaction()
+            .setCustomAnimations(
+                android.R.anim.slide_in_left,
+                android.R.anim.slide_out_right
+            )
+            .replace(R.id.container_root, monthFragment, ViewConstants.TAGS.MONTH_FRAG)
+
+            .addToBackStack(null)
+            .commit()
+    }
 
 
 }

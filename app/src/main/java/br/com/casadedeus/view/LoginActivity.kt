@@ -39,9 +39,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         val id = v?.id
         if (id == R.id.button_login) {
 
-            val user = edit_user.text.toString()
-            val password = edit_password.text.toString()
-            mViewModel.login(user, password)
+//            val user = edit_user.text.toString()
+//            val password = edit_password.text.toString()
+//            mViewModel.login(user, password)
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
 
         } else if (id == R.id.button_cadastrar) {
             Toast.makeText(this, "Cadastrar em implementação", Toast.LENGTH_SHORT).show()
@@ -52,10 +54,10 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private fun observe() {
         mViewModel.login.observe(this, Observer {
             if (it) {
-                val intent = Intent(this, SelectYearActivity::class.java)
-                startActivity(intent)
-            }else{
-                Toast.makeText(this,"Usuário ou senha vazios",Toast.LENGTH_SHORT).show()
+//                val intent = Intent(this, SelectYearActivity::class.java)
+//                startActivity(intent)
+            } else {
+                //Toast.makeText(this,"Usuário ou senha vazios",Toast.LENGTH_SHORT).show()
             }
         })
     }

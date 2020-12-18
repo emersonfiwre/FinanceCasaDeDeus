@@ -1,137 +1,130 @@
 package br.com.casadedeus.view
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import br.com.casadedeus.R
-import br.com.casadedeus.beans.MonthModel
 import br.com.casadedeus.beans.YearModel
 import br.com.casadedeus.service.constants.ViewConstants
-import br.com.casadedeus.view.adapter.MonthAdapter
 import br.com.casadedeus.service.listener.OnAdapterListener
-import br.com.casadedeus.viewmodel.MonthViewModel
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import br.com.casadedeus.view.adapter.YearAdapter
+import br.com.casadedeus.viewmodel.YearViewModel
 import kotlinx.android.synthetic.main.fragment_year.view.*
 
-
-class YearFragment private constructor() : Fragment(), View.OnClickListener,
-    OnAdapterListener.OnItemClickListener<MonthModel>,
+class YearFragment : Fragment(), View.OnClickListener,
+    OnAdapterListener.OnItemClickListener<YearModel>,
     DatePickerDialog.OnDateSetListener {
-
-    private lateinit var mViewModel: MonthViewModel
-    private val mAdapter: MonthAdapter = MonthAdapter()
+    private lateinit var mViewModel: YearViewModel
+    private var mAdapter = YearAdapter()
     private lateinit var mViewRoot: View
-    private lateinit var mPath: String
-
-    companion object {
-        fun newInstance(yearModel: YearModel): YearFragment {
-            val args = Bundle()
-            args.putSerializable(ViewConstants.KEYS.EXTRAS_YEAR, yearModel);
-            val fragment = YearFragment()
-            fragment.arguments = args
-            return fragment
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        mViewModel = ViewModelProvider(this).get(MonthViewModel::class.java)
+    ): View? {
         mViewRoot = inflater.inflate(R.layout.fragment_year, container, false)
-        //****************
-        val fabMonth = mViewRoot.findViewById<FloatingActionButton>(R.id.fab_month)
-        val rvMonth = mViewRoot.findViewById<RecyclerView>(R.id.rv_month)
-        val revenueYear = mViewRoot.findViewById<TextView>(R.id.revenue_year)
-        //****************
 
-        //mAdapter.attachListener(context as OnAdapterListener.OnItemClickListener)
-        //view.back_year.setOnClickListener { getActivity()?.onBackPressed() }
-        val mYear = arguments?.getSerializable(ViewConstants.KEYS.EXTRAS_YEAR) as YearModel
-        mViewRoot.txt_year.text = mYear.yearTitle
-
-        mPath = "users/WqVSBEFTfLTRSPLNV52k/years/${mYear.key}"
+        mViewModel = ViewModelProvider(this).get(YearViewModel::class.java)
+        //Design
+        //https://dribbble.com/tags/android_ui
+        //val rvYear = findViewById(R.id.rv_year)
 
         setupRecycler()
 
-        observe()
-
         setListeners()
 
-        mViewModel.load(mPath)
+        observe()
+
+        mViewModel.load()
 
         return mViewRoot
     }
 
     private fun setupRecycler() {
-        val linearLayoutManager = LinearLayoutManager(activity)
-        mViewRoot.rv_month?.layoutManager = linearLayoutManager
+        val layoutManager = LinearLayoutManager(context)
+        mViewRoot.rv_year.layoutManager = layoutManager
         mAdapter.attachListener(this)
-        mViewRoot.rv_month?.adapter = mAdapter
-        mViewRoot.rv_month?.setHasFixedSize(true)
+        mViewRoot.rv_year.adapter = mAdapter
+        mViewRoot.rv_year.setHasFixedSize(true)
     }
 
     private fun setListeners() {
-        mViewRoot.back_year.setOnClickListener(this)
-        mViewRoot.fab_month.setOnClickListener(this)
+        mViewRoot.fab_year.setOnClickListener(this)
     }
 
     private fun observe() {
-        mViewModel.monthlist.observe(viewLifecycleOwner, Observer {
-            //println("callback observer $it")
+        mViewModel.yearlist.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             mAdapter.notifyChanged(it)
         })
-        mViewModel.monthsave.observe(viewLifecycleOwner, Observer {
+
+        mViewModel.yearsave.observe(viewLifecycleOwner, Observer {
             if (it.success()) {
                 Toast.makeText(context, "Adicionado com sucesso", Toast.LENGTH_SHORT).show()
-                mViewModel.load(mPath)
+                mViewModel.load()
             } else {
-                Toast.makeText(context, it.failure(), Toast.LENGTH_LONG)
-                    .show()
+                println(it.failure())
+                Toast.makeText(context, it.failure(), Toast.LENGTH_LONG).show()
+            }
+        })
+        mViewModel.validation.observe(viewLifecycleOwner, Observer {
+            if (it.success()) {
+                Toast.makeText(context, "Validation com sucesso", Toast.LENGTH_SHORT).show()
+                mViewModel.load()
+            } else {
+                println(it.failure())
+                Toast.makeText(context, it.failure(), Toast.LENGTH_LONG).show()
             }
         })
     }
 
     override fun onClick(v: View?) {
         val id = v?.id
-        if (id == R.id.fab_month) {
+
+        if (id == R.id.fab_year) {
             val monthYearPickerDialog: MonthYearPickerDialog =
-                MonthYearPickerDialog.newInstance(true)
+                MonthYearPickerDialog.newInstance(false)
             monthYearPickerDialog.listener = this
-            monthYearPickerDialog.show(
-                activity!!.supportFragmentManager,
-                ViewConstants.TAGS.MONTH_PICKER
-            )
-        } else if (id == R.id.back_year) {
-            activity?.onBackPressed()
+            activity?.supportFragmentManager?.let {
+                monthYearPickerDialog.show(
+                    it,
+                    ViewConstants.TAGS.YEAR_PICKER
+                )
+            }
         }
     }
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        //Toast.makeText(context, "Modulo em construção", Toast.LENGTH_SHORT).show()
-        mViewModel.save(month)
+        println("selecionou uma data $year $month $dayOfMonth")
+        //Toast.makeText(this, "selecionou uma data $year $month $dayOfMonth", Toast.LENGTH_LONG).show()
+        mViewModel.save(year.toString())
+
+        /*p1 year
+        p2 month
+        p3 day*/
     }
 
 
-    override fun onItemClick(item: MonthModel) {
+    override fun onItemClick(item: YearModel) {
         val monthFragment = MonthFragment.newInstance(item)
         activity!!.supportFragmentManager
             .beginTransaction()
-            .replace(R.id.container_root, monthFragment, ViewConstants.TAGS.MONTH_FRAG)
+            .setCustomAnimations(
+                android.R.anim.slide_in_left,
+                android.R.anim.slide_out_right
+            )
+            .replace(R.id.container_root, monthFragment, ViewConstants.TAGS.YEAR_FRAG)
             .addToBackStack(null)
             .commit()
     }
-
 
 }

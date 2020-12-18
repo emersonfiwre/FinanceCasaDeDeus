@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import br.com.casadedeus.R
-import br.com.casadedeus.beans.Expenditure
+import br.com.casadedeus.beans.ExpenditureModel
 import kotlinx.android.synthetic.main.card_expenditure.view.*
 
 class ExpenditureAdapter : RecyclerView.Adapter<ExpenditureAdapter.MyViewHolder>() {
 
-    private var mExpenditureList: List<Expenditure> = arrayListOf()
+    private var mExpenditureModelList: List<ExpenditureModel> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view =
@@ -20,19 +20,19 @@ class ExpenditureAdapter : RecyclerView.Adapter<ExpenditureAdapter.MyViewHolder>
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val expenditure = mExpenditureList[position]
+        val expenditure = mExpenditureModelList[position]
         holder.day.text = expenditure.day
         holder.desc.text = expenditure.desc
         holder.price.text = expenditure.amount.toString()
     }
 
     override fun getItemCount(): Int {
-        return mExpenditureList.size
+        return mExpenditureModelList.size
     }
 
-    fun notifyChanged(it: List<Expenditure>?) {
+    fun notifyChanged(it: List<ExpenditureModel>?) {
         if (it != null) {
-            mExpenditureList = it
+            mExpenditureModelList = it
             notifyDataSetChanged()
         }
 

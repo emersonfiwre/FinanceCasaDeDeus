@@ -36,4 +36,10 @@
     <string name="casa_de_deus">Casa de Deus</string>
     <string name="sign_account">Faça login em sua conta</string>
 
+    <!-- Errors -->
+    <string name="ERROR_UNEXPECTED">Um erro inesperado ocorreu. Tente novamente mais tarde.</string>
+    <string name="ERROR_INTERNET_CONNECTION">Conexão à internet necessária para uso da applicação.</string>
+    <string name="ERROR_REQUEST">Não foi possível enviar sua solicitação. Por favor, tente novamente mais tarde.</string>
+    <string name="MISSING_AUTHENTICATION">Usuário não autenticado</string>
+
 </resources>
