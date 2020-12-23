@@ -15,7 +15,6 @@
         android:orientation="vertical"
         android:paddingBottom="30dp">
 
-
         <View
             android:layout_width="50dp"
             android:layout_height="5dp"
@@ -176,14 +175,22 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <me.abhinay.input.CurrencyEditText
+                android:id="@+id/edit_valor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/price"
+                android:inputType="number"
+                android:maxLines="1"
+                />
+            <!--com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_valor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/price"
                 android:imeOptions="actionNext"
                 android:inputType="numberDecimal"
-                android:maxLines="1" />
+                android:maxLines="1" /-->
         </com.google.android.material.textfield.TextInputLayout>
 
         <!--Button

@@ -2,6 +2,7 @@ package br.com.casadedeus.service.repository
 
 import android.content.Context
 import android.content.SharedPreferences
+import br.com.casadedeus.service.constants.TransactionConstants
 
 /**
  * Acesso a dados rápidos do projeto - SharedPreferences
@@ -9,7 +10,10 @@ import android.content.SharedPreferences
 class SecurityPreferences(context: Context) {
 
     private val mPreferences: SharedPreferences =
-        context.getSharedPreferences("taskShared", Context.MODE_PRIVATE)//set constants
+        context.getSharedPreferences(
+            TransactionConstants.SHARED.USER_SHARED,
+            Context.MODE_PRIVATE
+        )//set constants
 
     fun store(key: String, value: String) {
         mPreferences.edit().putString(key, value).apply()

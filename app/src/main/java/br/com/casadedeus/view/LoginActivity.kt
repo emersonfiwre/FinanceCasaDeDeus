@@ -41,7 +41,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
 //            val user = edit_user.text.toString()
 //            val password = edit_password.text.toString()
-//            mViewModel.login(user, password)
+//            mViewModel.doLogin(user, password)
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
 
@@ -53,11 +53,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun observe() {
         mViewModel.login.observe(this, Observer {
-            if (it) {
+            if (it.success()) {
 //                val intent = Intent(this, SelectYearActivity::class.java)
 //                startActivity(intent)
             } else {
-                //Toast.makeText(this,"Usuário ou senha vazios",Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this,it.failure(),Toast.LENGTH_SHORT).show()
             }
         })
     }

@@ -1,4 +1,10 @@
 package br.com.casadedeus.beans
 
-data class UserModel(val key: String? = "", var email: String, var password: String) {
-}
+import com.google.firebase.firestore.Exclude
+
+data class UserModel(
+    @get:Exclude val key: String = "",
+    var name: String = "",
+    var email: String = "",
+    var password: String = ""
+)

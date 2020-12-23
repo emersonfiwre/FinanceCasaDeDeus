@@ -17,17 +17,17 @@ import java.util.*
     }
 }*/
 
-class ExpenditureViewModel(application: Application) : AndroidViewModel(application) {
+class TransactionViewModel(application: Application) : AndroidViewModel(application) {
 
     // Contexto e acesso a dados
     private val mContext = application.applicationContext//quando precisa do contexto
     private val mRepository: TransactionRepository = TransactionRepository(mContext)
 
-    private var mExpenditureList = MutableLiveData<List<TransactionModel>>()
-    val expenditurelist: LiveData<List<TransactionModel>> = mExpenditureList
+    private var mTransactionList = MutableLiveData<List<TransactionModel>>()
+    val transactionlist: LiveData<List<TransactionModel>> = mTransactionList
 
-    /*private var mGuest = MutableLiveData<ExpenditureModel>()
-    val guest: LiveData<ExpenditureModel> = mGuest*/
+    private var mTransaction = MutableLiveData<TransactionModel>()
+    val transaction: LiveData<TransactionModel> = mTransaction
 
     private var mValidation = MutableLiveData<ValidationListener>()
     val validation: LiveData<ValidationListener> = mValidation
@@ -57,26 +57,52 @@ class ExpenditureViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     fun update(transactionModel: TransactionModel) {
-        //TODO
-    }
-
-    fun delete(transactionModel: TransactionModel) {
-        mRepository.delete(transactionModel)
-    }
-
-    fun get(transactionModel: TransactionModel) {
-        mRepository.getExpenditure(transactionModel)
-    }
-
-    fun load() {
-        mRepository.getExpenditures(object : OnCallbackListener<List<TransactionModel>> {
-            override fun onSuccess(result: List<TransactionModel>) {
-                mExpenditureList.value = result
+        mRepository.update(transactionModel, object : OnCallbackListener<Boolean> {
+            override fun onSuccess(result: Boolean) {
                 mValidation.value = ValidationListener()
             }
 
             override fun onFailure(message: String) {
-                val s = message
+                mValidation.value = ValidationListener(message)
+            }
+        })
+    }
+
+    fun delete(transactionModel: TransactionModel) {
+        mRepository.delete(transactionModel, object : OnCallbackListener<Boolean> {
+            override fun onSuccess(result: Boolean) {
+                mValidation.value = ValidationListener()
+            }
+
+            override fun onFailure(message: String) {
+                mValidation.value = ValidationListener(message)
+            }
+
+        })
+    }
+
+    fun get(key: String) {
+        mRepository.getTransaction(key, object : OnCallbackListener<TransactionModel?> {
+            override fun onSuccess(result: TransactionModel?) {
+                mTransaction.value = result
+            }
+
+            override fun onFailure(message: String) {
+                mValidation.value = ValidationListener(message)
+            }
+
+        })
+    }
+
+    fun load() {
+        mRepository.getTransactions(object : OnCallbackListener<List<TransactionModel>> {
+            override fun onSuccess(result: List<TransactionModel>) {
+                mTransactionList.value = result
+                mValidation.value = ValidationListener()
+            }
+
+            override fun onFailure(message: String) {
+                mValidation.value = ValidationListener(message)
             }
         })
     }

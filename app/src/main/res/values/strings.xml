@@ -35,6 +35,9 @@
     <string name="hint_search">Pesquisar…</string>
     <string name="casa_de_deus">Casa de Deus</string>
     <string name="sign_account">Faça login em sua conta</string>
+    <string name="password_incorrect">Senha incorreta. Tente novamente.</string>
+    <string name="email_not_found">Email não encontrado. Cadastra-se.</string>
+    <string name="transaction_not_found">Desculpe está transação não foi encontrada. Tente novamente mais tarde.</string>
 
     <!-- Errors -->
     <string name="ERROR_UNEXPECTED">Um erro inesperado ocorreu. Tente novamente mais tarde.</string>

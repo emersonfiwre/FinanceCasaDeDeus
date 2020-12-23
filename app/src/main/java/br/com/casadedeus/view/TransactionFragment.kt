@@ -17,15 +17,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.casadedeus.R
 import br.com.casadedeus.beans.TransactionModel
 import br.com.casadedeus.view.adapter.TransactionAdapter
-import br.com.casadedeus.viewmodel.ExpenditureViewModel
+import br.com.casadedeus.viewmodel.TransactionViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.dialog_single_input.view.*
 import kotlinx.android.synthetic.main.fragment_transaction.view.*
+import me.abhinay.input.CurrencyEditText
 
 
 class TransactionFragment : Fragment(), View.OnClickListener {
 
-    private lateinit var mViewModel: ExpenditureViewModel
+    private lateinit var mViewModel: TransactionViewModel
     private val mAdapter: TransactionAdapter = TransactionAdapter()
     private lateinit var mViewRoot: View
 
@@ -61,7 +62,7 @@ class TransactionFragment : Fragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View {
         mViewRoot = inflater.inflate(R.layout.fragment_transaction, container, false)
-        mViewModel = ViewModelProvider(this).get(ExpenditureViewModel::class.java)
+        mViewModel = ViewModelProvider(this).get(TransactionViewModel::class.java)
 
         /*mViewModel = ViewModelProvider(
             this,
@@ -116,6 +117,14 @@ class TransactionFragment : Fragment(), View.OnClickListener {
 
             false
         }
+        /*val etInput = mViewRoot.findViewById<CurrencyEditText>(R.id.edit_valor)
+        error
+        etInput.setCurrency("R$");
+        etInput.setDelimiter(false)
+        etInput.setSpacing(false)
+        etInput.setDecimals(true)
+        //Make sure that Decimals is set as false if a custom Separator is used
+        etInput.setSeparator(".")*/
 
 
         hide(mViewRoot.edtSearch!!, context)
@@ -135,7 +144,7 @@ class TransactionFragment : Fragment(), View.OnClickListener {
     }
 
     private fun observe() {
-        mViewModel.expenditurelist.observe(viewLifecycleOwner, Observer {
+        mViewModel.transactionlist.observe(viewLifecycleOwner, Observer {
             mAdapter.notifyChanged(it)
         })
         mViewModel.validation.observe(viewLifecycleOwner, Observer {
