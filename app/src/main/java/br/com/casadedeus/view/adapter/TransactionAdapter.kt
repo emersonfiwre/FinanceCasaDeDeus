@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import br.com.casadedeus.R
 import br.com.casadedeus.beans.TransactionModel
-import br.com.casadedeus.service.listener.OnAdapterListener
+import br.com.casadedeus.service.listener.OnItemClickListener
 import br.com.casadedeus.service.utils.Utils
 import kotlinx.android.synthetic.main.card_transaction.view.*
 import java.text.SimpleDateFormat
@@ -17,7 +17,7 @@ import java.util.*
 class TransactionAdapter : RecyclerView.Adapter<TransactionAdapter.MyViewHolder>() {
 
     private var mTransactionModelList: List<TransactionModel> = arrayListOf()
-    private lateinit var mListener: OnAdapterListener.OnItemClickListener<TransactionModel>
+    private lateinit var mListener: OnItemClickListener<TransactionModel>
 
     //val format = SimpleDateFormat("EEE MMM dd kk:mm:ss zXXX yyyy", local)// dia por extenso
 
@@ -44,11 +44,12 @@ class TransactionAdapter : RecyclerView.Adapter<TransactionAdapter.MyViewHolder>
 
     }
 
-    fun attachListener(listener: OnAdapterListener.OnItemClickListener<TransactionModel>) {
+    fun attachListener(listener: OnItemClickListener<TransactionModel>) {
         mListener = listener
     }
 
-    class MyViewHolder(itemView: View, val listener: OnAdapterListener.OnItemClickListener<TransactionModel>?) : RecyclerView.ViewHolder(itemView) {
+    class MyViewHolder(itemView: View, val listener: OnItemClickListener<TransactionModel>?) :
+        RecyclerView.ViewHolder(itemView) {
         private val mDateFormat =
             SimpleDateFormat("EEE, d MMM 'de' yyyy", Locale("pt", "BR"))// dia por extenso
 
@@ -58,12 +59,11 @@ class TransactionAdapter : RecyclerView.Adapter<TransactionAdapter.MyViewHolder>
         private var mCardTransaction: View = itemView.card_transaction
 
         fun bindTransaction(transaction: TransactionModel) {
-            if (transaction.day != null){
+            if (transaction.day != null) {
                 mDay.text = mDateFormat.format(transaction.day)
             }
             mDesc.text = transaction.description
             mPrice.text = Utils.doubleToReal(transaction.amount)
-
 
             mCardTransaction.setOnClickListener { listener?.onItemClick(transaction) }
 
@@ -72,7 +72,7 @@ class TransactionAdapter : RecyclerView.Adapter<TransactionAdapter.MyViewHolder>
                     .setTitle(R.string.title_want_remove_transaction)
                     .setMessage(R.string.desc_want_remove_transaction)
                     .setPositiveButton(R.string.remove) { dialog, which ->
-                        //listener.onDeleteClick(task.id)
+                        transaction.key?.let { listener?.onDeleteClick(it) }
                     }
                     .setNeutralButton(R.string.cancel, null)
                     .show()

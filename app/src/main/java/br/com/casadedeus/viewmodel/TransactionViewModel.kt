@@ -6,6 +6,7 @@ import br.com.casadedeus.beans.TransactionModel
 import br.com.casadedeus.service.listener.OnCallbackListener
 import br.com.casadedeus.service.listener.ValidationListener
 import br.com.casadedeus.service.repository.TransactionRepository
+import br.com.casadedeus.service.utils.Utils
 import java.util.*
 
 /*class ExpenditureViewModelFactory(
@@ -32,6 +33,18 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
     private var mValidation = MutableLiveData<ValidationListener>()
     val validation: LiveData<ValidationListener> = mValidation
 
+    private var mDelete = MutableLiveData<ValidationListener>()
+    val delete: LiveData<ValidationListener> = mDelete
+
+    //Labels mostrando os balanços
+    private var mProfit = MutableLiveData<String>()
+    val profit: LiveData<String> = mProfit
+
+    private var mExpenditure = MutableLiveData<String>()
+    val expenditure: LiveData<String> = mExpenditure
+
+    private var mBalance = MutableLiveData<String>()
+    val balance: LiveData<String> = mBalance
 
     fun save(transactionModel: TransactionModel) {
         transactionModel.day = Calendar.getInstance().time
@@ -39,24 +52,32 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
 
             //mValidation.value = ValidationListener("O dia está vazio")
             //return
-        }*/
+        }
         if (transactionModel.description.isEmpty()) {
             mValidation.value = ValidationListener("A descrição está vazio")
             return
+        }*/
+        if (transactionModel.amount == 0.0) {
+            mValidation.value =
+                ValidationListener("É necessário um valor válido para inserir a transação")
+            return
         }
+        if (transactionModel.key == "") {
+            mRepository.save(transactionModel, object : OnCallbackListener<Boolean> {
+                override fun onSuccess(result: Boolean) {
+                    mValidation.value = ValidationListener()
+                }
 
-        mRepository.save(transactionModel, object : OnCallbackListener<Boolean> {
-            override fun onSuccess(result: Boolean) {
-                mValidation.value = ValidationListener()
-            }
-
-            override fun onFailure(message: String) {
-                mValidation.value = ValidationListener(message)
-            }
-        })
+                override fun onFailure(message: String) {
+                    mValidation.value = ValidationListener(message)
+                }
+            })
+        } else {
+            update(transactionModel)
+        }
     }
 
-    fun update(transactionModel: TransactionModel) {
+    private fun update(transactionModel: TransactionModel) {
         mRepository.update(transactionModel, object : OnCallbackListener<Boolean> {
             override fun onSuccess(result: Boolean) {
                 mValidation.value = ValidationListener()
@@ -68,14 +89,14 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
         })
     }
 
-    fun delete(transactionModel: TransactionModel) {
-        mRepository.delete(transactionModel, object : OnCallbackListener<Boolean> {
+    fun delete(transactionKey: String) {
+        mRepository.delete(transactionKey, object : OnCallbackListener<Boolean> {
             override fun onSuccess(result: Boolean) {
-                mValidation.value = ValidationListener()
+                mDelete.value = ValidationListener()
             }
 
             override fun onFailure(message: String) {
-                mValidation.value = ValidationListener(message)
+                mDelete.value = ValidationListener(message)
             }
 
         })
@@ -98,6 +119,12 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
         mRepository.getTransactions(object : OnCallbackListener<List<TransactionModel>> {
             override fun onSuccess(result: List<TransactionModel>) {
                 mTransactionList.value = result
+                mBalance.value =
+                    Utils.doubleToRealNotCurrency(result.sumByDouble { it.amount })
+                mExpenditure.value =
+                    Utils.doubleToReal(result.sumByDouble { if (!it.isEntry) it.amount else 0.0 })
+                mProfit.value =
+                    Utils.doubleToReal(result.sumByDouble { if (it.isEntry) it.amount else 0.0 })
             }
 
             override fun onFailure(message: String) {

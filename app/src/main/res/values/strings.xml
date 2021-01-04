@@ -49,5 +49,9 @@
     <string name="ERROR_INTERNET_CONNECTION">Conexão à internet necessária para uso da applicação.</string>
     <string name="ERROR_REQUEST">Não foi possível enviar sua solicitação. Por favor, tente novamente mais tarde.</string>
     <string name="MISSING_AUTHENTICATION">Usuário não autenticado</string>
+    <string name="success_update_transaction">Transação atualizada com sucesso!</string>
+    <string name="success_save_transaction">Transação adicionada com sucesso!</string>
+    <string name="success_delete_transaction">Transação exluida com sucesso!</string>
+    <string name="balance">Saldo</string>
 
 </resources>

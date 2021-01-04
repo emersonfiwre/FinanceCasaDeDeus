@@ -5,14 +5,24 @@
         <item>Alimentação</item>
         <item>Educação</item>
         <item>Lazer</item>
-        <item>Serviços</item>
+        <item>Moradia</item>
         <item>Roupa</item>
         <item>Saúde</item>
         <item>Transporte</item>
-        <item>Salário</item>
         <item>Gasto Fixo</item>
         <item>Outros</item>
     </string-array>
+
+    <string-array name="categories_revenue">
+        <item>Investimento</item>
+        <item>Presente</item>
+        <item>Prêmios</item>
+        <item>Vendas</item>
+        <item>Serviços</item>
+        <item>Salário</item>
+        <item>Outros</item>
+    </string-array>
+
 
     <string-array name="month_names">
         <item>Janeiro</item>

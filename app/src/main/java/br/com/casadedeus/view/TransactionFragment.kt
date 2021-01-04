@@ -16,12 +16,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.casadedeus.R
 import br.com.casadedeus.beans.TransactionModel
-import br.com.casadedeus.service.listener.OnAdapterListener
+import br.com.casadedeus.service.listener.OnItemClickListener
 import br.com.casadedeus.service.utils.Utils
 import br.com.casadedeus.view.adapter.TransactionAdapter
 import br.com.casadedeus.viewmodel.TransactionViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.dialog_single_input.view.*
+import kotlinx.android.synthetic.main.fragment_transaction.*
 import kotlinx.android.synthetic.main.fragment_transaction.view.*
 
 
@@ -33,6 +34,7 @@ class TransactionFragment : Fragment(), View.OnClickListener {
 
     private lateinit var mBottomDialog: BottomSheetDialog
     private lateinit var mDialogInflater: View
+    private var mTransactionKey: String = ""
 
     /*does not work without inserting dependencies in the gradle
     dependencies{
@@ -83,8 +85,7 @@ class TransactionFragment : Fragment(), View.OnClickListener {
 
         setListeners()
 
-        //Carregar a lista com todos
-        mViewModel.load()
+
 
         mViewRoot.edtSearch.setOnEditorActionListener { textView, i, keyEvent ->
             when (i) {
@@ -137,37 +138,49 @@ class TransactionFragment : Fragment(), View.OnClickListener {
         return mViewRoot
     }
 
+    //Carregar a lista com todos
+    private fun loadTransactions() {
+        rv_transaction.visibility = View.GONE
+        pg_await_load.visibility = View.VISIBLE
+        mViewModel.load()
+    }
+
     override fun onResume() {
         super.onResume()
-        mViewModel.load()
+        loadTransactions()
     }
 
     private fun setupBottomDialog() {
         mBottomDialog = BottomSheetDialog(activity!!)
-        mDialogInflater = layoutInflater.inflate(R.layout.dialog_single_input,null)
+        mDialogInflater = layoutInflater.inflate(R.layout.dialog_single_input, null)
         mBottomDialog.setContentView(mDialogInflater)
     }
 
 
     private fun setupRecycler() {
         val linearLayoutManager = LinearLayoutManager(activity)
-        mViewRoot.rv_expenditure.layoutManager = linearLayoutManager
-        mAdapter.attachListener(object : OnAdapterListener.OnItemClickListener<TransactionModel> {
+        mViewRoot.rv_transaction.layoutManager = linearLayoutManager
+        mAdapter.attachListener(object : OnItemClickListener<TransactionModel> {
             override fun onItemClick(item: TransactionModel) {
                 val listCategories = context?.resources?.getStringArray(R.array.categories)
                 val index: Int = getIndex(listCategories, item.category)
 
+                mTransactionKey = item.key!!
                 mDialogInflater.radio_entrada.isChecked = item.isEntry
                 mDialogInflater.edit_descricao.setText(item.description)
                 mDialogInflater.spinner_categoria.setSelection(index)
                 mDialogInflater.edit_razao_social.setText(item.companyName)
                 mDialogInflater.edit_nota_fiscal.setText(item.notaFiscal)
-                mDialogInflater.edit_valor.setText(Utils.doubleToReal(item.amount))
+                mDialogInflater.edit_valor.setText(Utils.doubleToRealNotCurrency(item.amount))
                 onClickSave()
             }
+
+            override fun onDeleteClick(id: String) {
+                mViewModel.delete(id)
+            }
         })
-        mViewRoot.rv_expenditure.adapter = mAdapter
-        mViewRoot.rv_expenditure.setHasFixedSize(true)
+        mViewRoot.rv_transaction.adapter = mAdapter
+        mViewRoot.rv_transaction.setHasFixedSize(true)
     }
 
     private fun getIndex(listCategories: Array<String>?, category: String): Int {
@@ -192,14 +205,50 @@ class TransactionFragment : Fragment(), View.OnClickListener {
     private fun observe() {
         mViewModel.transactionlist.observe(viewLifecycleOwner, Observer {
             mAdapter.notifyChanged(it)
+            pg_await_load.visibility = View.GONE
+            rv_transaction.visibility = View.VISIBLE
         })
         mViewModel.validation.observe(viewLifecycleOwner, Observer {
             if (it.success()) {
-                Toast.makeText(activity,"Transação adicionada com sucesso!",Toast.LENGTH_SHORT).show()
+                if (mTransactionKey == "") {
+                    Toast.makeText(
+                        context,
+                        getString(R.string.success_save_transaction),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Toast.makeText(
+                        context,
+                        getString(R.string.success_update_transaction),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                loadTransactions()
                 mBottomDialog.dismiss()
-            }else{
+            } else {
                 Toast.makeText(context, it.failure(), Toast.LENGTH_SHORT).show()
             }
+        })
+        mViewModel.delete.observe(viewLifecycleOwner, Observer {
+            if (it.success()) {
+                Toast.makeText(
+                    context,
+                    getString(R.string.success_delete_transaction),
+                    Toast.LENGTH_SHORT
+                ).show()
+                loadTransactions()
+            } else {
+                Toast.makeText(context, it.failure(), Toast.LENGTH_SHORT).show()
+            }
+        })
+        mViewModel.balance.observe(viewLifecycleOwner, Observer {
+            mViewRoot.balance_month.text = it
+        })
+        mViewModel.expenditure.observe(viewLifecycleOwner, Observer {
+            mViewRoot.expenditure_month.text = it
+        })
+        mViewModel.profit.observe(viewLifecycleOwner, Observer {
+            mViewRoot.profit_month.text = it
         })
     }
 
@@ -210,17 +259,26 @@ class TransactionFragment : Fragment(), View.OnClickListener {
             hide(mViewRoot.edtSearch, activity)
             /*val mBehavior = BottomSheetBehavior.from(bottomSheet.parent as View);
             mBehavior.setPeekHeight(600)*/
+            mTransactionKey = ""
+            mDialogInflater.radio_entrada.isChecked = false
+            mDialogInflater.edit_descricao.setText("")
+            mDialogInflater.spinner_categoria.setSelection(0)
+            mDialogInflater.edit_razao_social.setText("")
+            mDialogInflater.edit_nota_fiscal.setText("")
+            mDialogInflater.edit_valor.setText("")
             onClickSave()
             //get spinner selected
         } else if (id == R.id.back_month) {
             activity?.onBackPressed()
         }
     }
-    private fun onClickSave(){
+
+    private fun onClickSave() {
         mBottomDialog.show()
         mDialogInflater.add_expenditure.setOnClickListener {
             mViewModel.save(
                 TransactionModel(
+                    key = mTransactionKey,
                     isEntry = mDialogInflater.radio_entrada.isChecked,
                     description = mDialogInflater.edit_descricao.text.toString(),
                     category = mDialogInflater.spinner_categoria.selectedItem.toString(),
@@ -253,7 +311,7 @@ class TransactionFragment : Fragment(), View.OnClickListener {
     fun onBackPressed(): Boolean =
         /*if (view?.edtSearch?.isFocusable == true) {
             hide(view?.edtSearch!!, context as Context)
-            return false
+         s   return false
         }
         return true*/
         when (view?.edtSearch?.isFocusable) {

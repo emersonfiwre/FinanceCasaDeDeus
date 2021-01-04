@@ -73,21 +73,23 @@ class TransactionRepository(private val context: Context) {
     }
 
     fun update(transactionModel: TransactionModel, listener: OnCallbackListener<Boolean>) {
-        mDatabase.collection("users/transactions")
-            .document(transactionModel.key)
-            .set(transactionModel)
-            .addOnSuccessListener {
-                listener.onSuccess(true)
-            }
-            .addOnFailureListener {
-                val message = it.message.toString()
-                Log.e(TransactionConstants.ERRORS.TRANSACTION_REPOSITORY, message)
-                listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
-            }
+        transactionModel.key?.let {
+            mDatabase.collection("users/WqVSBEFTfLTRSPLNV52k/transactions")
+                .document(it)
+                .set(transactionModel)
+                .addOnSuccessListener {
+                    listener.onSuccess(true)
+                }
+                .addOnFailureListener {
+                    val message = it.message.toString()
+                    Log.e(TransactionConstants.ERRORS.TRANSACTION_REPOSITORY, message)
+                    listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
+                }
+        }
     }
 
-    fun delete(transactionModel: TransactionModel, listener: OnCallbackListener<Boolean>) {
-        mDatabase.collection("users/transactions").document(transactionModel.key)
+    fun delete(transactionKey: String, listener: OnCallbackListener<Boolean>) {
+        mDatabase.collection("users/WqVSBEFTfLTRSPLNV52k/transactions").document(transactionKey)
             .delete()
             .addOnSuccessListener { listener.onSuccess(true) }
             .addOnFailureListener {
@@ -95,6 +97,7 @@ class TransactionRepository(private val context: Context) {
                 Log.e(TransactionConstants.ERRORS.TRANSACTION_REPOSITORY, message)
                 listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
             }
+
 
     }
 
