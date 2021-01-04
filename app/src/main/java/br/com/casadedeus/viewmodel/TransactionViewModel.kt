@@ -98,7 +98,6 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
         mRepository.getTransactions(object : OnCallbackListener<List<TransactionModel>> {
             override fun onSuccess(result: List<TransactionModel>) {
                 mTransactionList.value = result
-                mValidation.value = ValidationListener()
             }
 
             override fun onFailure(message: String) {

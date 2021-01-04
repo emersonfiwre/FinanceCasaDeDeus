@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="categories">
-        <item>Gasto Fixo</item>
-        <item>Salário</item>
+        <item>Pagamento</item>
+        <item>Alimentação</item>
+        <item>Educação</item>
+        <item>Lazer</item>
         <item>Serviços</item>
-        <item>Terceiros</item>
+        <item>Roupa</item>
+        <item>Saúde</item>
+        <item>Transporte</item>
+        <item>Salário</item>
+        <item>Gasto Fixo</item>
         <item>Outros</item>
     </string-array>
 

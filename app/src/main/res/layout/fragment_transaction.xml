@@ -4,13 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingTop="24dp">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="270dp"
         android:background="@drawable/shape_toolbar"
-        android:elevation="20dp">
+        android:elevation="20dp"
+        tools:targetApi="lollipop">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -78,8 +80,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignStart="@+id/lbl_price_month"
-                    android:layout_alignLeft="@+id/lbl_price_month"
                     android:layout_marginStart="-38dp"
                     android:layout_marginLeft="-38dp"
                     android:layout_marginTop="3dp"

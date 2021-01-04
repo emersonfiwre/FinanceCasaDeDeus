@@ -28,7 +28,7 @@ class TransactionRepository(private val context: Context) {
                         val key = document.id
                         val timestamp = document.data["day"] as Timestamp
                         val isEntry = document.data["entry"] as Boolean
-                        val desc = document.data["desc"] as String
+                        val desc = document.data["description"] as String
                         val category = document.data["category"] as String
                         val companyName = document.data["companyName"] as String
                         val notaFiscal = document.data["notaFiscal"] as String
