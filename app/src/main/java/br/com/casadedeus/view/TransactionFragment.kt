@@ -1,12 +1,14 @@
 package br.com.casadedeus.view
 
 import android.annotation.SuppressLint
+import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -24,9 +26,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.dialog_single_input.view.*
 import kotlinx.android.synthetic.main.fragment_transaction.*
 import kotlinx.android.synthetic.main.fragment_transaction.view.*
+import java.util.*
 
 
-class TransactionFragment : Fragment(), View.OnClickListener {
+class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
     private lateinit var mViewModel: TransactionViewModel
     private val mAdapter: TransactionAdapter = TransactionAdapter()
@@ -200,6 +203,7 @@ class TransactionFragment : Fragment(), View.OnClickListener {
     private fun setListeners() {
         mViewRoot.add_lancamento.setOnClickListener(this)
         mViewRoot.back_month.setOnClickListener(this)
+        mViewRoot.month.setOnClickListener(this)
     }
 
     private fun observe() {
@@ -254,23 +258,40 @@ class TransactionFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         val id = v?.id
-
-        if (id == R.id.add_lancamento) {
-            hide(mViewRoot.edtSearch, activity)
-            /*val mBehavior = BottomSheetBehavior.from(bottomSheet.parent as View);
-            mBehavior.setPeekHeight(600)*/
-            mTransactionKey = ""
-            mDialogInflater.radio_entrada.isChecked = false
-            mDialogInflater.edit_descricao.setText("")
-            mDialogInflater.spinner_categoria.setSelection(0)
-            mDialogInflater.edit_razao_social.setText("")
-            mDialogInflater.edit_nota_fiscal.setText("")
-            mDialogInflater.edit_valor.setText("")
-            onClickSave()
-            //get spinner selected
-        } else if (id == R.id.back_month) {
-            activity?.onBackPressed()
+        when (id) {
+            R.id.add_lancamento -> {
+                hide(mViewRoot.edtSearch, activity)
+                /*val mBehavior = BottomSheetBehavior.from(bottomSheet.parent as View);
+                mBehavior.setPeekHeight(600)*/
+                mTransactionKey = ""
+                mDialogInflater.radio_entrada.isChecked = false
+                mDialogInflater.edit_descricao.setText("")
+                mDialogInflater.spinner_categoria.setSelection(0)
+                mDialogInflater.edit_razao_social.setText("")
+                mDialogInflater.edit_nota_fiscal.setText("")
+                mDialogInflater.edit_valor.setText("")
+                onClickSave()
+                //get spinner selected
+            }
+            R.id.back_month -> {
+                activity?.onBackPressed()
+            }
+            R.id.month -> {
+                val picker = MonthPickerDialog()
+                picker.listener = this
+                picker.show(activity!!.supportFragmentManager, "TAG")
+                /*val mLocale = Locale("pt", "BR")
+                RackMonthPicker(activity)
+                    .setLocale(mLocale)
+                    .setColorTheme(R.color.colorAccent)
+                    .setPositiveButton { month, startDate, endDate, year, monthLabel -> }
+                    .setNegativeButton { }.show()*/
+            }
         }
+    }
+
+    override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
+        Toast.makeText(context, "$p2 / $p1", Toast.LENGTH_SHORT).show()
     }
 
     private fun onClickSave() {

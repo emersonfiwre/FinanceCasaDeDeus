@@ -8,6 +8,9 @@ import br.com.casadedeus.service.constants.TransactionConstants
 import br.com.casadedeus.service.listener.OnCallbackListener
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import java.text.SimpleDateFormat
+import java.util.*
 
 class TransactionRepository(private val context: Context) {
 
@@ -20,7 +23,18 @@ class TransactionRepository(private val context: Context) {
     fun getTransactions(listener: OnCallbackListener<List<TransactionModel>>) {
         val transactionModels: MutableList<TransactionModel> = arrayListOf()
         //mDatabase.collection("users/$userKey/expenditures/")
+        /*val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+        val currentDate = sdf.format(Date())*/
+        val dateS = SimpleDateFormat("dd-MM-yyyy").parse("01-01-2021")
+        val dateE = SimpleDateFormat("dd-MM-yyyy").parse("30-01-2021")
+        val startDate = Timestamp(dateS)
+        val endDate = Timestamp(dateE)
         mDatabase.collection("users/WqVSBEFTfLTRSPLNV52k/transactions/")
+            .whereGreaterThanOrEqualTo("day", startDate)
+            .whereLessThanOrEqualTo("day", endDate)
+            //.whereGreaterThan("day", startDate)
+            //.whereLessThan("day",startDate)//funcionou
+            .orderBy("day", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener {
                 for (document in it) {
