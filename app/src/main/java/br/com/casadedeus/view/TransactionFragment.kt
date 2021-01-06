@@ -23,9 +23,11 @@ import br.com.casadedeus.service.utils.Utils
 import br.com.casadedeus.view.adapter.TransactionAdapter
 import br.com.casadedeus.viewmodel.TransactionViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import io.grpc.okhttp.internal.Util
 import kotlinx.android.synthetic.main.dialog_single_input.view.*
 import kotlinx.android.synthetic.main.fragment_transaction.*
 import kotlinx.android.synthetic.main.fragment_transaction.view.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -38,6 +40,7 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
     private lateinit var mBottomDialog: BottomSheetDialog
     private lateinit var mDialogInflater: View
     private var mTransactionKey: String = ""
+    private val mDateFormat = SimpleDateFormat("MMM, yyyy", Locale("pt", "BR"))// mes por extenso
 
     /*does not work without inserting dependencies in the gradle
     dependencies{
@@ -80,6 +83,7 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
 
 
         //************
+        setupCurrentDate()
         setupRecycler()
         setupBottomDialog()
 
@@ -141,11 +145,15 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
         return mViewRoot
     }
 
+    private fun setupCurrentDate() {
+        mViewRoot.txt_current_date.text = Utils.getCurrentDate()
+    }
+
     //Carregar a lista com todos
     private fun loadTransactions() {
         rv_transaction.visibility = View.GONE
         pg_await_load.visibility = View.VISIBLE
-        mViewModel.load()
+        mViewModel.load(txt_current_date.text.toString())
     }
 
     override fun onResume() {
@@ -203,7 +211,7 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
     private fun setListeners() {
         mViewRoot.add_lancamento.setOnClickListener(this)
         mViewRoot.back_month.setOnClickListener(this)
-        mViewRoot.month.setOnClickListener(this)
+        mViewRoot.txt_current_date.setOnClickListener(this)
     }
 
     private fun observe() {
@@ -276,7 +284,7 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
             R.id.back_month -> {
                 activity?.onBackPressed()
             }
-            R.id.month -> {
+            R.id.txt_current_date -> {
                 val picker = MonthPickerDialog()
                 picker.listener = this
                 picker.show(activity!!.supportFragmentManager, "TAG")
@@ -291,6 +299,7 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
     }
 
     override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
+        //mViewRoot.txt_current_date.text = mDateFormat.format("01-")
         Toast.makeText(context, "$p2 / $p1", Toast.LENGTH_SHORT).show()
     }
 

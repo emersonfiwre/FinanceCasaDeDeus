@@ -20,18 +20,20 @@ class TransactionRepository(private val context: Context) {
     private val mSecurityPreferences = SecurityPreferences(context)
     val userKey = mSecurityPreferences.get(TransactionConstants.SHARED.USER_KEY)
 
-    fun getTransactions(listener: OnCallbackListener<List<TransactionModel>>) {
+    fun getTransactions(
+        startDateTime: Timestamp,
+        endDateTime: Timestamp,
+        listener: OnCallbackListener<List<TransactionModel>>
+    ) {
         val transactionModels: MutableList<TransactionModel> = arrayListOf()
         //mDatabase.collection("users/$userKey/expenditures/")
         /*val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
         val currentDate = sdf.format(Date())*/
-        val dateS = SimpleDateFormat("dd-MM-yyyy").parse("01-01-2021")
-        val dateE = SimpleDateFormat("dd-MM-yyyy").parse("30-01-2021")
-        val startDate = Timestamp(dateS)
-        val endDate = Timestamp(dateE)
+
+
         mDatabase.collection("users/WqVSBEFTfLTRSPLNV52k/transactions/")
-            .whereGreaterThanOrEqualTo("day", startDate)
-            .whereLessThanOrEqualTo("day", endDate)
+            .whereGreaterThanOrEqualTo("day", startDateTime)
+            .whereLessThanOrEqualTo("day", endDateTime)
             //.whereGreaterThan("day", startDate)
             //.whereLessThan("day",startDate)//funcionou
             .orderBy("day", Query.Direction.DESCENDING)

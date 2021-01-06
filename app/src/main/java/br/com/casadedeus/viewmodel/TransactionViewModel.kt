@@ -7,6 +7,8 @@ import br.com.casadedeus.service.listener.OnCallbackListener
 import br.com.casadedeus.service.listener.ValidationListener
 import br.com.casadedeus.service.repository.TransactionRepository
 import br.com.casadedeus.service.utils.Utils
+import com.google.firebase.Timestamp
+import java.text.SimpleDateFormat
 import java.util.*
 
 /*class ExpenditureViewModelFactory(
@@ -115,22 +117,44 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
         })
     }
 
-    fun load() {
-        mRepository.getTransactions(object : OnCallbackListener<List<TransactionModel>> {
-            override fun onSuccess(result: List<TransactionModel>) {
-                mTransactionList.value = result
-                mBalance.value =
-                    Utils.doubleToRealNotCurrency(result.sumByDouble { it.amount })
-                mExpenditure.value =
-                    Utils.doubleToReal(result.sumByDouble { if (!it.isEntry) it.amount else 0.0 })
-                mProfit.value =
-                    Utils.doubleToReal(result.sumByDouble { if (it.isEntry) it.amount else 0.0 })
-            }
+    fun load(currentDate: String) {
+        val mDateFormat =
+            SimpleDateFormat("MMM, d yyyy", Locale("pt", "BR"))// dia por extenso
 
-            override fun onFailure(message: String) {
-                mValidation.value = ValidationListener(message)
-            }
-        })
+
+        //Lógica para pegar todos os dias do mês
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
+        calendar.set(Calendar.MONTH, 0)
+        calendar.set(Calendar.YEAR, 2021)
+        val dateStart: Date = calendar.time
+
+        //end date
+        val monthMaxDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+        calendar.set(Calendar.DAY_OF_MONTH, monthMaxDays)
+        val dateEnd: Date = calendar.time
+
+        val startDateTime = Timestamp(dateStart)
+        val endDateTime = Timestamp(dateEnd)
+        mRepository.getTransactions(
+            startDateTime,
+            endDateTime,
+            object : OnCallbackListener<List<TransactionModel>> {
+                override fun onSuccess(result: List<TransactionModel>) {
+                    mTransactionList.value = result
+                    mBalance.value =
+                        Utils.doubleToRealNotCurrency(result.sumByDouble { it.amount })
+                    mExpenditure.value =
+                        Utils.doubleToReal(result.sumByDouble { if (!it.isEntry) it.amount else 0.0 })
+                    mProfit.value =
+                        Utils.doubleToReal(result.sumByDouble { if (it.isEntry) it.amount else 0.0 })
+                }
+
+                override fun onFailure(message: String) {
+                    mValidation.value = ValidationListener(message)
+                }
+            })
     }
+
 
 }

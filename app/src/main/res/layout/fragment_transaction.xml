@@ -49,11 +49,11 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/month"
+            android:id="@+id/txt_current_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Janeiro "
+            android:text="Jan, 2021 "
             android:textAlignment="center"
             android:textSize="16sp"
             android:textStyle="bold"
