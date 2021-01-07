@@ -21,10 +21,12 @@ import br.com.casadedeus.beans.TransactionModel
 import br.com.casadedeus.service.constants.ViewConstants
 import br.com.casadedeus.service.listener.OnItemClickListener
 import br.com.casadedeus.service.utils.Utils
+import br.com.casadedeus.view.adapter.CategoryAdapter
 import br.com.casadedeus.view.adapter.TransactionAdapter
 import br.com.casadedeus.viewmodel.TransactionViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.grpc.okhttp.internal.Util
+import kotlinx.android.synthetic.main.bottom_dialog_categories.view.*
 import kotlinx.android.synthetic.main.dialog_single_input.view.*
 import kotlinx.android.synthetic.main.fragment_transaction.*
 import kotlinx.android.synthetic.main.fragment_transaction.view.*
@@ -116,6 +118,30 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
         mBottomDialog = BottomSheetDialog(activity!!)
         mDialogInflater = layoutInflater.inflate(R.layout.dialog_single_input, null)
         mBottomDialog.setContentView(mDialogInflater)
+        mDialogInflater.txt_categoria.setOnClickListener {
+            print("Call me")
+            val bottomDialogCategory = BottomSheetDialog(activity!!)
+            val inflater = layoutInflater.inflate(R.layout.bottom_dialog_categories, null)
+            bottomDialogCategory.setContentView(inflater)
+            val linearLayoutManager = LinearLayoutManager(activity)
+            inflater.rv_categories.layoutManager = linearLayoutManager
+            val adapter = CategoryAdapter()
+            val listCategories: List<String> =
+                context?.resources?.getStringArray(R.array.categories)!!
+                    .toList()
+            adapter.notifyChanged(listCategories)
+            adapter.attachListener(object : OnItemClickListener<String> {
+                override fun onItemClick(item: String) {
+                    Toast.makeText(context, item, Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onDeleteClick(id: String) {
+                    TODO("Not yet implemented")
+                }
+            })
+            inflater.rv_categories.adapter = adapter
+            bottomDialogCategory.show()
+        }
     }
 
 
@@ -145,7 +171,8 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
         mViewRoot.rv_transaction.setHasFixedSize(true)
     }
 
-    private fun getIndex(listCategories: Array<String>?, category: String): Int {
+    private fun
+            getIndex(listCategories: Array<String>?, category: String): Int {
         var index = 0
         if (listCategories != null) {
             for (i in 0 until listCategories.count()) {

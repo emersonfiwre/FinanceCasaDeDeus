@@ -42,8 +42,8 @@ class TransactionAdapter : RecyclerView.Adapter<TransactionAdapter.MyViewHolder>
             mTransactionModelList = it
             notifyDataSetChanged()
         }
-
     }
+
 
     fun attachListener(listener: OnItemClickListener<TransactionModel>) {
         mListener = listener
@@ -57,7 +57,7 @@ class TransactionAdapter : RecyclerView.Adapter<TransactionAdapter.MyViewHolder>
         private var mDay: TextView = itemView.lbl_day
         private var mDesc: TextView = itemView.lbl_desc
         private var mPrice: TextView = itemView.lbl_price
-        private var mImage: ImageView = itemView.img_category
+        private var mImage: ImageView = itemView.img_transaction
         private var mCardTransaction: View = itemView.card_transaction
 
         fun bindTransaction(transaction: TransactionModel) {
