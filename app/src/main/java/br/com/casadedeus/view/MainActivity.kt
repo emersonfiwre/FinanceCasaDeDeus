@@ -25,18 +25,4 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
-    override fun onBackPressed() {
-        val transactionFragment: TransactionFragment? =
-            supportFragmentManager.findFragmentByTag(ViewConstants.TAGS.MONTH_FRAG) as TransactionFragment?
-        if (transactionFragment != null && transactionFragment.isVisible) {
-            if (transactionFragment.onBackPressed()) {
-                super.onBackPressed()
-            }
-        } else {
-            super.onBackPressed()
-        }
-    }
-
-
 }

@@ -118,24 +118,11 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     fun load(currentDate: String) {
-        val mDateFormat =
-            SimpleDateFormat("MMM, d yyyy", Locale("pt", "BR"))// dia por extenso
+        val format = SimpleDateFormat("MMM, yyyy", Locale("pt", "BR"))// mes por extenso
+        val dateFormat = format.parse(currentDate)
 
-
-        //Lógica para pegar todos os dias do mês
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.DAY_OF_MONTH, 1)
-        calendar.set(Calendar.MONTH, 0)
-        calendar.set(Calendar.YEAR, 2021)
-        val dateStart: Date = calendar.time
-
-        //end date
-        val monthMaxDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
-        calendar.set(Calendar.DAY_OF_MONTH, monthMaxDays)
-        val dateEnd: Date = calendar.time
-
-        val startDateTime = Timestamp(dateStart)
-        val endDateTime = Timestamp(dateEnd)
+        val startDateTime = Timestamp(getDaysOfMonth(dateFormat))
+        val endDateTime = Timestamp(getDaysOfMonth(dateFormat, true))
         mRepository.getTransactions(
             startDateTime,
             endDateTime,
@@ -154,6 +141,36 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
                     mValidation.value = ValidationListener(message)
                 }
             })
+    }
+
+    fun getYearMonthFromString(str: String, isMonth: Boolean = false): Int {
+        SimpleDateFormat("MMM, yyyy", Locale("pt", "BR")).parse(str).let {
+            return getYearMonthFromDate(it, isMonth)
+        }
+    }
+
+    private fun getYearMonthFromDate(date: Date, isMonth: Boolean = false): Int {
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+        if (isMonth) {
+            return calendar.get(Calendar.MONTH)
+        }
+        return calendar.get(Calendar.YEAR)
+    }
+
+    private fun getDaysOfMonth(date: Date, isEnd: Boolean = false): Date {
+        //Lógica para pegar todos os dias do mês
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
+        calendar.set(Calendar.MONTH, getYearMonthFromDate(date, true))
+        calendar.set(Calendar.YEAR, getYearMonthFromDate(date))
+        if (isEnd) {
+            //end date
+            val monthMaxDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+            calendar.set(Calendar.DAY_OF_MONTH, monthMaxDays)
+            return calendar.time
+        }
+        return calendar.time
     }
 
 

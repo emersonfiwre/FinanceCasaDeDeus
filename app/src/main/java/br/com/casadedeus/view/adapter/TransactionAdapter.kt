@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import br.com.casadedeus.R
@@ -33,7 +34,7 @@ class TransactionAdapter : RecyclerView.Adapter<TransactionAdapter.MyViewHolder>
     }
 
     override fun getItemCount(): Int {
-        return mTransactionModelList.size
+        return mTransactionModelList.count()
     }
 
     fun notifyChanged(it: List<TransactionModel>?) {
@@ -56,6 +57,7 @@ class TransactionAdapter : RecyclerView.Adapter<TransactionAdapter.MyViewHolder>
         private var mDay: TextView = itemView.lbl_day
         private var mDesc: TextView = itemView.lbl_desc
         private var mPrice: TextView = itemView.lbl_price
+        private var mImage: ImageView = itemView.img_category
         private var mCardTransaction: View = itemView.card_transaction
 
         fun bindTransaction(transaction: TransactionModel) {
@@ -79,6 +81,5 @@ class TransactionAdapter : RecyclerView.Adapter<TransactionAdapter.MyViewHolder>
                 true
             }
         }
-
     }
 }

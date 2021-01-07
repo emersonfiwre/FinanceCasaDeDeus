@@ -44,6 +44,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 //            mViewModel.doLogin(user, password)
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+            finish()
 
         } else if (id == R.id.button_cadastrar) {
             Toast.makeText(this, "Cadastrar em implementação", Toast.LENGTH_SHORT).show()

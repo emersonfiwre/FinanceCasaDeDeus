@@ -29,7 +29,8 @@ class TransactionRepository(private val context: Context) {
         //mDatabase.collection("users/$userKey/expenditures/")
         /*val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
         val currentDate = sdf.format(Date())*/
-
+        /*val dateS = SimpleDateFormat("dd-MM-yyyy").parse("01-01-2021")
+        val dateE = SimpleDateFormat("dd-MM-yyyy").parse("30-01-2021")*/
 
         mDatabase.collection("users/WqVSBEFTfLTRSPLNV52k/transactions/")
             .whereGreaterThanOrEqualTo("day", startDateTime)

@@ -35,5 +35,8 @@ class Utils {
             val sdf = SimpleDateFormat("MMM, yyyy", Locale("pt", "BR"))
             return sdf.format(Date())
         }
+        fun stringToDate(str:String):Date?{
+            return SimpleDateFormat("MM-yyyy",Locale("pt", "BR")).parse(str)
+        }
     }
 }

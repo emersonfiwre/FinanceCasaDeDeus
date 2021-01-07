@@ -53,5 +53,7 @@
     <string name="success_save_transaction">Transação adicionada com sucesso!</string>
     <string name="success_delete_transaction">Transação exluida com sucesso!</string>
     <string name="balance">Saldo</string>
+    <string name="empty_transactions">Não foi encontrada nenhuma transação neste mês</string>
+    <string name="filters">Filtros</string>
 
 </resources>

@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.casadedeus.R
 import br.com.casadedeus.beans.TransactionModel
+import br.com.casadedeus.service.constants.ViewConstants
 import br.com.casadedeus.service.listener.OnItemClickListener
 import br.com.casadedeus.service.utils.Utils
 import br.com.casadedeus.view.adapter.TransactionAdapter
@@ -88,60 +89,10 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
         setupBottomDialog()
 
         // Cria observadores
-        observe()
+        observer()
 
         setListeners()
 
-
-
-        mViewRoot.edtSearch.setOnEditorActionListener { textView, i, keyEvent ->
-            when (i) {
-                EditorInfo.IME_ACTION_SEARCH -> {
-                    Toast.makeText(activity, "Modulo em contrução", Toast.LENGTH_SHORT).show()
-                    true
-                }
-                else -> { // Note the block
-                    println("default case")
-                    false
-                }
-            }
-        }
-        mViewRoot.edtSearch.setOnTouchListener { view, motionEvent ->
-            view.edtSearch.isFocusableInTouchMode = true
-            val icSearch = ContextCompat.getDrawable(
-                activity!!,
-                R.drawable.ic_search
-            )
-            /*Tint drawable
-            DrawableCompat.setTint(
-            icSearch as Drawable,
-            ContextCompat.getColor(activity, R.color.hintColor)
-            )*/
-            view.edtSearch.setCompoundDrawablesWithIntrinsicBounds(
-                icSearch, null, null, null
-            )
-            view.edtSearch.hint = getString(R.string.hint_search)
-            /*Open Keyboard
-            val inputMethodManager =
-                activity.getSystemService(Context.INPUT_METHOD_SERVICE) as (InputMethodManager)
-            inputMethodManager.toggleSoftInput(
-                InputMethodManager.SHOW_FORCED, 0
-            )*/
-
-            false
-        }
-        /*val etInput = mViewRoot.findViewById<CurrencyEditText>(R.id.edit_valor)
-        error, is needed be in the bottomDialog view
-        etInput.setCurrency("R$");
-        etInput.setDelimiter(false)
-        etInput.setSpacing(false)
-        etInput.setDecimals(true)
-        //Make sure that Decimals is set as false if a custom Separator is used
-        etInput.setSeparator(".")*/
-
-
-
-        hide(mViewRoot.edtSearch!!, context)
         return mViewRoot
     }
 
@@ -210,15 +161,22 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
 
     private fun setListeners() {
         mViewRoot.add_lancamento.setOnClickListener(this)
-        mViewRoot.back_month.setOnClickListener(this)
         mViewRoot.txt_current_date.setOnClickListener(this)
     }
 
-    private fun observe() {
+    private fun observer() {
         mViewModel.transactionlist.observe(viewLifecycleOwner, Observer {
-            mAdapter.notifyChanged(it)
-            pg_await_load.visibility = View.GONE
-            rv_transaction.visibility = View.VISIBLE
+            if (it.isEmpty()) {
+                mViewRoot.pg_await_load.visibility = View.GONE
+                mViewRoot.rv_transaction.visibility = View.GONE
+                mViewRoot.txt_empty_transactions.visibility = View.VISIBLE
+            } else {
+                mAdapter.notifyChanged(it)
+                mViewRoot.txt_empty_transactions.visibility = View.GONE
+                mViewRoot.pg_await_load.visibility = View.GONE
+                mViewRoot.rv_transaction.visibility = View.VISIBLE
+            }
+
         })
         mViewModel.validation.observe(viewLifecycleOwner, Observer {
             if (it.success()) {
@@ -265,42 +223,31 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
     }
 
     override fun onClick(v: View?) {
-        val id = v?.id
-        when (id) {
+        when (v?.id) {
             R.id.add_lancamento -> {
-                hide(mViewRoot.edtSearch, activity)
                 /*val mBehavior = BottomSheetBehavior.from(bottomSheet.parent as View);
                 mBehavior.setPeekHeight(600)*/
-                mTransactionKey = ""
-                mDialogInflater.radio_entrada.isChecked = false
-                mDialogInflater.edit_descricao.setText("")
-                mDialogInflater.spinner_categoria.setSelection(0)
-                mDialogInflater.edit_razao_social.setText("")
-                mDialogInflater.edit_nota_fiscal.setText("")
-                mDialogInflater.edit_valor.setText("")
+                clearForm()
                 onClickSave()
                 //get spinner selected
             }
-            R.id.back_month -> {
-                activity?.onBackPressed()
-            }
             R.id.txt_current_date -> {
-                val picker = MonthPickerDialog()
+                val picker = MonthPickerDialog(
+                    mViewModel.getYearMonthFromString(txt_current_date.text.toString(), true),
+                    mViewModel.getYearMonthFromString(txt_current_date.text.toString())
+                )
                 picker.listener = this
-                picker.show(activity!!.supportFragmentManager, "TAG")
-                /*val mLocale = Locale("pt", "BR")
-                RackMonthPicker(activity)
-                    .setLocale(mLocale)
-                    .setColorTheme(R.color.colorAccent)
-                    .setPositiveButton { month, startDate, endDate, year, monthLabel -> }
-                    .setNegativeButton { }.show()*/
+                picker.show(activity!!.supportFragmentManager, ViewConstants.TAGS.MONTH_PICKER)
             }
         }
     }
 
     override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
-        //mViewRoot.txt_current_date.text = mDateFormat.format("01-")
-        Toast.makeText(context, "$p2 / $p1", Toast.LENGTH_SHORT).show()
+        Utils.stringToDate("$p2-$p1").let {
+            mViewRoot.txt_current_date.text = mDateFormat.format(it)
+        }
+        loadTransactions()
+        //Toast.makeText(context, "$p2 / $p1", Toast.LENGTH_SHORT).show()
     }
 
     private fun onClickSave() {
@@ -320,37 +267,14 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
         }
     }
 
-    private fun hide(edit: EditText, context: Context?) {
-        edit.clearFocus()
-        edit.isFocusable = false
-
-        edit.setText("")
-        val icSearch = context?.let {
-            ContextCompat.getDrawable(
-                it,
-                R.drawable.ic_search
-            )
-        }
-        edit.setCompoundDrawablesWithIntrinsicBounds(
-            null, null, icSearch, null
-        )
-        edit.hint = ""
-
+    private fun clearForm() {
+        mTransactionKey = ""
+        mDialogInflater.radio_entrada.isChecked = false
+        mDialogInflater.edit_descricao.setText("")
+        mDialogInflater.spinner_categoria.setSelection(0)
+        mDialogInflater.edit_razao_social.setText("")
+        mDialogInflater.edit_nota_fiscal.setText("")
+        mDialogInflater.edit_valor.setText("")
     }
-
-    fun onBackPressed(): Boolean =
-        /*if (view?.edtSearch?.isFocusable == true) {
-            hide(view?.edtSearch!!, context as Context)
-         s   return false
-        }
-        return true*/
-        when (view?.edtSearch?.isFocusable) {
-            true -> {
-                hide(view?.edtSearch!!, context)
-                false
-            }
-            else -> true
-        }
-
 
 }

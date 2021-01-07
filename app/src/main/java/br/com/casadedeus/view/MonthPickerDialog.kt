@@ -16,7 +16,8 @@ import kotlinx.android.synthetic.main.month_year_picker_dialog.view.*
 import java.util.*
 
 
-class MonthPickerDialog : DialogFragment(), View.OnClickListener {
+class MonthPickerDialog(val currentMonth: Int, val currentYear: Int) : DialogFragment(),
+    View.OnClickListener {
     var listener: OnDateSetListener? = null
     private lateinit var mDialogRoot: View
     private lateinit var mTextMonths: List<TextView>
@@ -69,12 +70,13 @@ class MonthPickerDialog : DialogFragment(), View.OnClickListener {
     }
 
     private fun setupDateDialog() {
-        val cal: Calendar = Calendar.getInstance()
+        /*val cal: Calendar = Calendar.getInstance()
         val year = cal[Calendar.YEAR]// quando abrir a dialog
-        val month = cal[Calendar.MONTH]// quando abrir a dialog
-        mMonthSelection = month + 1
-        mDialogRoot.txt_year.text = year.toString()
-        mTextMonths[month].setTextColor(resources.getColor(R.color.colorAccent))
+        val month = cal[Calendar.MONTH]// quando abrir a dialog*/
+
+        mMonthSelection = currentMonth
+        mDialogRoot.txt_year.text = currentYear.toString()
+        mTextMonths[currentMonth].setTextColor(resources.getColor(R.color.colorAccent))
     }
 
 
