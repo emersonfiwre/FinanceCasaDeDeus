@@ -45,32 +45,10 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
     private var mTransactionKey: String = ""
     private val mDateFormat = SimpleDateFormat("MMM, yyyy", Locale("pt", "BR"))// mes por extenso
 
-    /*does not work without inserting dependencies in the gradle
-    dependencies{
-        implementation 'androidx.core:core-ktx:1.3.2'
-        implementation 'androidx.fragment:fragment-ktx:1.2.5'
-    }
-    compileOptions
-    {
-
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
-
-        kotlinOptions {
-            jvmTarget = "1.8"
-        }
-    }
-    private val myViewModel: ExpenditureViewModel by viewModels {
-        ExpenditureViewModelFactory(this.requireActivity().application, "some string value")
-    }
-     */
-
-
     /*Design
     * radio button https://dribbble.com/shots/9890260-Card-Theme-Switch-Light-Theme
     * btnSave top rigth https://stackoverflow.com/questions/58651661/how-to-set-max-height-in-bottomsheetdialogfragment
     * ?android:textColorHint*/
-    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -119,7 +97,6 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
         mDialogInflater = layoutInflater.inflate(R.layout.dialog_single_input, null)
         mBottomDialog.setContentView(mDialogInflater)
         mDialogInflater.txt_categoria.setOnClickListener {
-            print("Call me")
             val bottomDialogCategory = BottomSheetDialog(activity!!)
             val inflater = layoutInflater.inflate(R.layout.bottom_dialog_categories, null)
             bottomDialogCategory.setContentView(inflater)
@@ -171,8 +148,7 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
         mViewRoot.rv_transaction.setHasFixedSize(true)
     }
 
-    private fun
-            getIndex(listCategories: Array<String>?, category: String): Int {
+    private fun getIndex(listCategories: Array<String>?, category: String): Int {
         var index = 0
         if (listCategories != null) {
             for (i in 0 until listCategories.count()) {

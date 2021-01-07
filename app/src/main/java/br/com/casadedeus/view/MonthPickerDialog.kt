@@ -7,12 +7,10 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import br.com.casadedeus.R
 import kotlinx.android.synthetic.main.dialog_month_picker.*
 import kotlinx.android.synthetic.main.dialog_month_picker.view.*
-import kotlinx.android.synthetic.main.month_year_picker_dialog.view.*
 import java.util.*
 
 
@@ -37,7 +35,7 @@ class MonthPickerDialog(val currentMonth: Int, val currentYear: Int) : DialogFra
         //Setar os clicks das views
         setListeners()
 
-        builder.setView(mDialogRoot).setPositiveButton("Mês atual",
+        builder.setView(mDialogRoot).setPositiveButton(getString(R.string.select),
             DialogInterface.OnClickListener { dialog, id ->
                 listener?.onDateSet(
                     null,
@@ -46,7 +44,7 @@ class MonthPickerDialog(val currentMonth: Int, val currentYear: Int) : DialogFra
                     0
                 )
 
-            }).setNegativeButton(("Cancelar"),
+            }).setNegativeButton((getString(R.string.cancel)),
             DialogInterface.OnClickListener { dialog, id -> this@MonthPickerDialog.dialog!!.dismiss() })
         return builder.create()
     }

@@ -55,5 +55,7 @@
     <string name="balance">Saldo</string>
     <string name="empty_transactions">Não foi encontrada nenhuma transação neste mês</string>
     <string name="filters">Filtros</string>
+    <string name="select">Selecionar</string>
+    <string name="duedate">Data de Vencimento</string>
 
 </resources>
