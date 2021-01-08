@@ -1,17 +1,12 @@
 package br.com.casadedeus.view
 
-import android.annotation.SuppressLint
 import android.app.DatePickerDialog
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.widget.DatePicker
-import android.widget.EditText
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -25,7 +20,6 @@ import br.com.casadedeus.view.adapter.CategoryAdapter
 import br.com.casadedeus.view.adapter.TransactionAdapter
 import br.com.casadedeus.viewmodel.TransactionViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import io.grpc.okhttp.internal.Util
 import kotlinx.android.synthetic.main.bottom_dialog_categories.view.*
 import kotlinx.android.synthetic.main.dialog_single_input.view.*
 import kotlinx.android.synthetic.main.fragment_transaction.*
@@ -77,7 +71,7 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
     }
 
     private fun setupCurrentDate() {
-        mViewRoot.txt_current_date.text = Utils.getCurrentDate()
+        mViewRoot.txt_current_date.text = Utils.getCurrentMonth()
     }
 
     //Carregar a lista com todos
@@ -129,15 +123,15 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
             override fun onItemClick(item: TransactionModel) {
                 val listCategories = context?.resources?.getStringArray(R.array.categories)
                 val index: Int = getIndex(listCategories, item.category)
-
-                mTransactionKey = item.key!!
+                showAddTransaction(item)
+                /*mTransactionKey = item.key!!
                 mDialogInflater.radio_entrada.isChecked = item.isEntry
                 mDialogInflater.edit_descricao.setText(item.description)
                 mDialogInflater.spinner_categoria.setSelection(index)
                 mDialogInflater.edit_razao_social.setText(item.companyName)
                 mDialogInflater.edit_nota_fiscal.setText(item.notaFiscal)
-                mDialogInflater.edit_valor.setText(Utils.doubleToRealNotCurrency(item.amount))
-                onClickSave()
+                mDialogInflater.edit_valor.setText(Utils.doubleToRealNotCurrency(item.amount))*/
+                //onClickSave()
             }
 
             override fun onDeleteClick(id: String) {
@@ -230,8 +224,9 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
             R.id.add_lancamento -> {
                 /*val mBehavior = BottomSheetBehavior.from(bottomSheet.parent as View);
                 mBehavior.setPeekHeight(600)*/
-                clearForm()
-                onClickSave()
+                /*clearForm()
+                onClickSave()*/
+                showAddTransaction()
                 //get spinner selected
             }
             R.id.txt_current_date -> {
@@ -245,8 +240,21 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
         }
     }
 
+    private fun showAddTransaction(transaction: TransactionModel? = null) {
+        val monthFragment = AddTransactionFragment.newInstance(transaction)
+        activity?.supportFragmentManager
+            ?.beginTransaction()
+            ?.setCustomAnimations(
+                android.R.anim.slide_in_left,
+                android.R.anim.slide_out_right
+            )
+            ?.replace(R.id.container_root, monthFragment, ViewConstants.TAGS.ADD_TRANSACTION)
+            ?.addToBackStack(null)
+            ?.commit()
+    }
+
     override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
-        Utils.stringToDate("$p2-$p1").let {
+        Utils.stringToMonth("$p2-$p1").let {
             mViewRoot.txt_current_date.text = mDateFormat.format(it)
         }
         loadTransactions()

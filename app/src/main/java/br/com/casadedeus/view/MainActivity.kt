@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
-                .add(R.id.container_root, TransactionFragment(), ViewConstants.TAGS.YEAR_FRAG)
+                .add(R.id.container_root, TransactionFragment(), ViewConstants.TAGS.TRANSACTION_FRAG)
                 .commit()
         }
 

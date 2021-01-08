@@ -6,12 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.casadedeus.R
 import br.com.casadedeus.beans.TransactionModel
+import br.com.casadedeus.service.constants.ViewConstants
 import br.com.casadedeus.service.listener.OnItemClickListener
 import br.com.casadedeus.service.utils.Utils
 import br.com.casadedeus.view.adapter.CategoryAdapter
@@ -19,16 +19,11 @@ import br.com.casadedeus.viewmodel.TransactionViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.bottom_dialog_categories.view.*
 import kotlinx.android.synthetic.main.fragment_add_transaction.view.*
-import kotlinx.android.synthetic.main.fragment_add_transaction.view.edit_descricao
-import kotlinx.android.synthetic.main.fragment_add_transaction.view.edit_nota_fiscal
-import kotlinx.android.synthetic.main.fragment_add_transaction.view.edit_razao_social
-import kotlinx.android.synthetic.main.fragment_add_transaction.view.edit_valor
-import kotlinx.android.synthetic.main.fragment_add_transaction.view.radio_entrada
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class AddTransactionFragment : Fragment(), View.OnClickListener,
+class AddTransactionFragment private constructor() : Fragment(), View.OnClickListener,
     DatePickerDialog.OnDateSetListener {
 
     private lateinit var mViewModel: TransactionViewModel
@@ -37,6 +32,21 @@ class AddTransactionFragment : Fragment(), View.OnClickListener,
     private var mTransactionKey: String = ""
     private val mDateFormat =
         SimpleDateFormat("EEE, d MMM 'de' yyyy", Locale("pt", "BR"))// dia por extenso
+
+    private var mTransaction: TransactionModel? = null
+
+
+    companion object {
+        fun newInstance(transaction: TransactionModel? = null): AddTransactionFragment {
+            transaction.let {
+                val args = Bundle()
+                args.putSerializable(ViewConstants.KEYS.TRANSACTION, transaction)
+                val fragment = AddTransactionFragment()
+                fragment.arguments = args
+            }
+            return AddTransactionFragment()
+        }
+    }
 
     /*Design
     * radio button https://dribbble.com/shots/9890260-Card-Theme-Switch-Light-Theme
@@ -49,6 +59,8 @@ class AddTransactionFragment : Fragment(), View.OnClickListener,
     ): View {
         mViewRoot = inflater.inflate(R.layout.fragment_add_transaction, container, false)
         mViewModel = ViewModelProvider(this).get(TransactionViewModel::class.java)
+
+        loadTransaction()
 
         /*mViewModel = ViewModelProvider(
             this,
@@ -68,23 +80,30 @@ class AddTransactionFragment : Fragment(), View.OnClickListener,
     }
 
     private fun setupCurrentDate() {
-        mViewRoot.edit_duedate.setText(Utils.getCurrentDate())
+        mViewRoot.edit_duedate.setText(Utils.getToday())
     }
 
     //Carregar a lista com todos
-    private fun loadTransaction(item: TransactionModel) {
-        mTransactionKey = item.key!!
-        mViewRoot.radio_entrada.isChecked = item.isEntry
-        mViewRoot.edit_descricao.setText(item.description)
-        //mDialogInflater.spinner_categoria.setSelection(index)
-        mViewRoot.edit_razao_social.setText(item.companyName)
-        mViewRoot.edit_nota_fiscal.setText(item.notaFiscal)
-        mViewRoot.edit_valor.setText(Utils.doubleToRealNotCurrency(item.amount))
+    private fun loadTransaction() {
+        mTransaction =
+            arguments?.getSerializable(ViewConstants.KEYS.TRANSACTION) as TransactionModel?
+
+        if (mTransaction != null) {
+            mTransactionKey = mTransaction?.key!!
+            mViewRoot.radio_entrada.isChecked = mTransaction!!.isEntry
+            mViewRoot.edit_descricao.setText(mTransaction?.description)
+            //mDialogInflater.spinner_categoria.setSelection(index)
+            mViewRoot.edit_razao_social.setText(mTransaction?.companyName)
+            mViewRoot.edit_nota_fiscal.setText(mTransaction?.notaFiscal)
+            mViewRoot.edit_valor.setText(Utils.doubleToRealNotCurrency(mTransaction?.amount))
+        }
     }
 
     private fun setListeners() {
         mViewRoot.edit_duedate.setOnClickListener(this)
         mViewRoot.edit_category.setOnClickListener(this)
+        mViewRoot.fab_save.setOnClickListener(this)
+        mViewRoot.img_back_transactions.setOnClickListener(this)
     }
 
     private fun observer() {
@@ -93,20 +112,46 @@ class AddTransactionFragment : Fragment(), View.OnClickListener,
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.edit_category -> {
-                clearForm()
-                onClickSave()
+                showCategories()
+
                 //get spinner selected
             }
             R.id.edit_duedate -> {
-                showCategories()
+                datePicker()
+            }
+            R.id.fab_save -> {
+                //onClickSave()
+                clearForm()
+                activity?.onBackPressed()
+            }
+            R.id.img_back_transactions -> {
+                activity?.onBackPressed()
             }
         }
     }
 
     override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
-        Utils.stringToDate("$p2-$p1").let {
+        Utils.stringToMonth("$p2-$p1").let {
             mViewRoot.edit_duedate.setText("")//mDateFormat.format(it)
         }
+    }
+
+    private fun datePicker() {
+        val calendar: Calendar = Calendar.getInstance()
+        val thisAYear = calendar.get(Calendar.YEAR)
+        val thisAMonth = calendar.get(Calendar.MONTH)
+        val thisADay = calendar.get(Calendar.DAY_OF_MONTH)
+
+        DatePickerDialog(
+            context!!,
+            { view2, year, month, day ->
+                val mDate = Utils.stringToDate("$day-${month + 1}-$year")
+                mViewRoot.edit_duedate.setText(mDateFormat.format(mDate))
+            },
+            thisAYear,
+            thisAMonth,
+            thisADay
+        ).show()
     }
 
     private fun showCategories() {
@@ -122,7 +167,9 @@ class AddTransactionFragment : Fragment(), View.OnClickListener,
         adapter.notifyChanged(listCategories)
         adapter.attachListener(object : OnItemClickListener<String> {
             override fun onItemClick(item: String) {
-                Toast.makeText(context, item, Toast.LENGTH_SHORT).show()
+                mViewRoot.edit_category.setText(item)
+                //Toast.makeText(context, item, Toast.LENGTH_SHORT).show()
+                bottomDialogCategory.dismiss()
             }
 
             override fun onDeleteClick(id: String) {

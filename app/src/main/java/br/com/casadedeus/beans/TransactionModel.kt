@@ -1,6 +1,7 @@
 package br.com.casadedeus.beans
 
 import com.google.firebase.firestore.Exclude
+import java.io.Serializable
 import java.util.*
 
 data class TransactionModel(
@@ -12,4 +13,4 @@ data class TransactionModel(
     val companyName: String? = "",
     val notaFiscal: String? = "",
     val amount: Double
-)
+): Serializable

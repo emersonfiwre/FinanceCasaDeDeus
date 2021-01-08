@@ -1,216 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transparent"
-    android:orientation="vertical">
+    android:layout_marginTop="16dp"
+    android:padding="16dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ImageView
+        android:id="@+id/img_back_transactions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_arrow_back"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <!--Button
+        android:id="@+id/add_expenditure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:background="@color/transparent"
+        android:foreground="?selectableItemBackground"
+        android:text="@string/save" /-->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="@string/add_lancamento"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="@+id/img_back_transactions"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_check"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_back_transactions">
 
-        <ImageView
-            android:id="@+id/img_back_transactions"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/ic_arrow_back"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-        <!--Button
-            android:id="@+id/add_expenditure"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:background="@color/transparent"
-            android:foreground="?selectableItemBackground"
-            android:text="@string/save" /-->
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="@string/add_lancamento"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toRightOf="@+id/img_back_transactions"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:contentDescription="@null"
-            android:src="@drawable/ic_check"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
-
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/img_back_transactions">
+            android:layout_marginBottom="10dp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <me.abhinay.input.CurrencyEditText
+                android:id="@+id/edit_valor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp">
-
-                <me.abhinay.input.CurrencyEditText
-                    android:id="@+id/edit_valor"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/price"
-                    android:inputType="number"
-                    android:maxLines="1" />
-                <!--com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_valor"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/price"
-                    android:imeOptions="actionNext"
-                    android:inputType="numberDecimal"
-                    android:maxLines="1" /-->
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <RadioGroup
+                android:hint="@string/price"
+                android:inputType="number"
+                android:maxLines="1" />
+            <!--com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_valor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
+                android:hint="@string/price"
+                android:imeOptions="actionNext"
+                android:inputType="numberDecimal"
+                android:maxLines="1" /-->
+        </com.google.android.material.textfield.TextInputLayout>
 
-                <RadioButton
-                    android:id="@+id/radio_saida"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/shape_radiobutton"
-                    android:checked="true"
-                    android:paddingStart="0dp"
-                    android:paddingLeft="0dp"
-                    android:paddingEnd="10dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/outflow" />
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
 
-                <RadioButton
-                    android:id="@+id/radio_entrada"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/shape_radiobutton"
-                    android:padding="5dp"
-                    android:paddingStart="0dp"
-                    android:paddingLeft="0dp"
-                    android:paddingEnd="10dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/incoming" />
-            </RadioGroup>
+            <RadioButton
+                android:id="@+id/radio_saida"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/shape_radiobutton"
+                android:checked="true"
+                android:paddingStart="0dp"
+                android:paddingLeft="0dp"
+                android:paddingEnd="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/outflow" />
+
+            <RadioButton
+                android:id="@+id/radio_entrada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_radiobutton"
+                android:padding="5dp"
+                android:paddingStart="0dp"
+                android:paddingLeft="0dp"
+                android:paddingEnd="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/incoming" />
+        </RadioGroup>
 
 
-            <!--Spinner
-                android:id="@+id/spinnerCategory"
+        <!--Spinner
+            android:id="@+id/spinnerCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:spinnerMode="dropdown" /-->
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_duedate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:spinnerMode="dropdown" /-->
+                android:focusable="false"
+                android:hint="@string/duedate" />
+        </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp">
+                android:focusable="false"
+                android:hint="@string/category" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_duedate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/duedate" />
-            </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_descricao"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp">
+                android:hint="@string/desc" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_category"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/category" />
-            </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_razao_social"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp">
+                android:hint="@string/razao_social"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_descricao"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/desc" />
-            </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_nota_fiscal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_razao_social"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/razao_social"
-                    android:imeOptions="actionNext"
-                    android:inputType="text"
-                    android:maxLines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_nota_fiscal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/number_nf"
-                    android:imeOptions="actionNext"
-                    android:inputType="number"
-                    android:maxLines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
+                android:hint="@string/number_nf"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
 
 
-            <!--Button
-                android:id="@+id/addExpenditure"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:background="@drawable/shape_btn_add_expenditure"
-                android:onClick="@null"
-                android:paddingHorizontal="120dp"
-                android:text="@string/add"
-                android:textColor="@color/white"
-                android:textStyle="bold" /-->
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+        <!--Button
+            android:id="@+id/addExpenditure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:background="@drawable/shape_btn_add_expenditure"
+            android:onClick="@null"
+            android:paddingHorizontal="120dp"
+            android:text="@string/add"
+            android:textColor="@color/white"
+            android:textStyle="bold" /-->
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

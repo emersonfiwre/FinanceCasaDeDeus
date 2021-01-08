@@ -31,12 +31,19 @@ class Utils {
             return NumberFormat.getCurrencyInstance(ptBr).format(value).replace("R$","")
         }
 
-        fun getCurrentDate(): String {
+        fun getCurrentMonth(): String {
             val sdf = SimpleDateFormat("MMM, yyyy", Locale("pt", "BR"))
             return sdf.format(Date())
         }
-        fun stringToDate(str:String):Date?{
+        fun getToday(): String {
+            val sdf = SimpleDateFormat("EEE, d MMM 'de' yyyy", Locale("pt", "BR"))
+            return sdf.format(Date())
+        }
+        fun stringToMonth(str:String):Date?{
             return SimpleDateFormat("MM-yyyy",Locale("pt", "BR")).parse(str)
+        }
+        fun stringToDate(str:String):Date?{
+            return SimpleDateFormat("dd-MM-yyyy",Locale("pt", "BR")).parse(str)
         }
     }
 }
