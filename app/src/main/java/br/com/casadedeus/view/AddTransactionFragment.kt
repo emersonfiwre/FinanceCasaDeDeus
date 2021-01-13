@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import android.widget.DatePicker
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
@@ -26,7 +27,7 @@ import java.util.*
 
 
 class AddTransactionFragment private constructor() : Fragment(), View.OnClickListener,
-    DatePickerDialog.OnDateSetListener {
+    DatePickerDialog.OnDateSetListener, CompoundButton.OnCheckedChangeListener {
 
     private lateinit var mViewModel: TransactionViewModel
     private lateinit var mViewRoot: View
@@ -116,6 +117,8 @@ class AddTransactionFragment private constructor() : Fragment(), View.OnClickLis
         mViewRoot.edit_category.setOnClickListener(this)
         mViewRoot.fab_save.setOnClickListener(this)
         mViewRoot.img_back_transactions.setOnClickListener(this)
+        mViewRoot.radio_entrada.setOnCheckedChangeListener(this)
+        mViewRoot.radio_saida.setOnCheckedChangeListener(this)
     }
 
     private fun observer() {
@@ -216,6 +219,18 @@ class AddTransactionFragment private constructor() : Fragment(), View.OnClickLis
         mViewRoot.edit_razao_social.setText("")
         mViewRoot.edit_nota_fiscal.setText("")
         mViewRoot.edit_valor.setText("")
+    }
+
+    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+        when (buttonView?.id) {
+            R.id.radio_entrada -> {
+                mViewRoot.llm_header.isEnabled = true
+            }
+            R.id.radio_saida -> {
+                mViewRoot.llm_header.isEnabled = false
+            }
+
+        }
     }
 }
 
