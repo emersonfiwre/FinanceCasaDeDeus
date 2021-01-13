@@ -1,11 +1,13 @@
 package br.com.casadedeus.view
 
 import android.app.DatePickerDialog
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,16 +35,15 @@ class AddTransactionFragment private constructor() : Fragment(), View.OnClickLis
     private val mDateFormat =
         SimpleDateFormat("EEE, d MMM 'de' yyyy", Locale("pt", "BR"))// dia por extenso
 
-    private var mTransaction: TransactionModel? = null
-
 
     companion object {
         fun newInstance(transaction: TransactionModel? = null): AddTransactionFragment {
-            transaction.let {
+            if (transaction != null) {
                 val args = Bundle()
                 args.putSerializable(ViewConstants.KEYS.TRANSACTION, transaction)
                 val fragment = AddTransactionFragment()
                 fragment.arguments = args
+                return fragment
             }
             return AddTransactionFragment()
         }
@@ -84,18 +85,29 @@ class AddTransactionFragment private constructor() : Fragment(), View.OnClickLis
     }
 
     //Carregar a lista com todos
+    // tem que fazer um xml selector para no status enable trocar a cor
     private fun loadTransaction() {
-        mTransaction =
-            arguments?.getSerializable(ViewConstants.KEYS.TRANSACTION) as TransactionModel?
+        if (arguments != null) {
+            val mTransaction =
+                arguments!!.getSerializable(ViewConstants.KEYS.TRANSACTION) as TransactionModel?
+            if (mTransaction != null) {
+                mTransactionKey = mTransaction.key!!
+                mViewRoot.radio_entrada.isChecked = mTransaction.isEntry
+                mViewRoot.edit_descricao.setText(mTransaction.description)
+                //mDialogInflater.spinner_categoria.setSelection(index)
+                mViewRoot.edit_category.setText(mTransaction.category)
+                mViewRoot.edit_razao_social.setText(mTransaction.companyName)
+                mViewRoot.edit_nota_fiscal.setText(mTransaction.notaFiscal)
+                mViewRoot.edit_valor.setText(Utils.doubleToRealNotCurrency(mTransaction.amount))
 
-        if (mTransaction != null) {
-            mTransactionKey = mTransaction?.key!!
-            mViewRoot.radio_entrada.isChecked = mTransaction!!.isEntry
-            mViewRoot.edit_descricao.setText(mTransaction?.description)
-            //mDialogInflater.spinner_categoria.setSelection(index)
-            mViewRoot.edit_razao_social.setText(mTransaction?.companyName)
-            mViewRoot.edit_nota_fiscal.setText(mTransaction?.notaFiscal)
-            mViewRoot.edit_valor.setText(Utils.doubleToRealNotCurrency(mTransaction?.amount))
+                if (mTransaction.isEntry) {
+                    mViewRoot.txt_title.text = getString(R.string.update_profit)
+                    //mViewRoot.llm_header.background.setTint(resources.getColor(R.color.light_blue))
+                    mViewRoot.llm_header.isEnabled = false
+                } else {
+                    mViewRoot.txt_title.text = getString(R.string.update_expenditure)
+                }
+            }
         }
     }
 
@@ -122,10 +134,12 @@ class AddTransactionFragment private constructor() : Fragment(), View.OnClickLis
             R.id.fab_save -> {
                 //onClickSave()
                 clearForm()
-                activity?.onBackPressed()
+                activity?.supportFragmentManager?.popBackStackImmediate()
             }
             R.id.img_back_transactions -> {
-                activity?.onBackPressed()
+                //activity?.onBackPressed()
+                activity?.supportFragmentManager?.popBackStackImmediate()
+
             }
         }
     }

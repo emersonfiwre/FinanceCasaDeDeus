@@ -245,8 +245,10 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
         activity?.supportFragmentManager
             ?.beginTransaction()
             ?.setCustomAnimations(
-                android.R.anim.slide_in_left,
-                android.R.anim.slide_out_right
+                R.anim.slide_in_up,
+                R.anim.slide_out_up,
+                android.R.animator.fade_in,
+                android.R.animator.fade_out
             )
             ?.replace(R.id.container_root, monthFragment, ViewConstants.TAGS.ADD_TRANSACTION)
             ?.addToBackStack(null)

@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="@string/add_lancamento"
+            android:text="@string/add_expenditure"
             android:textSize="18sp"
             android:textStyle="bold" />
 

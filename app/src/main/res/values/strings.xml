@@ -23,10 +23,13 @@
     <string name="category">Categoria</string>
     <string name="hintcategory">Salário,Despesa Fixa, Outros</string>
     <string name="price">Valor</string>
+    <string name="value_expenditure">Valor da despesa</string>
+    <string name="value_profit">Valor da receita</string>
     <string name="hintprice">R$ 230,99</string>
     <string name="number_nf">Número da nota fiscal</string>
     <string name="razao_social">Razão Social</string>
-    <string name="add_lancamento">Adicionar um novo lançamento</string>
+    <string name="add_profit">Nova receita</string>
+    <string name="add_expenditure">Nova despesa</string>
     <string name="year">Ano</string>
     <string name="months">Mês</string>
     <string name="incoming">Entrada</string>
@@ -57,5 +60,8 @@
     <string name="filters">Filtros</string>
     <string name="select">Selecionar</string>
     <string name="duedate">Data de Vencimento</string>
+    <string name="zeroed_value">0,00</string>
+    <string name="update_profit">Editar receita</string>
+    <string name="update_expenditure">Editar despesa</string>
 
 </resources>
