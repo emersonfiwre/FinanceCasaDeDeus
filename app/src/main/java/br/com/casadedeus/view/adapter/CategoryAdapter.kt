@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.card_category.view.*
 class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.MyViewHolder>() {
 
     private var mList: List<String> = arrayListOf()
-    private lateinit var mListener: OnItemClickListener<String>
+    private var mListener: OnItemClickListener<String>? = null
 
     //val format = SimpleDateFormat("EEE MMM dd kk:mm:ss zXXX yyyy", local)// dia por extenso
 

@@ -30,13 +30,10 @@ import java.util.*
 
 class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
+    private lateinit var mViewRoot: View
     private lateinit var mViewModel: TransactionViewModel
     private val mAdapter: TransactionAdapter = TransactionAdapter()
-    private lateinit var mViewRoot: View
 
-    private lateinit var mBottomDialog: BottomSheetDialog
-    private lateinit var mDialogInflater: View
-    private var mTransactionKey: String = ""
     private val mDateFormat = SimpleDateFormat("MMM, yyyy", Locale("pt", "BR"))// mes por extenso
 
     /*Design
@@ -60,7 +57,6 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
         //************
         setupCurrentDate()
         setupRecycler()
-        setupBottomDialog()
 
         // Cria observadores
         observer()
@@ -86,55 +82,15 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
         loadTransactions()
     }
 
-    private fun setupBottomDialog() {
-        mBottomDialog = BottomSheetDialog(activity!!)
-        mDialogInflater = layoutInflater.inflate(R.layout.dialog_single_input, null)
-        mBottomDialog.setContentView(mDialogInflater)
-        mDialogInflater.txt_categoria.setOnClickListener {
-            val bottomDialogCategory = BottomSheetDialog(activity!!)
-            val inflater = layoutInflater.inflate(R.layout.bottom_dialog_categories, null)
-            bottomDialogCategory.setContentView(inflater)
-            val linearLayoutManager = LinearLayoutManager(activity)
-            inflater.rv_categories.layoutManager = linearLayoutManager
-            val adapter = CategoryAdapter()
-            val listCategories: List<String> =
-                context?.resources?.getStringArray(R.array.categories)!!
-                    .toList()
-            adapter.notifyChanged(listCategories)
-            adapter.attachListener(object : OnItemClickListener<String> {
-                override fun onItemClick(item: String) {
-                    Toast.makeText(context, item, Toast.LENGTH_SHORT).show()
-                }
-
-                override fun onDeleteClick(id: String) {
-                    TODO("Not yet implemented")
-                }
-            })
-            inflater.rv_categories.adapter = adapter
-            bottomDialogCategory.show()
-        }
-    }
-
-
     private fun setupRecycler() {
         val linearLayoutManager = LinearLayoutManager(activity)
         mViewRoot.rv_transaction.layoutManager = linearLayoutManager
         mAdapter.attachListener(object : OnItemClickListener<TransactionModel> {
             override fun onItemClick(item: TransactionModel) {
-                val listCategories = context?.resources?.getStringArray(R.array.categories)
-                val index: Int = getIndex(listCategories, item.category)
                 showAddTransaction(item)
-                /*mTransactionKey = item.key!!
-                mDialogInflater.radio_entrada.isChecked = item.isEntry
-                mDialogInflater.edit_descricao.setText(item.description)
-                mDialogInflater.spinner_categoria.setSelection(index)
-                mDialogInflater.edit_razao_social.setText(item.companyName)
-                mDialogInflater.edit_nota_fiscal.setText(item.notaFiscal)
-                mDialogInflater.edit_valor.setText(Utils.doubleToRealNotCurrency(item.amount))*/
-                //onClickSave()
             }
 
-            override fun onDeleteClick(id: String) {
+            override fun onLongClick(id: String) {
                 mViewModel.delete(id)
             }
         })
@@ -177,21 +133,7 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
         })
         mViewModel.validation.observe(viewLifecycleOwner, Observer {
             if (it.success()) {
-                if (mTransactionKey == "") {
-                    Toast.makeText(
-                        context,
-                        getString(R.string.success_save_transaction),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                    Toast.makeText(
-                        context,
-                        getString(R.string.success_update_transaction),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                loadTransactions()
-                mBottomDialog.dismiss()
+
             } else {
                 Toast.makeText(context, it.failure(), Toast.LENGTH_SHORT).show()
             }
@@ -263,31 +205,5 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
         //Toast.makeText(context, "$p2 / $p1", Toast.LENGTH_SHORT).show()
     }
 
-    private fun onClickSave() {
-        mBottomDialog.show()
-        mDialogInflater.add_expenditure.setOnClickListener {
-            mViewModel.save(
-                TransactionModel(
-                    key = mTransactionKey,
-                    isEntry = mDialogInflater.radio_entrada.isChecked,
-                    description = mDialogInflater.edit_descricao.text.toString(),
-                    category = mDialogInflater.spinner_categoria.selectedItem.toString(),
-                    companyName = mDialogInflater.edit_razao_social.text.toString(),
-                    notaFiscal = mDialogInflater.edit_nota_fiscal.text.toString(),
-                    amount = Utils.realToDouble(mDialogInflater.edit_valor.text.toString())
-                )
-            )
-        }
-    }
-
-    private fun clearForm() {
-        mTransactionKey = ""
-        mDialogInflater.radio_entrada.isChecked = false
-        mDialogInflater.edit_descricao.setText("")
-        mDialogInflater.spinner_categoria.setSelection(0)
-        mDialogInflater.edit_razao_social.setText("")
-        mDialogInflater.edit_nota_fiscal.setText("")
-        mDialogInflater.edit_valor.setText("")
-    }
 
 }

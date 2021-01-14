@@ -49,7 +49,7 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
     val balance: LiveData<String> = mBalance
 
     fun save(transactionModel: TransactionModel) {
-        transactionModel.day = Calendar.getInstance().time
+        //transactionModel.day = Calendar.getInstance().time
         /*if (expenditureModel.day == null) {
 
             //mValidation.value = ValidationListener("O dia está vazio")
@@ -59,6 +59,8 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
             mValidation.value = ValidationListener("A descrição está vazio")
             return
         }*/
+        val s = ""
+
         if (transactionModel.amount == 0.0) {
             mValidation.value =
                 ValidationListener("É necessário um valor válido para inserir a transação")
@@ -113,7 +115,6 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
             override fun onFailure(message: String) {
                 mValidation.value = ValidationListener(message)
             }
-
         })
     }
 

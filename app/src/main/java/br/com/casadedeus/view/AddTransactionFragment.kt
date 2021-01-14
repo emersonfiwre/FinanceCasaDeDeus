@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.DatePicker
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,20 +24,19 @@ import br.com.casadedeus.viewmodel.TransactionViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.bottom_dialog_categories.view.*
 import kotlinx.android.synthetic.main.fragment_add_transaction.view.*
+import java.text.NumberFormat.getCurrencyInstance
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class AddTransactionFragment private constructor() : Fragment(), View.OnClickListener,
-    DatePickerDialog.OnDateSetListener, CompoundButton.OnCheckedChangeListener {
+class AddTransactionFragment private constructor() : DialogFragment(), View.OnClickListener,
+    CompoundButton.OnCheckedChangeListener {
 
-    private lateinit var mViewModel: TransactionViewModel
     private lateinit var mViewRoot: View
-
+    private lateinit var mViewModel: TransactionViewModel
     private var mTransactionKey: String = ""
     private val mDateFormat =
         SimpleDateFormat("EEE, d MMM 'de' yyyy", Locale("pt", "BR"))// dia por extenso
-
 
     companion object {
         fun newInstance(transaction: TransactionModel? = null): AddTransactionFragment {
@@ -61,28 +62,20 @@ class AddTransactionFragment private constructor() : Fragment(), View.OnClickLis
     ): View {
         mViewRoot = inflater.inflate(R.layout.fragment_add_transaction, container, false)
         mViewModel = ViewModelProvider(this).get(TransactionViewModel::class.java)
-
-        loadTransaction()
-
         /*mViewModel = ViewModelProvider(
             this,
             ExpenditureViewModelFactory(this.requireActivity().application, mMonth.key)
         ).get(ExpenditureViewModel::class.java)*/
-
-
-        //************
-        setupCurrentDate()
+        loadTransaction()
 
         // Cria observadores
         observer()
 
         setListeners()
 
-        return mViewRoot
-    }
+        //mViewRoot.edit_valor.setCurrency()
 
-    private fun setupCurrentDate() {
-        mViewRoot.edit_duedate.setText(Utils.getToday())
+        return mViewRoot
     }
 
     //Carregar a lista com todos
@@ -100,16 +93,17 @@ class AddTransactionFragment private constructor() : Fragment(), View.OnClickLis
                 mViewRoot.edit_razao_social.setText(mTransaction.companyName)
                 mViewRoot.edit_nota_fiscal.setText(mTransaction.notaFiscal)
                 mViewRoot.edit_valor.setText(Utils.doubleToRealNotCurrency(mTransaction.amount))
+                mViewRoot.edit_duedate.setText(mDateFormat.format(mTransaction.day))
 
-                if (mTransaction.isEntry) {
-                    mViewRoot.txt_title.text = getString(R.string.update_profit)
-                    //mViewRoot.llm_header.background.setTint(resources.getColor(R.color.light_blue))
-                    mViewRoot.llm_header.isEnabled = false
-                } else {
-                    mViewRoot.txt_title.text = getString(R.string.update_expenditure)
-                }
+                whatTypeTransaction(mTransaction.isEntry)
             }
+        } else {
+            setupCurrentDate()
         }
+    }
+
+    private fun setupCurrentDate() {
+        mViewRoot.edit_duedate.setText(Utils.getToday())
     }
 
     private fun setListeners() {
@@ -122,36 +116,48 @@ class AddTransactionFragment private constructor() : Fragment(), View.OnClickLis
     }
 
     private fun observer() {
+        mViewModel.validation.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            if (it.success()) {
+                if (mTransactionKey == "") {
+                    Toast.makeText(
+                        context,
+                        getString(R.string.success_save_transaction),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    clearForm()
+                } else {
+                    Toast.makeText(
+                        context,
+                        getString(R.string.success_update_transaction),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                activity?.supportFragmentManager?.popBackStackImmediate()
+            } else {
+                Toast.makeText(context, it.failure(), Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.edit_category -> {
                 showCategories()
-
                 //get spinner selected
             }
             R.id.edit_duedate -> {
                 datePicker()
             }
             R.id.fab_save -> {
-                //onClickSave()
-                clearForm()
-                activity?.supportFragmentManager?.popBackStackImmediate()
+                onClickSave()
             }
             R.id.img_back_transactions -> {
                 //activity?.onBackPressed()
                 activity?.supportFragmentManager?.popBackStackImmediate()
-
             }
         }
     }
 
-    override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
-        Utils.stringToMonth("$p2-$p1").let {
-            mViewRoot.edit_duedate.setText("")//mDateFormat.format(it)
-        }
-    }
 
     private fun datePicker() {
         val calendar: Calendar = Calendar.getInstance()
@@ -189,7 +195,7 @@ class AddTransactionFragment private constructor() : Fragment(), View.OnClickLis
                 bottomDialogCategory.dismiss()
             }
 
-            override fun onDeleteClick(id: String) {
+            override fun onLongClick(id: String) {
                 TODO("Not yet implemented")
             }
         })
@@ -201,6 +207,7 @@ class AddTransactionFragment private constructor() : Fragment(), View.OnClickLis
         mViewModel.save(
             TransactionModel(
                 key = mTransactionKey,
+                day = Utils.todayToDate(mViewRoot.edit_duedate.text.toString()),
                 isEntry = mViewRoot.radio_entrada.isChecked,
                 description = mViewRoot.edit_descricao.text.toString(),
                 category = mViewRoot.edit_category.text.toString(),
@@ -211,9 +218,17 @@ class AddTransactionFragment private constructor() : Fragment(), View.OnClickLis
         )
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+
+    }
+
+
     private fun clearForm() {
         mTransactionKey = ""
-        mViewRoot.radio_entrada.isChecked = false
+        //mViewRoot.radio_entrada.isChecked = false
+        mViewRoot.edit_duedate.setText(Utils.getToday())
         mViewRoot.edit_descricao.setText("")
         mViewRoot.edit_category.setText("")
         mViewRoot.edit_razao_social.setText("")
@@ -225,11 +240,25 @@ class AddTransactionFragment private constructor() : Fragment(), View.OnClickLis
         when (buttonView?.id) {
             R.id.radio_entrada -> {
                 mViewRoot.llm_header.isEnabled = true
+                whatTypeTransaction(false)
             }
             R.id.radio_saida -> {
                 mViewRoot.llm_header.isEnabled = false
+                whatTypeTransaction(true)
             }
 
+        }
+    }
+
+    private fun whatTypeTransaction(isEntry: Boolean) {
+        if (isEntry) {
+            mViewRoot.txt_title.text = getString(R.string.update_profit)
+            mViewRoot.txt_whatvalue.text = getString(R.string.value_profit)
+            //mViewRoot.llm_header.background.setTint(resources.getColor(R.color.light_blue))
+            mViewRoot.llm_header.isEnabled = false
+        } else {
+            mViewRoot.txt_title.text = getString(R.string.update_expenditure)
+            mViewRoot.txt_whatvalue.text = getString(R.string.value_expenditure)
         }
     }
 }

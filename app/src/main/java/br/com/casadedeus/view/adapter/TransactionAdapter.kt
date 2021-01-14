@@ -74,7 +74,7 @@ class TransactionAdapter : RecyclerView.Adapter<TransactionAdapter.MyViewHolder>
                     .setTitle(R.string.title_want_remove_transaction)
                     .setMessage(R.string.desc_want_remove_transaction)
                     .setPositiveButton(R.string.remove) { dialog, which ->
-                        transaction.key?.let { listener?.onDeleteClick(it) }
+                        transaction.key?.let { listener?.onLongClick(it) }
                     }
                     .setNeutralButton(R.string.cancel, null)
                     .show()
