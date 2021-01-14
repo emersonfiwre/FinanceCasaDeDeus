@@ -30,7 +30,7 @@ import java.util.*
 
 
 class AddTransactionFragment private constructor() : DialogFragment(), View.OnClickListener,
-    CompoundButton.OnCheckedChangeListener {
+    CompoundButton.OnCheckedChangeListener {//transformar essa fragment em activity
 
     private lateinit var mViewRoot: View
     private lateinit var mViewModel: TransactionViewModel
