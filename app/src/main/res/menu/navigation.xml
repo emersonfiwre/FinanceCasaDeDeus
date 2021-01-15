@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/navigation_inicio"
-        android:icon="@drawable/ic_add"
+        android:icon="@drawable/ic_inicio"
         android:title="Início" />
 
     <item
         android:id="@+id/navigation_transacoes"
-        android:icon="@drawable/ic_add"
+        android:icon="@drawable/ic_transacoes"
         android:title="Transações" />
 
     <item
         android:id="@+id/navigation_artists"
-        android:icon="@drawable/ic_add"
+        android:icon="@drawable/ic_planejamento"
         android:title="Planejamento" />
 
 </menu>

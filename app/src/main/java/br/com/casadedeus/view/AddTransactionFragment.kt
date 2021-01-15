@@ -1,21 +1,19 @@
 package br.com.casadedeus.view
 
 import android.app.DatePickerDialog
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
-import android.widget.DatePicker
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.casadedeus.R
+import br.com.casadedeus.beans.CategoryModel
 import br.com.casadedeus.beans.TransactionModel
+import br.com.casadedeus.service.constants.CategoryConstansts
 import br.com.casadedeus.service.constants.ViewConstants
 import br.com.casadedeus.service.listener.OnItemClickListener
 import br.com.casadedeus.service.utils.Utils
@@ -24,7 +22,6 @@ import br.com.casadedeus.viewmodel.TransactionViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.bottom_dialog_categories.view.*
 import kotlinx.android.synthetic.main.fragment_add_transaction.view.*
-import java.text.NumberFormat.getCurrencyInstance
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -35,6 +32,8 @@ class AddTransactionFragment private constructor() : DialogFragment(), View.OnCl
     private lateinit var mViewRoot: View
     private lateinit var mViewModel: TransactionViewModel
     private var mTransactionKey: String = ""
+    val mCategoryAdapter = CategoryAdapter()
+
     private val mDateFormat =
         SimpleDateFormat("EEE, d MMM 'de' yyyy", Locale("pt", "BR"))// dia por extenso
 
@@ -74,6 +73,12 @@ class AddTransactionFragment private constructor() : DialogFragment(), View.OnCl
         setListeners()
 
         //mViewRoot.edit_valor.setCurrency()
+        if (mViewRoot.radio_entrada.isChecked) {
+            mCategoryAdapter.notifyChanged(CategoryConstansts.getCategoriesProfit(context!!))
+        } else {
+            mCategoryAdapter.notifyChanged(CategoryConstansts.getCategoriesExpenditure(context!!))
+        }
+
 
         return mViewRoot
     }
@@ -183,14 +188,16 @@ class AddTransactionFragment private constructor() : DialogFragment(), View.OnCl
         bottomDialogCategory.setContentView(inflater)
         val linearLayoutManager = LinearLayoutManager(activity)
         inflater.rv_categories.layoutManager = linearLayoutManager
-        val adapter = CategoryAdapter()
-        val listCategories: List<String> =
-            context?.resources?.getStringArray(R.array.categories)!!
-                .toList()
-        adapter.notifyChanged(listCategories)
-        adapter.attachListener(object : OnItemClickListener<String> {
-            override fun onItemClick(item: String) {
-                mViewRoot.edit_category.setText(item)
+        mCategoryAdapter.attachListener(object : OnItemClickListener<CategoryModel> {
+            override fun onItemClick(item: CategoryModel) {
+                mViewRoot.edit_category.setText(item.title)
+
+                mViewRoot.edit_category.setCompoundDrawablesWithIntrinsicBounds(
+                    item.image,
+                    null,
+                    null,
+                    null
+                );
                 //Toast.makeText(context, item, Toast.LENGTH_SHORT).show()
                 bottomDialogCategory.dismiss()
             }
@@ -199,7 +206,7 @@ class AddTransactionFragment private constructor() : DialogFragment(), View.OnCl
                 TODO("Not yet implemented")
             }
         })
-        inflater.rv_categories.adapter = adapter
+        inflater.rv_categories.adapter = mCategoryAdapter
         bottomDialogCategory.show()
     }
 
@@ -252,11 +259,14 @@ class AddTransactionFragment private constructor() : DialogFragment(), View.OnCl
 
     private fun whatTypeTransaction(isEntry: Boolean) {
         if (isEntry) {
+            mCategoryAdapter.notifyChanged(CategoryConstansts.getCategoriesProfit(context!!))
             mViewRoot.txt_title.text = getString(R.string.update_profit)
             mViewRoot.txt_whatvalue.text = getString(R.string.value_profit)
             //mViewRoot.llm_header.background.setTint(resources.getColor(R.color.light_blue))
             mViewRoot.llm_header.isEnabled = false
         } else {
+            // mListCategories = context?.resources?.getStringArray(R.array.categories)?.toList() ?: arrayListOf()
+            mCategoryAdapter.notifyChanged(CategoryConstansts.getCategoriesExpenditure(context!!))
             mViewRoot.txt_title.text = getString(R.string.update_expenditure)
             mViewRoot.txt_whatvalue.text = getString(R.string.value_expenditure)
         }

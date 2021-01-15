@@ -7,13 +7,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import br.com.casadedeus.R
+import br.com.casadedeus.beans.CategoryModel
 import br.com.casadedeus.service.listener.OnItemClickListener
 import kotlinx.android.synthetic.main.card_category.view.*
 
 class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.MyViewHolder>() {
 
-    private var mList: List<String> = arrayListOf()
-    private var mListener: OnItemClickListener<String>? = null
+    private var mList: List<CategoryModel> = arrayListOf()
+    private var mListener: OnItemClickListener<CategoryModel>? = null
 
     //val format = SimpleDateFormat("EEE MMM dd kk:mm:ss zXXX yyyy", local)// dia por extenso
 
@@ -32,7 +33,7 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.MyViewHolder>() {
         return mList.count()
     }
 
-    fun notifyChanged(it: List<String>?) {
+    fun notifyChanged(it: List<CategoryModel>?) {
         if (it != null) {
             mList = it
             notifyDataSetChanged()
@@ -40,22 +41,24 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.MyViewHolder>() {
     }
 
 
-    fun attachListener(listener: OnItemClickListener<String>) {
+    fun attachListener(listener: OnItemClickListener<CategoryModel>) {
         mListener = listener
     }
 
-    class MyViewHolder(itemView: View, val listener: OnItemClickListener<String>?) :
+    class MyViewHolder(itemView: View, val listener: OnItemClickListener<CategoryModel>?) :
         RecyclerView.ViewHolder(itemView) {
         private val mCardCategory = itemView.card_category
         private var mCategory: TextView = itemView.txt_category
         private var mImage: ImageView = itemView.img_category
 
-        fun binCategory(category: String) {
-            mCategory.text = category
-            //mImage.setImageDrawable()
-
+        fun binCategory(category: CategoryModel) {
+            mCategory.text = category.title
+            mImage.setImageDrawable(category.image)
+            //mImage.backgroundTintList(itemView.context.resources.getColor(R.color.colorPrimary))
+            
             mCardCategory.setOnClickListener { listener?.onItemClick(category) }
 
         }
+
     }
 }

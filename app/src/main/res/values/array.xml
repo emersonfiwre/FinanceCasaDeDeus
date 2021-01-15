@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="categories">
-        <item>Pagamento</item>
+        <item>Lazer</item>
         <item>Alimentação</item>
         <item>Educação</item>
-        <item>Lazer</item>
         <item>Moradia</item>
         <item>Roupa</item>
         <item>Saúde</item>
@@ -13,13 +12,13 @@
         <item>Outros</item>
     </string-array>
 
-    <string-array name="categories_revenue">
+    <string-array name="categories_profit">
+        <item>Salário</item>
         <item>Investimento</item>
         <item>Presente</item>
         <item>Prêmios</item>
         <item>Vendas</item>
         <item>Serviços</item>
-        <item>Salário</item>
         <item>Outros</item>
     </string-array>
 

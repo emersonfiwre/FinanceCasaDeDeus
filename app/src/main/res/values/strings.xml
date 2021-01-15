@@ -63,5 +63,6 @@
     <string name="zeroed_value">0,00</string>
     <string name="update_profit">Editar receita</string>
     <string name="update_expenditure">Editar despesa</string>
+    <string name="image_category">Image Category</string>
 
 </resources>

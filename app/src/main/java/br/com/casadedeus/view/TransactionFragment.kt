@@ -1,6 +1,7 @@
 package br.com.casadedeus.view
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,12 +17,8 @@ import br.com.casadedeus.beans.TransactionModel
 import br.com.casadedeus.service.constants.ViewConstants
 import br.com.casadedeus.service.listener.OnItemClickListener
 import br.com.casadedeus.service.utils.Utils
-import br.com.casadedeus.view.adapter.CategoryAdapter
 import br.com.casadedeus.view.adapter.TransactionAdapter
 import br.com.casadedeus.viewmodel.TransactionViewModel
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import kotlinx.android.synthetic.main.bottom_dialog_categories.view.*
-import kotlinx.android.synthetic.main.dialog_single_input.view.*
 import kotlinx.android.synthetic.main.fragment_transaction.*
 import kotlinx.android.synthetic.main.fragment_transaction.view.*
 import java.text.SimpleDateFormat
@@ -98,20 +95,6 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
         mViewRoot.rv_transaction.setHasFixedSize(true)
     }
 
-    private fun getIndex(listCategories: Array<String>?, category: String): Int {
-        var index = 0
-        if (listCategories != null) {
-            for (i in 0 until listCategories.count()) {
-                if (listCategories[i] == category) {
-                    index = i
-                    break
-                }
-            }
-        }
-        return index
-    }
-
-
     private fun setListeners() {
         mViewRoot.add_lancamento.setOnClickListener(this)
         mViewRoot.txt_current_date.setOnClickListener(this)
@@ -183,7 +166,7 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
     }
 
     private fun showAddTransaction(transaction: TransactionModel? = null) {
-        val monthFragment = AddTransactionFragment.newInstance(transaction)
+        /*val monthFragment = AddTransactionFragment.newInstance(transaction)
         activity?.supportFragmentManager
             ?.beginTransaction()
             ?.setCustomAnimations(
@@ -194,7 +177,17 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
             )
             ?.replace(R.id.container_root, monthFragment, ViewConstants.TAGS.ADD_TRANSACTION)
             ?.addToBackStack(null)
-            ?.commit()
+            ?.commit()*/
+        val intent = Intent(context, TransactionFormActivity::class.java)
+        val bundle = Bundle()
+        bundle.putSerializable(ViewConstants.KEYS.TRANSACTION, transaction)
+        intent.putExtras(bundle)
+        startActivity(intent)
+        activity?.overridePendingTransition(
+            R.anim.slide_in_up,
+            R.anim.slide_out_up
+        )
+
     }
 
     override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
