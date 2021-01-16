@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="16dp">
+
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="50dp"
+        android:layout_height="5dp"
+        android:background="@drawable/shape_roundlittle"
+        android:backgroundTint="@color/ligth_gray"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_orderby"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
+        android:text="Ordernar por"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view"
+        tools:listitem="@layout/card_category" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ll_orderby"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_orderby">
+
+        <ImageView
+            android:id="@+id/imgorder_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/shape_orderby"
+            android:contentDescription="TODO"
+            android:padding="16dp"
+            android:src="@drawable/ic_data"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/imgorder_maxamount"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Data"
+            app:layout_constraintLeft_toLeftOf="@id/imgorder_date"
+            app:layout_constraintRight_toRightOf="@id/imgorder_date"
+            app:layout_constraintTop_toBottomOf="@id/imgorder_date" />
+
+        <ImageView
+            android:id="@+id/imgorder_maxamount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/shape_orderby"
+            android:contentDescription="TODO"
+            android:padding="16dp"
+            android:src="@drawable/ic_arrow_up"
+            app:layout_constraintLeft_toRightOf="@id/imgorder_date"
+            app:layout_constraintRight_toLeftOf="@id/imgorder_minamount"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtorder_maxamount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Maior Valor"
+            app:layout_constraintLeft_toLeftOf="@id/imgorder_maxamount"
+            app:layout_constraintRight_toRightOf="@id/imgorder_maxamount"
+            app:layout_constraintTop_toBottomOf="@id/imgorder_maxamount" />
+
+        <ImageView
+            android:id="@+id/imgorder_minamount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/shape_orderby"
+            android:contentDescription="TODO"
+            android:padding="16dp"
+            android:src="@drawable/ic_arrow_down"
+            app:layout_constraintLeft_toRightOf="@id/imgorder_maxamount"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Menor Valor"
+            app:layout_constraintLeft_toLeftOf="@id/imgorder_minamount"
+            app:layout_constraintRight_toRightOf="@id/imgorder_minamount"
+            app:layout_constraintTop_toBottomOf="@id/imgorder_minamount" />
+
+        <ImageView
+            android:id="@+id/imgorder_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/shape_orderby"
+            android:contentDescription="TODO"
+            android:padding="16dp"
+            android:src="@drawable/ic_category"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/imgorder_default"
+            app:layout_constraintTop_toBottomOf="@id/txtorder_maxamount" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Categoria"
+            app:layout_constraintLeft_toLeftOf="@id/imgorder_category"
+            app:layout_constraintRight_toRightOf="@id/imgorder_category"
+            app:layout_constraintTop_toBottomOf="@id/imgorder_category" />
+
+        <ImageView
+            android:id="@+id/imgorder_default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/shape_orderby"
+            android:contentDescription="TODO"
+            android:padding="16dp"
+            android:src="@drawable/ic_order_default"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/imgorder_category"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtorder_maxamount" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ordenção padrão"
+            app:layout_constraintLeft_toLeftOf="@id/imgorder_default"
+            app:layout_constraintRight_toRightOf="@id/imgorder_default"
+            app:layout_constraintTop_toBottomOf="@id/imgorder_default" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/shape_btn_login"
+        android:text="Ver resultados"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_orderby" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

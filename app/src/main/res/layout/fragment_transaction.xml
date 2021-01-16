@@ -179,18 +179,6 @@
 
     <!--include layout="@layout/dialog_single_input" /-->
 
-    <Button
-        android:id="@+id/btn_filters"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:background="@drawable/shape_btn_register"
-        android:text="@string/filters"
-        android:visibility="gone" />
-
     <ProgressBar
         android:id="@+id/pg_await_load"
         android:layout_width="wrap_content"
@@ -211,12 +199,29 @@
         android:text="@string/empty_transactions"
         android:visibility="gone" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_transaction"
+    <LinearLayout
+        android:id="@+id/ll_data"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
-        android:visibility="gone"
-        tools:listitem="@layout/card_transaction" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/btn_filters"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/shape_btn_register"
+            android:text="@string/filters" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_transaction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/card_transaction" />
+    </LinearLayout>
 
 </LinearLayout>

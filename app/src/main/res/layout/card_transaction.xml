@@ -1,85 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_transaction"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:padding="10dp"
-    app:cardCornerRadius="0dp"
-    app:cardElevation="0dp">
+    android:layout_margin="8dp"
+    android:background="@drawable/shape_transaction"
+    android:elevation="8dp"
+    android:foreground="?android:attr/selectableItemBackground">
 
-    <RelativeLayout
-        android:id="@+id/rl_card"
+    <ImageView
+        android:id="@+id/img_transaction"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_centerVertical="true"
+        android:layout_margin="5dp"
+        android:background="@drawable/shape_card_expenditure"
+        android:backgroundTint="@color/light_yellow"
+        android:padding="10dp"
+        android:src="@drawable/ic_money" />
+    <!--ImageView
+        android:id="@+id/img_materia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="2dp" /-->
+
+    <TextView
+        android:id="@+id/lbl_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="3dp"
+        android:layout_toEndOf="@+id/img_transaction"
+        android:layout_toRightOf="@+id/img_transaction"
+        android:text="qua, 14 out 2020"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lbl_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="5dp">
+        android:layout_below="@+id/lbl_day"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_toStartOf="@+id/lbl_price"
+        android:layout_toLeftOf="@+id/lbl_price"
+        android:layout_toEndOf="@+id/img_transaction"
+        android:layout_toRightOf="@+id/img_transaction"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:text="Pagamento ana júla"
+        android:textSize="15sp" />
 
-        <ImageView
-            android:id="@+id/img_transaction"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_centerVertical="true"
-            android:layout_margin="5dp"
-            android:background="@drawable/shape_card_expenditure"
-            android:backgroundTint="@color/light_yellow"
-            android:elevation="3dp"
-            android:padding="10dp"
-            android:src="@drawable/ic_money" />
-        <!--ImageView
-            android:id="@+id/img_materia"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="2dp" /-->
+    <TextView
+        android:id="@+id/lbl_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:maxWidth="140dp"
+        android:scrollHorizontally="false"
+        android:text="R$ 250,00"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/lbl_day"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="3dp"
-            android:layout_toEndOf="@+id/img_transaction"
-            android:layout_toRightOf="@+id/img_transaction"
-            android:text="qua, 14 out 2020"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+</RelativeLayout>
 
-        <TextView
-            android:id="@+id/lbl_desc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lbl_day"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_toStartOf="@+id/lbl_price"
-            android:layout_toLeftOf="@+id/lbl_price"
-            android:layout_toEndOf="@+id/img_transaction"
-            android:layout_toRightOf="@+id/img_transaction"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:scrollHorizontally="true"
-            android:text="Pagamento ana júla"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/lbl_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:maxWidth="140dp"
-            android:scrollHorizontally="false"
-            android:text="R$ 250,00"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-    </RelativeLayout>
-
-</androidx.cardview.widget.CardView>

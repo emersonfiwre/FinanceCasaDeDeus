@@ -19,6 +19,7 @@ import br.com.casadedeus.service.listener.OnItemClickListener
 import br.com.casadedeus.service.utils.Utils
 import br.com.casadedeus.view.adapter.TransactionAdapter
 import br.com.casadedeus.viewmodel.TransactionViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.fragment_transaction.*
 import kotlinx.android.synthetic.main.fragment_transaction.view.*
 import java.text.SimpleDateFormat
@@ -69,8 +70,8 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
 
     //Carregar a lista com todos
     private fun loadTransactions() {
-        rv_transaction.visibility = View.GONE
-        pg_await_load.visibility = View.VISIBLE
+        mViewRoot.ll_data.visibility = View.GONE
+        mViewRoot.pg_await_load.visibility = View.VISIBLE
         mViewModel.load(txt_current_date.text.toString())
     }
 
@@ -98,19 +99,20 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
     private fun setListeners() {
         mViewRoot.add_lancamento.setOnClickListener(this)
         mViewRoot.txt_current_date.setOnClickListener(this)
+        mViewRoot.btn_filters.setOnClickListener(this)
     }
 
     private fun observer() {
         mViewModel.transactionlist.observe(viewLifecycleOwner, Observer {
             if (it.isEmpty()) {
                 mViewRoot.pg_await_load.visibility = View.GONE
-                mViewRoot.rv_transaction.visibility = View.GONE
+                mViewRoot.ll_data.visibility = View.GONE
                 mViewRoot.txt_empty_transactions.visibility = View.VISIBLE
             } else {
                 mAdapter.notifyChanged(it)
                 mViewRoot.txt_empty_transactions.visibility = View.GONE
                 mViewRoot.pg_await_load.visibility = View.GONE
-                mViewRoot.rv_transaction.visibility = View.VISIBLE
+                mViewRoot.ll_data.visibility = View.VISIBLE
             }
 
         })
@@ -162,7 +164,17 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
                 picker.listener = this
                 picker.show(activity!!.supportFragmentManager, ViewConstants.TAGS.MONTH_PICKER)
             }
+            R.id.btn_filters ->{
+                showFilters()
+            }
         }
+    }
+
+    private fun showFilters() {
+        val bottomDialogFilters = BottomSheetDialog(context!!)
+        val inflater = layoutInflater.inflate(R.layout.bottom_dialog_filters, null)
+        bottomDialogFilters.setContentView(inflater)
+        bottomDialogFilters.show()
     }
 
     private fun showAddTransaction(transaction: TransactionModel? = null) {
