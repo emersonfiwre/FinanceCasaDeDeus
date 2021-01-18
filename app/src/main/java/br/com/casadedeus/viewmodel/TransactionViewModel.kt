@@ -8,6 +8,7 @@ import br.com.casadedeus.service.listener.ValidationListener
 import br.com.casadedeus.service.repository.TransactionRepository
 import br.com.casadedeus.service.utils.Utils
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.Query
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -118,18 +119,24 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
         })
     }
 
-    fun load(currentDate: String) {
+    fun load(currentDate: String, filter: Int) {
         val format = SimpleDateFormat("MMM, yyyy", Locale("pt", "BR"))// mes por extenso
         val dateFormat = format.parse(currentDate)
 
         val startDateTime = Timestamp(getDaysOfMonth(dateFormat))
         val endDateTime = Timestamp(getDaysOfMonth(dateFormat, true))
+
+        var query = Query.Direction.DESCENDING
+        if (filter == 0) {
+            query = Query.Direction.ASCENDING
+        }
         mRepository.getTransactions(
             startDateTime,
             endDateTime,
+            query,
             object : OnCallbackListener<List<TransactionModel>> {
                 override fun onSuccess(result: List<TransactionModel>) {
-                    mTransactionList.value = result
+                    mTransactionList.value = orderBy(filter, result)
                     mBalance.value =
                         Utils.doubleToRealNotCurrency(result.sumByDouble { it.amount })
                     mExpenditure.value =
@@ -142,6 +149,26 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
                     mValidation.value = ValidationListener(message)
                 }
             })
+    }
+
+    private fun orderBy(filter: Int, list: List<TransactionModel>): List<TransactionModel> {
+        when (filter) {
+            1 -> {
+                return list.sortedWith(compareByDescending<TransactionModel> { it.amount }
+                    .thenByDescending { it.amount })
+            }
+            2 -> {
+                return list.sortedWith(compareBy<TransactionModel> { it.amount }
+                    .thenBy { it.amount })
+
+            }
+            3 -> {
+                return list.sortedBy { it.category }
+            }
+            else -> {
+                return list
+            }
+        }
     }
 
     fun getYearMonthFromString(str: String, isMonth: Boolean = false): Int {

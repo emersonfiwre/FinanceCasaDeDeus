@@ -13,5 +13,6 @@ class ViewConstants private constructor() {
         const val TRANSACTION_FRAG = "monthFragment"
         const val YEAR_PICKER = "yearPickerDialog"
         const val MONTH_PICKER = "monthPickerDialog"
+        const val FILTERS_DIALOG = "filtersBottomSheetDialog"
     }
 }

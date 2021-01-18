@@ -19,7 +19,6 @@ import br.com.casadedeus.service.listener.OnItemClickListener
 import br.com.casadedeus.service.utils.Utils
 import br.com.casadedeus.view.adapter.TransactionAdapter
 import br.com.casadedeus.viewmodel.TransactionViewModel
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.fragment_transaction.*
 import kotlinx.android.synthetic.main.fragment_transaction.view.*
 import java.text.SimpleDateFormat
@@ -33,6 +32,7 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
     private val mAdapter: TransactionAdapter = TransactionAdapter()
 
     private val mDateFormat = SimpleDateFormat("MMM, yyyy", Locale("pt", "BR"))// mes por extenso
+    private var mFilter = 4
 
     /*Design
     * radio button https://dribbble.com/shots/9890260-Card-Theme-Switch-Light-Theme
@@ -72,8 +72,9 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
     private fun loadTransactions() {
         mViewRoot.ll_data.visibility = View.GONE
         mViewRoot.pg_await_load.visibility = View.VISIBLE
-        mViewModel.load(txt_current_date.text.toString())
+        mViewModel.load(txt_current_date.text.toString(), mFilter)
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -162,19 +163,41 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
                     mViewModel.getYearMonthFromString(txt_current_date.text.toString())
                 )
                 picker.listener = this
-                picker.show(activity!!.supportFragmentManager, ViewConstants.TAGS.MONTH_PICKER)
+                activity?.supportFragmentManager?.let {
+                    picker.show(
+                        it,
+                        ViewConstants.TAGS.MONTH_PICKER
+                    )
+                }
             }
-            R.id.btn_filters ->{
+            R.id.btn_filters -> {
                 showFilters()
             }
         }
     }
 
     private fun showFilters() {
-        val bottomDialogFilters = BottomSheetDialog(context!!)
+        val fragment =
+            FiltersBottomSheetDialog(mFilter, listener = object : OnItemClickListener<Int> {
+                override fun onItemClick(item: Int) {
+                    mFilter = item
+                    loadTransactions()
+                }
+
+                override fun onLongClick(id: String) {
+                    TODO("Not yet implemented")
+                }
+            })
+        activity?.supportFragmentManager?.let {
+            fragment.show(
+                it,
+                ViewConstants.TAGS.FILTERS_DIALOG
+            )
+        }
+        /*val bottomDialogFilters = BottomSheetDialog(context!!)
         val inflater = layoutInflater.inflate(R.layout.bottom_dialog_filters, null)
         bottomDialogFilters.setContentView(inflater)
-        bottomDialogFilters.show()
+        bottomDialogFilters.show()*/
     }
 
     private fun showAddTransaction(transaction: TransactionModel? = null) {

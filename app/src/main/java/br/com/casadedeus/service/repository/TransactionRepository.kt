@@ -23,6 +23,7 @@ class TransactionRepository(private val context: Context) {
     fun getTransactions(
         startDateTime: Timestamp,
         endDateTime: Timestamp,
+        query: Query.Direction,
         listener: OnCallbackListener<List<TransactionModel>>
     ) {
         val transactionModels: MutableList<TransactionModel> = arrayListOf()
@@ -37,7 +38,7 @@ class TransactionRepository(private val context: Context) {
             .whereLessThanOrEqualTo("day", endDateTime)
             //.whereGreaterThan("day", startDate)
             //.whereLessThan("day",startDate)//funcionou
-            .orderBy("day", Query.Direction.DESCENDING)
+            .orderBy("day", query)
             .get()
             .addOnSuccessListener {
                 for (document in it) {
