@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
+    <!--item
         android:id="@+id/navigation_inicio"
         android:icon="@drawable/ic_inicio"
-        android:title="Início" />
+        android:title="Início" /-->
 
     <item
-        android:id="@+id/navigation_transacoes"
+        android:id="@+id/nav_transaction"
         android:icon="@drawable/ic_transacoes"
         android:title="Transações" />
 
     <item
-        android:id="@+id/navigation_artists"
+        android:id="@+id/nav_planning"
         android:icon="@drawable/ic_planejamento"
         android:title="Planejamento" />
 
