@@ -3,6 +3,7 @@ package br.com.casadedeus.view
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -46,7 +47,8 @@ class PlanningFragment : Fragment(), View.OnClickListener {
         val activity = activity as AppCompatActivity?
         activity?.setSupportActionBar(mViewRoot.toolbar)
         //activity?.supportActionBar?.title = "My Title"
-
+        //activity?.supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_add)// set drawable icon
+        activity?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         return mViewRoot
     }
@@ -85,6 +87,22 @@ class PlanningFragment : Fragment(), View.OnClickListener {
             R.anim.slide_in_up,
             R.anim.slide_out_up
         )
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        print("call frag")
+        Toast.makeText(context, "Clickme", Toast.LENGTH_SHORT).show()
+        return when (item.itemId) {
+            R.id.nav_add_planning -> {
+                Toast.makeText(context, "Clickme", Toast.LENGTH_SHORT).show()
+                true
+            }
+
+            else -> {
+                Toast.makeText(context, "clickNo", Toast.LENGTH_SHORT).show()
+                return super.onOptionsItemSelected(item)
+            }
+        }
     }
 
 

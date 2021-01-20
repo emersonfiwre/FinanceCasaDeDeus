@@ -2,6 +2,8 @@ package br.com.casadedeus.view
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
@@ -36,5 +38,30 @@ class MainActivity : AppCompatActivity() {
             )
         )
     }
-    
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        //return super.onCreateOptionsMenu(menu)
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_add_planning, menu)
+        return true
+
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        print("call activity")
+        Toast.makeText(this, "Clickme", Toast.LENGTH_SHORT).show()
+        return when (item.itemId) {
+            R.id.nav_add_planning -> {
+                Toast.makeText(this, "Clickme", Toast.LENGTH_SHORT).show()
+                true
+            }
+
+            else -> {
+                Toast.makeText(this, "clickNo", Toast.LENGTH_SHORT).show()
+                return super.onOptionsItemSelected(item)
+            }
+        }
+    }
+
 }
