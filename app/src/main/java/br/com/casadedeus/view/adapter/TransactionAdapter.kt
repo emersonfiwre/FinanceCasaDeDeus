@@ -8,7 +8,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import br.com.casadedeus.R
+import br.com.casadedeus.beans.CategoryModel
 import br.com.casadedeus.beans.TransactionModel
+import br.com.casadedeus.service.constants.CategoryConstansts
 import br.com.casadedeus.service.listener.OnItemClickListener
 import br.com.casadedeus.service.utils.Utils
 import kotlinx.android.synthetic.main.card_transaction.view.*
@@ -66,6 +68,13 @@ class TransactionAdapter : RecyclerView.Adapter<TransactionAdapter.MyViewHolder>
             }
             mDesc.text = transaction.description
             mPrice.text = Utils.doubleToReal(transaction.amount)
+            mImage.isEnabled = transaction.isEntry
+            val categories = CategoryConstansts.getCategories(itemView.context)
+            val c = categories.find { it.title == transaction.category } ?: CategoryModel(
+                transaction.category,
+                itemView.context.resources.getDrawable(R.drawable.ic_not_found)
+            )
+            mImage.setImageDrawable(c.image)
 
             mCardTransaction.setOnClickListener { listener?.onItemClick(transaction) }
 

@@ -2,9 +2,9 @@ package br.com.casadedeus.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.*
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,26 +13,27 @@ import br.com.casadedeus.beans.TransactionModel
 import br.com.casadedeus.service.constants.ViewConstants
 import br.com.casadedeus.view.adapter.TransactionAdapter
 import br.com.casadedeus.viewmodel.TransactionViewModel
-import kotlinx.android.synthetic.main.fragment_planning.view.*
+import kotlinx.android.synthetic.main.fragment_goal.view.*
 
 
-class PlanningFragment : Fragment(), View.OnClickListener {
+class GoalFragment : Fragment(), View.OnClickListener {
 
     private lateinit var mViewRoot: View
     private lateinit var mViewModel: TransactionViewModel
     private val mAdapter: TransactionAdapter = TransactionAdapter()
 
 
-    /*Design
-    * radio button https://dribbble.com/shots/9890260-Card-Theme-Switch-Light-Theme
-    * btnSave top rigth https://stackoverflow.com/questions/58651661/how-to-set-max-height-in-bottomsheetdialogfragment
-    * ?android:textColorHint*/
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        mViewRoot = inflater.inflate(R.layout.fragment_planning, container, false)
+        mViewRoot = inflater.inflate(R.layout.fragment_goal, container, false)
         mViewModel = ViewModelProvider(this).get(TransactionViewModel::class.java)
 
         //************
@@ -43,12 +44,15 @@ class PlanningFragment : Fragment(), View.OnClickListener {
 
         setListeners()
 
+
         //for crate home button
-        val activity = activity as AppCompatActivity?
-        activity?.setSupportActionBar(mViewRoot.toolbar)
+        //val activity = activity as AppCompatActivity?
+        //activity?.setSupportActionBar(mViewRoot.toolbar)
         //activity?.supportActionBar?.title = "My Title"
         //activity?.supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_add)// set drawable icon
-        activity?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        //activity?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        //mViewRoot.toolbar.inflateMenu(R.menu.menu_add_planning)
 
         return mViewRoot
     }
@@ -88,22 +92,5 @@ class PlanningFragment : Fragment(), View.OnClickListener {
             R.anim.slide_out_up
         )
     }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        print("call frag")
-        Toast.makeText(context, "Clickme", Toast.LENGTH_SHORT).show()
-        return when (item.itemId) {
-            R.id.nav_add_planning -> {
-                Toast.makeText(context, "Clickme", Toast.LENGTH_SHORT).show()
-                true
-            }
-
-            else -> {
-                Toast.makeText(context, "clickNo", Toast.LENGTH_SHORT).show()
-                return super.onOptionsItemSelected(item)
-            }
-        }
-    }
-
 
 }

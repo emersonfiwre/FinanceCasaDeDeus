@@ -8,11 +8,11 @@
     <item
         android:id="@+id/nav_transaction"
         android:icon="@drawable/ic_transacoes"
-        android:title="Transações" />
+        android:title="@string/transactions" />
 
     <item
-        android:id="@+id/nav_planning"
-        android:icon="@drawable/ic_planejamento"
-        android:title="Planejamento" />
+        android:id="@+id/nav_goal"
+        android:icon="@drawable/ic_objetivo"
+        android:title="@string/goals" />
 
 </menu>

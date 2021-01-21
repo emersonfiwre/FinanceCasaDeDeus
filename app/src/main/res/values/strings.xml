@@ -46,7 +46,11 @@
     <string name="title_want_remove_transaction">Excluir transação</string>
     <string name="desc_want_remove_transaction">Deseja remover está transação ?</string>
     <string name="transaction">Transação</string>
-    <string name="planning">Planejamento</string>
+    <string name="transactions">Transações</string>
+    <string name="goal">Objetivo</string>
+    <string name="goals">Objetivos</string>
+    <string name="metas">Metas</string>
+
 
 
 

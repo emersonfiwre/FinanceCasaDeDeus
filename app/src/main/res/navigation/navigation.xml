@@ -12,14 +12,14 @@
         tools:layout="@layout/fragment_transaction">
         <action
             android:id="@+id/action_TransactionFragment_to_PlanningFragment"
-            app:destination="@id/nav_planning" />
+            app:destination="@id/nav_goal" />
     </fragment>
 
     <fragment
-        android:id="@+id/nav_planning"
-        android:name="br.com.casadedeus.view.PlanningFragment"
-        android:label="@string/planning"
-        tools:layout="@layout/fragment_planning">
+        android:id="@+id/nav_goal"
+        android:name="br.com.casadedeus.view.GoalFragment"
+        android:label="@string/goal"
+        tools:layout="@layout/fragment_goal">
         <action
             android:id="@+id/action_PlanningFragment_to_TransactionFragment"
             app:destination="@id/nav_transaction" />

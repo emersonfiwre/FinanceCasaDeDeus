@@ -55,7 +55,6 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.MyViewHolder>() {
             mCategory.text = category.title
             mImage.setImageDrawable(category.image)
             //mImage.backgroundTintList(itemView.context.resources.getColor(R.color.colorPrimary))
-            
             mCardCategory.setOnClickListener { listener?.onItemClick(category) }
 
         }

@@ -16,8 +16,7 @@
         android:layout_height="48dp"
         android:layout_centerVertical="true"
         android:layout_margin="5dp"
-        android:background="@drawable/shape_card_expenditure"
-        android:backgroundTint="@color/light_yellow"
+        android:background="@drawable/shape_card_transaction"
         android:padding="10dp"
         android:src="@drawable/ic_money" />
     <!--ImageView
