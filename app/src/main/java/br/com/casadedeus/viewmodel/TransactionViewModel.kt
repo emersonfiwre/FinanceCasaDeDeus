@@ -60,7 +60,6 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
             mValidation.value = ValidationListener("A descrição está vazio")
             return
         }*/
-        val s = ""
 
         if (transactionModel.amount == 0.0) {
             mValidation.value =

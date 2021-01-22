@@ -45,6 +45,8 @@
     <string name="remove">Excluir</string>
     <string name="title_want_remove_transaction">Excluir transação</string>
     <string name="desc_want_remove_transaction">Deseja remover está transação ?</string>
+    <string name="title_want_remove_goal">Excluir objetivo</string>
+    <string name="desc_want_remove_goal">Deseja remover estd objetivo ?</string>
     <string name="transaction">Transação</string>
     <string name="transactions">Transações</string>
     <string name="goal">Objetivo</string>
@@ -71,5 +73,8 @@
     <string name="update_profit">Editar receita</string>
     <string name="update_expenditure">Editar despesa</string>
     <string name="image_category">Image Category</string>
+    <string name="update_goal">Editar objetivo</string>
+    <string name="add_goal">Adicionar objetivo</string>
+    <string name="date_goal">Data do objetivo</string>
 
 </resources>

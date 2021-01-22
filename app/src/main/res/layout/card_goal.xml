@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@null"
+        android:src="@drawable/ic_todo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,7 +28,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txt_description"
+        android:id="@+id/txt_description_goal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -48,7 +48,7 @@
         android:text="dom 31, jan de 2021"
         android:textStyle="bold"
         app:layout_constraintLeft_toRightOf="@id/image_task"
-        app:layout_constraintTop_toBottomOf="@id/txt_description" />
+        app:layout_constraintTop_toBottomOf="@id/txt_description_goal" />
 
     <TextView
         android:id="@+id/txt_startdate_goal"

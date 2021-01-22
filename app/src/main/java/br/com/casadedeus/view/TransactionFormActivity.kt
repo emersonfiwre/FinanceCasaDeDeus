@@ -211,7 +211,7 @@ class TransactionFormActivity : AppCompatActivity(), View.OnClickListener,
         edit_category.setText("")
         edit_razao_social.setText("")
         edit_nota_fiscal.setText("")
-        edit_valor.setText("")
+        edit_valor.setText(R.string.zeroed_value)
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
