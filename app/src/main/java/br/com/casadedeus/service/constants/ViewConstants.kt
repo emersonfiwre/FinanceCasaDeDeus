@@ -8,6 +8,11 @@ class ViewConstants private constructor() {
         const val GOAL = "goal"
     }
 
+    object LOG{
+        const val CONVERSION_ERROR = "UtilsConversionError"
+
+    }
+
     object TAGS {
         const val YEAR_FRAG = "yearFragment"
         const val ADD_TRANSACTION = "addTransactionFragment"

@@ -46,7 +46,7 @@
     <string name="title_want_remove_transaction">Excluir transação</string>
     <string name="desc_want_remove_transaction">Deseja remover está transação ?</string>
     <string name="title_want_remove_goal">Excluir objetivo</string>
-    <string name="desc_want_remove_goal">Deseja remover estd objetivo ?</string>
+    <string name="desc_want_remove_goal">Deseja remover este objetivo ?</string>
     <string name="transaction">Transação</string>
     <string name="transactions">Transações</string>
     <string name="goal">Objetivo</string>
@@ -64,6 +64,7 @@
     <string name="success_update_transaction">Transação atualizada com sucesso!</string>
     <string name="success_save_transaction">Transação adicionada com sucesso!</string>
     <string name="success_delete_transaction">Transação exluida com sucesso!</string>
+    <string name="success_save_goal">Objetivo salvo com sucesso!</string>
     <string name="balance">Saldo</string>
     <string name="empty_transactions">Não foi encontrada nenhuma transação neste mês</string>
     <string name="filters">Filtros</string>

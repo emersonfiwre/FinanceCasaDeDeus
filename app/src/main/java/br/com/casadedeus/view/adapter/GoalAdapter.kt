@@ -18,7 +18,7 @@ import java.util.*
 class GoalAdapter : RecyclerView.Adapter<MyViewHolder>() {
 
     private var mList: List<GoalModel> = arrayListOf()
-    private lateinit var mListener: GoalListener
+    private var mListener: GoalListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val item =
@@ -45,16 +45,18 @@ class GoalAdapter : RecyclerView.Adapter<MyViewHolder>() {
 
 }
 
-class MyViewHolder(itemView: View, val listener: GoalListener) :
+class MyViewHolder(itemView: View, val listener: GoalListener?) :
     RecyclerView.ViewHolder(itemView) {
 
-    private val mDateFormat: SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
+    private val mDateShortFormat: SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
+    private val mDateFullFormat: SimpleDateFormat = SimpleDateFormat("EEE, d MMM 'de' yyyy", Locale("pt", "BR"))
 
+    private var mCard: View = itemView.findViewById(R.id.card_goal)
     private var mTextDescription: TextView = itemView.findViewById(R.id.txt_description_goal)
     private var mTextAmount: TextView = itemView.findViewById(R.id.txt_amount_goal)
     private var mTextDueDate: TextView = itemView.findViewById(R.id.txt_duedate_goal)
     private var mTextStartDate: TextView = itemView.findViewById(R.id.txt_startdate_goal)
-    private var mImage: ImageView = itemView.findViewById(R.id.image_task)
+    private var mImage: ImageView = itemView.findViewById(R.id.image_goal)
 
     /**
      * Atribui valores aos elementos de interface e também eventos
@@ -63,9 +65,8 @@ class MyViewHolder(itemView: View, val listener: GoalListener) :
 
         this.mTextAmount.text = Utils.doubleToReal(goal.amount)
         this.mTextDescription.text = goal.description
-
-        val date = SimpleDateFormat("dd/MM/yyyy")
-        this.mTextDueDate.text = mDateFormat.format(goal.startday)
+        this.mTextStartDate.text = mDateShortFormat.format(goal.startday)
+        this.mTextDueDate.text = mDateFullFormat.format(goal.finishday)
 
         if (goal.finish == true) {
             this.mTextDescription.setTextColor(Color.GRAY)
@@ -77,22 +78,28 @@ class MyViewHolder(itemView: View, val listener: GoalListener) :
             mImage.setImageResource(R.drawable.ic_todo)
         }
 
+        if(goal.description.isNullOrEmpty()){
+            mTextDescription.visibility = View.GONE
+        }else{
+            mTextDescription.visibility = View.VISIBLE
+        }
+
         // Eventos
-        mTextDescription.setOnClickListener { listener.onItemClick(goal) }
+        mCard.setOnClickListener { listener?.onItemClick(goal) }
         mImage.setOnClickListener {
             if (goal.finish == true) {
-                listener.onUndoClick(goal.key!!)
+                listener?.onUndoClick(goal.key!!)
             } else {
-                listener.onCompleteClick(goal.key!!)
+                listener?.onCompleteClick(goal.key!!)
             }
         }
 
-        mTextDescription.setOnLongClickListener {
+        mCard.setOnLongClickListener {
             AlertDialog.Builder(itemView.context)
                 .setTitle(R.string.title_want_remove_goal)
                 .setMessage(R.string.desc_want_remove_goal)
                 .setPositiveButton(R.string.remove) { dialog, which ->
-                    listener.onDeleteClick(goal.key!!)
+                    listener?.onDeleteClick(goal.key!!)
                 }
                 .setNeutralButton(R.string.cancel, null)
                 .show()

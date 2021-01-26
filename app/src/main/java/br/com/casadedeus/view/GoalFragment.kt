@@ -1,10 +1,10 @@
 package br.com.casadedeus.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -12,9 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.casadedeus.R
 import br.com.casadedeus.beans.GoalModel
 import br.com.casadedeus.service.constants.ViewConstants
+import br.com.casadedeus.service.listener.GoalDialogListener
+import br.com.casadedeus.service.listener.GoalListener
+import br.com.casadedeus.service.utils.Utils
 import br.com.casadedeus.view.adapter.GoalAdapter
 import br.com.casadedeus.viewmodel.GoalViewModel
+import kotlinx.android.synthetic.main.dialog_goal_form.view.*
 import kotlinx.android.synthetic.main.fragment_goal.view.*
+import kotlinx.android.synthetic.main.fragment_transaction.*
 
 
 class GoalFragment : Fragment(), View.OnClickListener {
@@ -67,7 +72,24 @@ class GoalFragment : Fragment(), View.OnClickListener {
     private fun setupRecycler() {
         val linearLayoutManager = LinearLayoutManager(context)
         mViewRoot.rv_planning.layoutManager = linearLayoutManager
-        //mAdapter.attachListener()
+        mAdapter.attachListener(object : GoalListener {
+            override fun onItemClick(item: GoalModel) {
+                showGoal(item)
+            }
+
+            override fun onDeleteClick(id: String) {
+                mViewModel.delete(id)
+            }
+
+            override fun onCompleteClick(id: String) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onUndoClick(id: String) {
+                TODO("Not yet implemented")
+            }
+
+        })
         mViewRoot.rv_planning.adapter = mAdapter
     }
 
@@ -78,6 +100,26 @@ class GoalFragment : Fragment(), View.OnClickListener {
     private fun observer() {
         mViewModel.goallist.observe(viewLifecycleOwner, Observer {
             mAdapter.notifyChanged(it)
+        })
+        mViewModel.delete.observe(viewLifecycleOwner, Observer {
+            if (!it.success()) {
+                Toast.makeText(context, it.failure(), Toast.LENGTH_SHORT).show()
+            }
+            mViewModel.load()
+        })
+        mViewModel.validation.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            if (it.success()) {
+                Toast.makeText(
+                    context,
+                    getString(R.string.success_save_goal),
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                //dismiss()
+                //activity?.supportFragmentManager?.popBackStackImmediate()
+            } else {
+                Toast.makeText(context, it.failure(), Toast.LENGTH_SHORT).show()
+            }
         })
     }
 
@@ -96,15 +138,20 @@ class GoalFragment : Fragment(), View.OnClickListener {
     }
 
     private fun showGoal(goal: GoalModel? = null) {
-        val intent = Intent(context, TransactionFormActivity::class.java)
-        val bundle = Bundle()
-        bundle.putSerializable(ViewConstants.KEYS.GOAL, goal)
-        intent.putExtras(bundle)
-        startActivity(intent)
-        activity?.overridePendingTransition(
-            R.anim.slide_in_up,
-            R.anim.slide_out_up
-        )
+        val dialog = GoalDialog.newInstance(goal)
+        dialog.attachListener(object : GoalDialogListener {
+            override fun onSaveClick(goal: GoalModel) {
+                mViewModel.save(goal)
+            }
+
+        })
+        activity?.supportFragmentManager?.let {
+            dialog.show(
+                it,
+                ViewConstants.KEYS.GOAL
+            )
+        }
     }
+
 
 }

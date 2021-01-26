@@ -1,5 +1,7 @@
 package br.com.casadedeus.service.utils
 
+import android.util.Log
+import br.com.casadedeus.service.constants.ViewConstants
 import kotlinx.android.synthetic.main.dialog_single_input.view.*
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -13,7 +15,12 @@ class Utils {
                 return 0.0
             }
             val s = value.replace(".", "").replace(",", ".").replace("R$", "").trim()
-            return s.toDouble()
+            return try {
+                s.toDouble()
+            } catch (e: Exception) {
+                Log.e(ViewConstants.LOG.CONVERSION_ERROR, e.message.toString())
+                0.0
+            }
         }
 
         fun doubleToReal(value: Double?): String {
@@ -21,7 +28,12 @@ class Utils {
                 return "R$0,00"
             }
             val ptBr = Locale("pt", "BR")
-            return NumberFormat.getCurrencyInstance(ptBr).format(value)
+            return try {
+                NumberFormat.getCurrencyInstance(ptBr).format(value)
+            } catch (e: Exception) {
+                Log.e(ViewConstants.LOG.CONVERSION_ERROR, e.message.toString())
+                "R$0,00"
+            }
         }
 
         fun doubleToRealNotCurrency(value: Double?): String {
@@ -29,7 +41,12 @@ class Utils {
                 return "0,00"
             }
             val ptBr = Locale("pt", "BR")
-            return NumberFormat.getCurrencyInstance(ptBr).format(value).replace("R$", "")
+            return try {
+                NumberFormat.getCurrencyInstance(ptBr).format(value).replace("R$", "")
+            } catch (e: Exception) {
+                Log.e(ViewConstants.LOG.CONVERSION_ERROR, e.message.toString())
+                "0,00"
+            }
         }
 
         fun getCurrentMonth(): String {
@@ -43,15 +60,30 @@ class Utils {
         }
 
         fun stringToMonth(str: String): Date? {
-            return SimpleDateFormat("MM-yyyy", Locale("pt", "BR")).parse(str)
+            return try {
+                SimpleDateFormat("MM-yyyy", Locale("pt", "BR")).parse(str)
+            } catch (e: Exception) {
+                Log.e(ViewConstants.LOG.CONVERSION_ERROR, e.message.toString())
+                null
+            }
         }
 
         fun stringToDate(str: String): Date? {
-            return SimpleDateFormat("dd-MM-yyyy", Locale("pt", "BR")).parse(str)
+            return try {
+                SimpleDateFormat("dd-MM-yyyy", Locale("pt", "BR")).parse(str)
+            } catch (e: Exception) {
+                Log.e(ViewConstants.LOG.CONVERSION_ERROR, e.message.toString())
+                null
+            }
         }
 
         fun todayToDate(str: String): Date? {
-            return SimpleDateFormat("EEE, d MMM 'de' yyyy", Locale("pt", "BR")).parse(str)
+            return try {
+                SimpleDateFormat("EEE, d MMM 'de' yyyy", Locale("pt", "BR")).parse(str)
+            } catch (e: Exception) {
+                Log.e(ViewConstants.LOG.CONVERSION_ERROR, e.message.toString())
+                null
+            }
         }
     }
 }

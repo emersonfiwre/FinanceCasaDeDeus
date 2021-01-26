@@ -29,7 +29,12 @@ class GoalViewModel(application: Application) : AndroidViewModel(application) {
     fun save(goal: GoalModel) {
         if (goal.amount == 0.0) {
             mValidation.value =
-                ValidationListener("É necessário um valor válido para inserir a transação")
+                ValidationListener("É necessário um valor válido para o seu objetivo")
+            return
+        }
+        if (goal.finishday == null) {
+            mValidation.value =
+                ValidationListener("É necessário uma data para o seu objetivo")
             return
         }
         if (goal.key == "") {

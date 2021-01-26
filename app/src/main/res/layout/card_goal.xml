@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_goal"
     android:layout_width="match_parent"
+    android:background="?attr/selectableItemBackground"
     android:layout_height="wrap_content"
     android:layout_margin="8dp">
 
     <ImageView
-        android:id="@+id/image_task"
+        android:id="@+id/image_goal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginHorizontal="16dp"
         android:src="@drawable/ic_todo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -17,37 +20,38 @@
 
     <TextView
         android:id="@+id/txt_amount_goal"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:text="R$10.534,68"
+        android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintLeft_toRightOf="@id/image_task"
+        app:layout_constraintLeft_toRightOf="@id/image_goal"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txt_description_goal"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:text="Comprar o corsa 1.6"
-        app:layout_constraintLeft_toRightOf="@id/image_task"
+        app:layout_constraintLeft_toRightOf="@id/image_goal"
         app:layout_constraintTop_toBottomOf="@id/txt_amount_goal" />
 
     <TextView
         android:id="@+id/txt_duedate_goal"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:text="dom 31, jan de 2021"
         android:textStyle="bold"
-        app:layout_constraintLeft_toRightOf="@id/image_task"
+        app:layout_constraintLeft_toRightOf="@id/image_goal"
         app:layout_constraintTop_toBottomOf="@id/txt_description_goal" />
 
     <TextView
@@ -56,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="12/03/2020"
-        android:textSize="8sp"
+        android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -5,14 +5,17 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import br.com.casadedeus.R
 import br.com.casadedeus.beans.GoalModel
-import br.com.casadedeus.beans.TransactionModel
 import br.com.casadedeus.service.constants.ViewConstants
+import br.com.casadedeus.service.listener.GoalDialogListener
+import br.com.casadedeus.service.listener.GoalListener
 import br.com.casadedeus.service.utils.Utils
 import br.com.casadedeus.viewmodel.GoalViewModel
 import kotlinx.android.synthetic.main.activity_transaction_form.*
@@ -23,12 +26,11 @@ import kotlinx.android.synthetic.main.fragment_add_transaction.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 class GoalDialog private constructor() : DialogFragment(),
     View.OnClickListener {
     private lateinit var mDialogRoot: View
-    private lateinit var mViewModel: GoalViewModel
     private var auxGoal: GoalModel? = null
+    private var mListener: GoalDialogListener? = null
 
     private val mDateFormat =
         SimpleDateFormat("EEE, d MMM 'de' yyyy", Locale("pt", "BR"))// dia por extenso
@@ -50,22 +52,24 @@ class GoalDialog private constructor() : DialogFragment(),
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
         val inflater = requireActivity().layoutInflater
         mDialogRoot = inflater.inflate(R.layout.dialog_goal_form, null)
-        mViewModel = ViewModelProvider(this).get(GoalViewModel::class.java)
+        builder.setView(mDialogRoot)
+        builder.setPositiveButton(getString(R.string.save),
+            DialogInterface.OnClickListener { dialog, id ->
+                save(auxGoal)
+            }).setNegativeButton((getString(R.string.cancel)),
+            DialogInterface.OnClickListener { dialog, id -> this@GoalDialog.dialog!!.dismiss() })
 
         //Setar os clicks das views
         setListeners()
 
         loadGoal()
 
-        // Criar observadores
-        observer()
-
-        builder.setView(mDialogRoot).setPositiveButton(getString(R.string.save),
-            DialogInterface.OnClickListener { dialog, id ->
-                save(auxGoal)
-            }).setNegativeButton((getString(R.string.cancel)),
-            DialogInterface.OnClickListener { dialog, id -> this@GoalDialog.dialog!!.dismiss() })
         return builder.create()
+    }
+
+
+    fun attachListener(listener: GoalDialogListener) {
+        mListener = listener
     }
 
     private fun loadGoal() {
@@ -76,7 +80,7 @@ class GoalDialog private constructor() : DialogFragment(),
                 auxGoal = goal
                 mDialogRoot.edit_description_goal.setText(goal.description)
                 mDialogRoot.edit_value_goal.setText(Utils.doubleToRealNotCurrency(goal.amount))
-                mDialogRoot.edit_duedate.setText(mDateFormat.format(goal.finishday))
+                mDialogRoot.edit_duedate_goal.setText(mDateFormat.format(goal.finishday))
                 mDialogRoot.txt_title_goal.text = getString(R.string.update_goal)
             }
         }
@@ -115,46 +119,21 @@ class GoalDialog private constructor() : DialogFragment(),
         }
     }
 
-    private fun observer() {
-        mViewModel.validation.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            if (it.success()) {
-                if (auxGoal == null) {
-                    Toast.makeText(
-                        context,
-                        getString(R.string.success_save_transaction),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    clearForm()
-                } else {
-                    Toast.makeText(
-                        context,
-                        getString(R.string.success_update_transaction),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                dismiss()
-                //activity?.supportFragmentManager?.popBackStackImmediate()
-            } else {
-                Toast.makeText(context, it.failure(), Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
 
     private fun save(goal: GoalModel? = null) {
         if (goal != null) {
             goal.finishday = Utils.todayToDate(mDialogRoot.edit_duedate_goal.text.toString())
             goal.description = mDialogRoot.edit_description_goal.text.toString()
             goal.amount = Utils.realToDouble(mDialogRoot.edit_value_goal.text.toString())
-            mViewModel.save(goal)
+            auxGoal = goal
         } else {
-            mViewModel.save(
-                GoalModel(
-                    finishday = Utils.todayToDate(mDialogRoot.edit_duedate_goal.text.toString()),
-                    description = mDialogRoot.edit_description_goal.text.toString(),
-                    amount = Utils.realToDouble(mDialogRoot.edit_value_goal.text.toString())
-                )
+            auxGoal = GoalModel(
+                finishday = Utils.todayToDate(mDialogRoot.edit_duedate_goal.text.toString()),
+                description = mDialogRoot.edit_description_goal.text.toString(),
+                amount = Utils.realToDouble(mDialogRoot.edit_value_goal.text.toString())
             )
         }
+        auxGoal?.let { mListener?.onSaveClick(it) }
     }
 
     private fun clearForm() {

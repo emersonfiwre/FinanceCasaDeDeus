@@ -69,7 +69,7 @@ class GoalRepository(private val context: Context) {
 
     fun update(goalModel: GoalModel, listener: OnCallbackListener<Boolean>) {
         goalModel.key?.let {
-            mDatabase.collection("users/WqVSBEFTfLTRSPLNV52k/transactions")
+            mDatabase.collection("users/WqVSBEFTfLTRSPLNV52k/goals/")
                 .document(it)
                 .set(goalModel)
                 .addOnSuccessListener {

@@ -23,7 +23,7 @@ class MonthPickerDialog(val currentMonth: Int, val currentYear: Int) : DialogFra
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
-        val inflater = activity!!.layoutInflater
+        val inflater = requireActivity().layoutInflater
         mDialogRoot = inflater.inflate(R.layout.dialog_month_picker, null)
 
         //Recuperar todas as TextViews dos Months
