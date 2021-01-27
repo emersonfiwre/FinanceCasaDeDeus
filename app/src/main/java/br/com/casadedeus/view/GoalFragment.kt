@@ -20,6 +20,7 @@ import br.com.casadedeus.viewmodel.GoalViewModel
 import kotlinx.android.synthetic.main.dialog_goal_form.view.*
 import kotlinx.android.synthetic.main.fragment_goal.view.*
 import kotlinx.android.synthetic.main.fragment_transaction.*
+import kotlinx.android.synthetic.main.fragment_transaction.view.*
 
 
 class GoalFragment : Fragment(), View.OnClickListener {
@@ -59,13 +60,19 @@ class GoalFragment : Fragment(), View.OnClickListener {
         //activity?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         //mViewRoot.toolbar.inflateMenu(R.menu.menu_add_planning)
-        mViewModel.load()
+        load()
 
         return mViewRoot
     }
 
     override fun onResume() {
         super.onResume()
+        load()
+    }
+
+    private fun load(){
+        mViewRoot.rv_planning.visibility = View.GONE
+        mViewRoot.pg_await_load_goal.visibility = View.VISIBLE
         mViewModel.load()
     }
 
@@ -100,12 +107,14 @@ class GoalFragment : Fragment(), View.OnClickListener {
     private fun observer() {
         mViewModel.goallist.observe(viewLifecycleOwner, Observer {
             mAdapter.notifyChanged(it)
+            mViewRoot.rv_planning.visibility = View.VISIBLE
+            mViewRoot.pg_await_load_goal.visibility = View.GONE
         })
         mViewModel.delete.observe(viewLifecycleOwner, Observer {
             if (!it.success()) {
                 Toast.makeText(context, it.failure(), Toast.LENGTH_SHORT).show()
             }
-            mViewModel.load()
+            load()
         })
         mViewModel.validation.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             if (it.success()) {
@@ -114,12 +123,12 @@ class GoalFragment : Fragment(), View.OnClickListener {
                     getString(R.string.success_save_goal),
                     Toast.LENGTH_SHORT
                 ).show()
-
                 //dismiss()
                 //activity?.supportFragmentManager?.popBackStackImmediate()
             } else {
                 Toast.makeText(context, it.failure(), Toast.LENGTH_SHORT).show()
             }
+            load()
         })
     }
 
