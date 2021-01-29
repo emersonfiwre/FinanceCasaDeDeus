@@ -91,5 +91,25 @@ class GoalViewModel(application: Application) : AndroidViewModel(application) {
             })
     }
 
+    fun complete(id: String) {
+        updateStatus(id, true)
+    }
+
+    fun undo(id: String) {
+        updateStatus(id, false)
+    }
+
+    private fun updateStatus(id: String, complete: Boolean) {
+        mRepository.updateStatus(id, complete, object : OnCallbackListener<Boolean> {
+            override fun onSuccess(result: Boolean) {
+                load()
+            }
+
+            override fun onFailure(message: String) {
+            }
+
+        })
+    }
+
 
 }

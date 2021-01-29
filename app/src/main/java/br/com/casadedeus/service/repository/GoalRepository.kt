@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import br.com.casadedeus.R
 import br.com.casadedeus.beans.GoalModel
+import br.com.casadedeus.service.constants.GoalConstants
 import br.com.casadedeus.service.constants.TransactionConstants
 import br.com.casadedeus.service.listener.OnCallbackListener
 import com.google.firebase.Timestamp
@@ -48,7 +49,7 @@ class GoalRepository(private val context: Context) {
 
             }.addOnFailureListener {
                 val message = it.message.toString()
-                Log.e(TransactionConstants.ERRORS.GOAL_REPOSITORY, message)
+                Log.e(GoalConstants.ERRORS.GOAL_REPOSITORY, message)
                 listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
             }
     }
@@ -62,7 +63,7 @@ class GoalRepository(private val context: Context) {
             }
             .addOnFailureListener {
                 val message = it.message.toString()
-                Log.e(TransactionConstants.ERRORS.GOAL_REPOSITORY, message)
+                Log.e(GoalConstants.ERRORS.GOAL_REPOSITORY, message)
                 listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
             }
     }
@@ -77,7 +78,7 @@ class GoalRepository(private val context: Context) {
                 }
                 .addOnFailureListener {
                     val message = it.message.toString()
-                    Log.e(TransactionConstants.ERRORS.GOAL_REPOSITORY, message)
+                    Log.e(GoalConstants.ERRORS.GOAL_REPOSITORY, message)
                     listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
                 }
         }
@@ -89,8 +90,25 @@ class GoalRepository(private val context: Context) {
             .addOnSuccessListener { listener.onSuccess(true) }
             .addOnFailureListener {
                 val message = it.message.toString()
-                Log.e(TransactionConstants.ERRORS.GOAL_REPOSITORY, message)
+                Log.e(GoalConstants.ERRORS.GOAL_REPOSITORY, message)
                 listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
             }
+    }
+
+
+    fun updateStatus(key: String, complete: Boolean, listener: OnCallbackListener<Boolean>) {
+        mDatabase.collection("users/WqVSBEFTfLTRSPLNV52k/goals")
+            .document(key)
+            .update(GoalConstants.FINISH, complete)
+            .addOnSuccessListener {
+                listener.onSuccess(true)
+            }
+            .addOnFailureListener {
+                val message = it.message.toString()
+                Log.e(GoalConstants.ERRORS.GOAL_REPOSITORY, message)
+                listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
+            }
+
+
     }
 }

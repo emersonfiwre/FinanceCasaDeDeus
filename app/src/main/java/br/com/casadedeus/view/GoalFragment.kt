@@ -89,11 +89,11 @@ class GoalFragment : Fragment(), View.OnClickListener {
             }
 
             override fun onCompleteClick(id: String) {
-                TODO("Not yet implemented")
+                mViewModel.complete(id)
             }
 
             override fun onUndoClick(id: String) {
-                TODO("Not yet implemented")
+                mViewModel.undo(id)
             }
 
         })

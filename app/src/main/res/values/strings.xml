@@ -54,8 +54,6 @@
     <string name="metas">Metas</string>
 
 
-
-
     <!-- Errors -->
     <string name="ERROR_UNEXPECTED">Um erro inesperado ocorreu. Tente novamente mais tarde.</string>
     <string name="ERROR_INTERNET_CONNECTION">Conexão à internet necessária para uso da applicação.</string>

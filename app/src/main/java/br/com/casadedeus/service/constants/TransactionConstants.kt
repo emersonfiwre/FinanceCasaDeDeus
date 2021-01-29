@@ -11,7 +11,6 @@ class TransactionConstants private constructor() {
     object ERRORS{
         const val USER_REPOSITORY = "UserRepoError"
         const val TRANSACTION_REPOSITORY = "TransactionRepoError"
-        const val GOAL_REPOSITORY = "GoalRepoError"
     }
 
 }

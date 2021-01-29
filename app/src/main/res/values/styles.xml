@@ -32,7 +32,7 @@
     </style>
 
     <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/dialog_rounded</item>
+        <item name="android:background">@drawable/top_rounded</item>
         <item name="behavior_peekHeight">600dp</item>
     </style>
 

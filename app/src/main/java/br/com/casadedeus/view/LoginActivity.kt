@@ -47,7 +47,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             finish()
 
         } else if (id == R.id.button_cadastrar) {
-            Toast.makeText(this, "Cadastrar em implementação", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, RegisterActivity::class.java))
+            //Toast.makeText(this, "Cadastrar em implementação", Toast.LENGTH_SHORT).show()
         }
 
     }

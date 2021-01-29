@@ -31,6 +31,10 @@ dependencies {
     //Currency-Edittext
     implementation 'me.abhinay.input:currency-edittext:1.1'
 
+    //Firebase Auth
+    implementation platform('com.google.firebase:firebase-bom:26.2.0')
+    implementation 'com.google.firebase:firebase-auth-ktx'
+
     //Firebase
     implementation 'com.google.firebase:firebase-firestore:22.0.0'
     implementation platform('com.google.firebase:firebase-bom:26.1.0')
