@@ -25,7 +25,15 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val mLoggedUser = MutableLiveData<Boolean>()
     val loggedUser: LiveData<Boolean> = mLoggedUser
 
-    fun doLogin(email: String, password: String) {
+    fun doLogin(email: String?, password: String?) {
+        if (email.isNullOrEmpty()) {
+            mLogin.value = ValidationListener("Por favor, insira um email")
+            return
+        }
+        if (password.isNullOrEmpty()) {
+            mLogin.value = ValidationListener("Por favor, insira a senha")
+            return
+        }
         val user = UserModel(email = email, password = password)
         mRepository.login(user, object : OnCallbackListener<UserModel> {
             override fun onSuccess(result: UserModel) {

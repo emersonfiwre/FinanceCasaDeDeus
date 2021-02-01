@@ -39,12 +39,12 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         val id = v?.id
         if (id == R.id.button_login) {
 
-//            val user = edit_user.text.toString()
-//            val password = edit_password.text.toString()
-//            mViewModel.doLogin(user, password)
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+            val user = edit_user.text.toString()
+            val password = edit_password.text.toString()
+            mViewModel.doLogin(user, password)
+//            val intent = Intent(this, MainActivity::class.java)
+//            startActivity(intent)
+//            finish()
 
         } else if (id == R.id.button_cadastrar) {
             startActivity(Intent(this, RegisterActivity::class.java))
@@ -59,7 +59,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 //                val intent = Intent(this, SelectYearActivity::class.java)
 //                startActivity(intent)
             } else {
-                //Toast.makeText(this,it.failure(),Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,it.failure(),Toast.LENGTH_SHORT).show()
             }
         })
     }
