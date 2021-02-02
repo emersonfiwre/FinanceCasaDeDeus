@@ -21,6 +21,9 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val mLogin = MutableLiveData<ValidationListener>()
     var login: LiveData<ValidationListener> = mLogin
 
+    private val mCreateUser = MutableLiveData<ValidationListener>()
+    var createUser: LiveData<ValidationListener> = mCreateUser
+
     // Login usando SharedPreferences
     private val mLoggedUser = MutableLiveData<Boolean>()
     val loggedUser: LiveData<Boolean> = mLoggedUser
@@ -38,8 +41,8 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         mRepository.login(user, object : OnCallbackListener<UserModel> {
             override fun onSuccess(result: UserModel) {
                 // Salvar dados do usuário no SharePreferences
-                mSecurityPreferences.store(TransactionConstants.SHARED.USER_KEY, result.name)
-                result.key?.let {
+                mSecurityPreferences.store(TransactionConstants.SHARED.USER_KEY, result.key)
+                result.name.let {
                     mSecurityPreferences.store(
                         TransactionConstants.SHARED.USER_NAME,
                         it
@@ -56,6 +59,47 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
         })
     }
+    fun create(userModel: UserModel, confirmPass:String) {
+        if (userModel.email.isNullOrEmpty()) {
+            mCreateUser.value = ValidationListener("Por favor, insira seu nome.")
+            return
+        }
+        if (userModel.email.isNullOrEmpty()) {
+            mCreateUser.value = ValidationListener("Por favor, insira um email.")
+            return
+        }
+        if (userModel.password.isNullOrEmpty()) {
+            mCreateUser.value = ValidationListener("Por favor, insira a senha.")
+            return
+        }
+        if (confirmPass.isNullOrEmpty()|| !userModel.password.equals(confirmPass)) {
+            mCreateUser.value = ValidationListener("A senhas estão diferentes. Por favor, confime a senha.")
+            return
+        }
+        //val user = UserModel(email = email, password = password)
+        mRepository.create(userModel, object : OnCallbackListener<Boolean> {
+            override fun onSuccess(result: Boolean) {
+                // Salvar dados do usuário no SharePreferences
+                mSecurityPreferences.store(TransactionConstants.SHARED.USER_KEY, userModel.key)
+
+                userModel.name.let {
+                    mSecurityPreferences.store(
+                        TransactionConstants.SHARED.USER_NAME,
+                        it
+                    )
+                }
+
+                // Informa sucesso
+                mCreateUser.value = ValidationListener()
+            }
+
+            override fun onFailure(message: String) {
+                mCreateUser.value = ValidationListener(message)
+            }
+
+        })
+    }
+
 
     /**
      * Verifica se usuário está logado

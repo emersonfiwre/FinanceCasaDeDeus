@@ -24,9 +24,11 @@ class UserRepository(private val context: Context) {
                     Log.d("UserRepository", "signInWithEmail:success")
                     val user = mAuth.currentUser
                     if (user != null) {
-                        get(user.uid, listener)// nao sei se vai funcionar, se funcionar fazer isso com save
+                        get(
+                            user.uid,
+                            listener
+                        )//não sei se vai funcionar, se funcionar fazer isso com save
                     }
-
                 } else {
 //                    listener.onFailure(task.exception!!.message!!)
                     try {
@@ -64,12 +66,10 @@ class UserRepository(private val context: Context) {
                     val key = document.id
                     val name = document.data?.get("name") as String
                     val email = document.data?.get("email") as String
-                    val password = document.data?.get("password") as String
                     user = UserModel(
                         key,
                         name,
-                        email,
-                        password
+                        email
                     )
                     listener.onSuccess(user!!)
                 } else {
@@ -82,8 +82,7 @@ class UserRepository(private val context: Context) {
             }
     }
 
-    fun save(userModel: UserModel, listener: OnCallbackListener<Boolean>) {
-
+    fun create(userModel: UserModel, listener: OnCallbackListener<Boolean>) {
         mAuth.createUserWithEmailAndPassword(userModel.email, userModel.password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -93,28 +92,15 @@ class UserRepository(private val context: Context) {
                     val firebaseUser: FirebaseUser = task.result!!.user!!
 
                     //user.uid
-                    val user = hashMapOf(
-                        "email" to userModel.email,
-                        "name" to userModel.name,
-                        "password" to userModel.password // acho que não preciso guardar a senha
-                    )
-                    mDatabase.collection("users").document(firebaseUser.uid)
-                        //.set(userModel)//testing
-                        .set(user)//recommend
-                        .addOnSuccessListener {
-                            listener.onSuccess(true)
-                        }
-                        .addOnFailureListener {
-                            val message = it.message.toString()
-                            Log.e(TransactionConstants.ERRORS.USER_REPOSITORY, message)
-                            listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
-                        }
+                    save(firebaseUser.uid, userModel, listener)
+
                 } else {
-                    listener.onFailure(task.exception!!.message.toString())
+                    //listener.onFailure(task.exception!!.message.toString())
                     try {
                         throw task.exception!!
                     } catch (e: FirebaseAuthWeakPasswordException) {
                         listener.onFailure("FirebaseAuthWeakPasswordException: ${e.message}")
+                        //listener.onFailure("A senha deve ter no minimo 6 caracteres.")
                     } catch (e: FirebaseAuthInvalidCredentialsException) {
                         listener.onFailure("FirebaseAuthInvalidCredentialsException: ${e.message}")
                         Log.e(TransactionConstants.ERRORS.USER_REPOSITORY, e.message!!)
@@ -130,7 +116,30 @@ class UserRepository(private val context: Context) {
 
     }
 
-    fun update(userModel: UserModel, listener: OnCallbackListener<Boolean>) {// fazer tela pro usuario editar suas informacoes
+    private fun save(uid: String, userModel: UserModel, listener: OnCallbackListener<Boolean>) {
+        /*val user = hashMapOf(
+            "email" to userModel.email,
+            "name" to userModel.name,
+            "password" to userModel.password
+        )// acho que não preciso guardar a senha*/
+
+        mDatabase.collection("users").document(uid)
+            .set(userModel)//testing
+            //.set(user)//recommend
+            .addOnSuccessListener {
+                listener.onSuccess(true)
+            }
+            .addOnFailureListener {
+                val message = it.message.toString()
+                Log.e(TransactionConstants.ERRORS.USER_REPOSITORY, message)
+                listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
+            }
+    }
+
+    fun update(
+        userModel: UserModel,
+        listener: OnCallbackListener<Boolean>
+    ) {// fazer tela pro usuario editar suas informacoes
         mDatabase.collection("users")
             .document(userModel.key)
             .set(userModel)

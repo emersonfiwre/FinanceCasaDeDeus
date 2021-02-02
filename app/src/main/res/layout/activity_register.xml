@@ -45,6 +45,7 @@
             android:textSize="31sp" />
 
         <EditText
+            android:id="@+id/edit_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -52,6 +53,7 @@
             android:inputType="text" />
 
         <EditText
+            android:id="@+id/edit_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -59,6 +61,7 @@
             android:inputType="textEmailAddress" />
 
         <EditText
+            android:id="@+id/edit_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -66,6 +69,7 @@
             android:inputType="textPassword" />
 
         <EditText
+            android:id="@+id/edit_confirm_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -81,6 +85,14 @@
             android:text="Cadastrar"
             android:textColor="@color/white"
             android:textSize="16sp" />
+
+        <ProgressBar
+            android:id="@+id/pg_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:visibility="gone" />
 
         <ProgressBar
             android:id="@+id/pg_await_register"

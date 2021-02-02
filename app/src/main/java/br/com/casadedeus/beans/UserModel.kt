@@ -6,5 +6,5 @@ data class UserModel(
     @get:Exclude val key: String = "",
     var name: String = "",
     var email: String = "",
-    var password: String = ""
+    @get:Exclude var password: String = ""
 )

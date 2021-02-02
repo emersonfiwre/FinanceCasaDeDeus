@@ -21,8 +21,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:text="@string/sign_account"/>
+        android:text="@string/sign_account"
+        android:textSize="18sp" />
 
     <!--RelativeLayout
         android:layout_width="match_parent"
@@ -116,5 +116,15 @@
         android:text="@string/register"
         android:textColor="@color/textColor"
         android:textStyle="bold" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@null"
+        android:text="Esqueci a senha"
+        android:textColor="@color/textColor"
+        android:textStyle="bold" />
+
 
 </LinearLayout>
