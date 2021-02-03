@@ -9,6 +9,7 @@ import br.com.casadedeus.service.listener.OnCallbackListener
 import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.auth.User
 import com.google.firebase.ktx.Firebase
 
 
@@ -21,13 +22,9 @@ class UserRepository(private val context: Context) {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    Log.d("UserRepository", "signInWithEmail:success")
                     val user = mAuth.currentUser
                     if (user != null) {
-                        get(
-                            user.uid,
-                            listener
-                        )//não sei se vai funcionar, se funcionar fazer isso com save
+                        get(user.uid, listener)
                     }
                 } else {
 //                    listener.onFailure(task.exception!!.message!!)
@@ -41,6 +38,7 @@ class UserRepository(private val context: Context) {
                     } catch (e: FirebaseAuthUserCollisionException) {
                         //listener.onFailure("FirebaseAuthUserCollisionException: ${e.message}")
                     } catch (e: Exception) {
+                        //listener.onFailure("Exception: ${e.message}")
                         listener.onFailure(context.getString(R.string.user_not_found_login))
                         Log.e(TransactionConstants.ERRORS.USER_REPOSITORY, e.message!!)
                     }
@@ -59,21 +57,20 @@ class UserRepository(private val context: Context) {
     }
 
     private fun get(uid: String, listener: OnCallbackListener<UserModel>) {
-        var user: UserModel? = null
         mDatabase.collection("users").document(uid).get()
             .addOnSuccessListener { document ->
                 if (document.exists()) {
                     val key = document.id
                     val name = document.data?.get("name") as String
                     val email = document.data?.get("email") as String
-                    user = UserModel(
+                    val user = UserModel(
                         key,
                         name,
                         email
                     )
-                    listener.onSuccess(user!!)
+                    listener.onSuccess(user)
                 } else {
-                    listener.onFailure(context.getString(R.string.user_not_found))
+                    listener.onFailure(context.getString(R.string.user_not_found_login))
                 }
             }.addOnFailureListener {
                 val message = it.message.toString()
@@ -82,18 +79,14 @@ class UserRepository(private val context: Context) {
             }
     }
 
-    fun create(userModel: UserModel, listener: OnCallbackListener<Boolean>) {
+    fun create(userModel: UserModel, listener: OnCallbackListener<UserModel>) {
         mAuth.createUserWithEmailAndPassword(userModel.email, userModel.password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    Log.d("UserRepository", "createUserWithEmail:success")
 
                     val firebaseUser: FirebaseUser = task.result!!.user!!
-
-                    //user.uid
                     save(firebaseUser.uid, userModel, listener)
-
                 } else {
                     //listener.onFailure(task.exception!!.message.toString())
                     try {
@@ -102,7 +95,8 @@ class UserRepository(private val context: Context) {
                         listener.onFailure("FirebaseAuthWeakPasswordException: ${e.message}")
                         //listener.onFailure("A senha deve ter no minimo 6 caracteres.")
                     } catch (e: FirebaseAuthInvalidCredentialsException) {
-                        listener.onFailure("FirebaseAuthInvalidCredentialsException: ${e.message}")
+                        listener.onFailure(context.getString(R.string.email_badly_formatted))
+                        //listener.onFailure("FirebaseAuthInvalidCredentialsException: ${e.message}")
                         Log.e(TransactionConstants.ERRORS.USER_REPOSITORY, e.message!!)
                     } catch (e: FirebaseAuthUserCollisionException) {
                         listener.onFailure("FirebaseAuthUserCollisionException: ${e.message}")
@@ -111,12 +105,11 @@ class UserRepository(private val context: Context) {
                         Log.e(TransactionConstants.ERRORS.USER_REPOSITORY, e.message!!)
                     }
                 }
-                // ...
             }
 
     }
 
-    private fun save(uid: String, userModel: UserModel, listener: OnCallbackListener<Boolean>) {
+    private fun save(uid: String, userModel: UserModel, listener: OnCallbackListener<UserModel>) {
         /*val user = hashMapOf(
             "email" to userModel.email,
             "name" to userModel.name,
@@ -127,13 +120,28 @@ class UserRepository(private val context: Context) {
             .set(userModel)//testing
             //.set(user)//recommend
             .addOnSuccessListener {
-                listener.onSuccess(true)
+                listener.onSuccess(userModel.apply { key = uid })
             }
             .addOnFailureListener {
                 val message = it.message.toString()
                 Log.e(TransactionConstants.ERRORS.USER_REPOSITORY, message)
                 listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
             }
+    }
+
+    fun resetUserPassword(email: String, listener: OnCallbackListener<Boolean>) {
+        mAuth.sendPasswordResetEmail(email).addOnCompleteListener {
+            if (it.isSuccessful) {
+                listener.onSuccess(true)
+            } else {
+                listener.onFailure("Este email não está cadastrado. Por favor, realize o cadastro.")
+            }
+            listener.onSuccess(true)
+        }.addOnFailureListener {
+            val message = it.message.toString()
+            Log.e(TransactionConstants.ERRORS.USER_REPOSITORY, message)
+            listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
+        }
     }
 
     fun update(

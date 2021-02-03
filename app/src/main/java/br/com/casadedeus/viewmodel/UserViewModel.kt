@@ -11,11 +11,13 @@ import br.com.casadedeus.service.listener.OnCallbackListener
 import br.com.casadedeus.service.listener.ValidationListener
 import br.com.casadedeus.service.repository.SecurityPreferences
 import br.com.casadedeus.service.repository.UserRepository
+import br.com.casadedeus.service.utils.Utils
+import com.google.firebase.firestore.auth.User
 
 class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     private val mContext: Context = application.applicationContext
-    private val mSecurityPreferences = SecurityPreferences(application)
+    private val mSecurityPreferences = SecurityPreferences(mContext)
     private val mRepository = UserRepository(mContext)
 
     private val mLogin = MutableLiveData<ValidationListener>()
@@ -23,6 +25,9 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     private val mCreateUser = MutableLiveData<ValidationListener>()
     var createUser: LiveData<ValidationListener> = mCreateUser
+
+    private val mForgotPassword = MutableLiveData<ValidationListener>()
+    var forgotPassword: LiveData<ValidationListener> = mForgotPassword
 
     // Login usando SharedPreferences
     private val mLoggedUser = MutableLiveData<Boolean>()
@@ -42,13 +47,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             override fun onSuccess(result: UserModel) {
                 // Salvar dados do usuário no SharePreferences
                 mSecurityPreferences.store(TransactionConstants.SHARED.USER_KEY, result.key)
-                result.name.let {
-                    mSecurityPreferences.store(
-                        TransactionConstants.SHARED.USER_NAME,
-                        it
-                    )
-                }
-
+                mSecurityPreferences.store(TransactionConstants.SHARED.USER_NAME, result.name)
                 // Informa sucesso
                 mLogin.value = ValidationListener()
             }
@@ -59,7 +58,8 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
         })
     }
-    fun create(userModel: UserModel, confirmPass:String) {
+
+    fun create(userModel: UserModel, confirmPass: String) {
         if (userModel.email.isNullOrEmpty()) {
             mCreateUser.value = ValidationListener("Por favor, insira seu nome.")
             return
@@ -72,22 +72,17 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             mCreateUser.value = ValidationListener("Por favor, insira a senha.")
             return
         }
-        if (confirmPass.isNullOrEmpty()|| !userModel.password.equals(confirmPass)) {
-            mCreateUser.value = ValidationListener("A senhas estão diferentes. Por favor, confime a senha.")
+        if (confirmPass.isNullOrEmpty() || !userModel.password.equals(confirmPass)) {
+            mCreateUser.value =
+                ValidationListener("A senhas estão diferentes. Por favor, confime a senha.")
             return
         }
         //val user = UserModel(email = email, password = password)
-        mRepository.create(userModel, object : OnCallbackListener<Boolean> {
-            override fun onSuccess(result: Boolean) {
+        mRepository.create(userModel, object : OnCallbackListener<UserModel> {
+            override fun onSuccess(result: UserModel) {
                 // Salvar dados do usuário no SharePreferences
                 mSecurityPreferences.store(TransactionConstants.SHARED.USER_KEY, userModel.key)
-
-                userModel.name.let {
-                    mSecurityPreferences.store(
-                        TransactionConstants.SHARED.USER_NAME,
-                        it
-                    )
-                }
+                mSecurityPreferences.store(TransactionConstants.SHARED.USER_NAME, result.name)
 
                 // Informa sucesso
                 mCreateUser.value = ValidationListener()
@@ -100,6 +95,25 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         })
     }
 
+    fun resetPassword(email: String) {
+        if (email.isEmpty()) {
+            mForgotPassword.value = ValidationListener("Digite um email.")
+            return
+        }
+        if (!Utils.validateEmailFormat(email)) {
+            mForgotPassword.value = ValidationListener("Digite um email válido.")
+            return
+        }
+        mRepository.resetUserPassword(email, object : OnCallbackListener<Boolean> {
+            override fun onSuccess(result: Boolean) {
+                mForgotPassword.value = ValidationListener()
+            }
+
+            override fun onFailure(message: String) {
+                mForgotPassword.value = ValidationListener(message)
+            }
+        })
+    }
 
     /**
      * Verifica se usuário está logado

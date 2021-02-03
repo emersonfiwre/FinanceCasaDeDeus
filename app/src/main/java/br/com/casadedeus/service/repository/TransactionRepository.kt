@@ -33,7 +33,7 @@ class TransactionRepository(private val context: Context) {
         /*val dateS = SimpleDateFormat("dd-MM-yyyy").parse("01-01-2021")
         val dateE = SimpleDateFormat("dd-MM-yyyy").parse("30-01-2021")*/
 
-        mDatabase.collection("users/WqVSBEFTfLTRSPLNV52k/transactions/")
+        mDatabase.collection("users/$userKey/transactions/")
             .whereGreaterThanOrEqualTo("day", startDateTime)
             .whereLessThanOrEqualTo("day", endDateTime)
             //.whereGreaterThan("day", startDate)
@@ -77,7 +77,7 @@ class TransactionRepository(private val context: Context) {
 
     fun save(transactionModel: TransactionModel, listener: OnCallbackListener<Boolean>) {
         //mDatabase.collection("users/$userKey/transactions/")
-        mDatabase.collection("users/WqVSBEFTfLTRSPLNV52k/transactions/")
+        mDatabase.collection("users/$userKey/transactions/")
             .add(transactionModel)
             .addOnSuccessListener { documentReference ->
                 //println("DocumentSnapshot added with ID: ${documentReference.id}")
@@ -92,7 +92,7 @@ class TransactionRepository(private val context: Context) {
 
     fun update(transactionModel: TransactionModel, listener: OnCallbackListener<Boolean>) {
         transactionModel.key?.let {
-            mDatabase.collection("users/WqVSBEFTfLTRSPLNV52k/transactions")
+            mDatabase.collection("users/$userKey/transactions")
                 .document(it)
                 .set(transactionModel)
                 .addOnSuccessListener {
@@ -107,7 +107,7 @@ class TransactionRepository(private val context: Context) {
     }
 
     fun delete(transactionKey: String, listener: OnCallbackListener<Boolean>) {
-        mDatabase.collection("users/WqVSBEFTfLTRSPLNV52k/transactions").document(transactionKey)
+        mDatabase.collection("users/$userKey/transactions").document(transactionKey)
             .delete()
             .addOnSuccessListener { listener.onSuccess(true) }
             .addOnFailureListener {

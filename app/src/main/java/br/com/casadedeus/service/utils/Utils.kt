@@ -1,8 +1,8 @@
 package br.com.casadedeus.service.utils
 
 import android.util.Log
+import android.util.Patterns
 import br.com.casadedeus.service.constants.ViewConstants
-import kotlinx.android.synthetic.main.dialog_single_input.view.*
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -84,6 +84,9 @@ class Utils {
                 Log.e(ViewConstants.LOG.CONVERSION_ERROR, e.message.toString())
                 null
             }
+        }
+        fun validateEmailFormat(email: String): Boolean {
+            return Patterns.EMAIL_ADDRESS.matcher(email).matches()
         }
     }
 }

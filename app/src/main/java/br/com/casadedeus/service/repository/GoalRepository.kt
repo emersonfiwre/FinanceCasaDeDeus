@@ -22,7 +22,7 @@ class GoalRepository(private val context: Context) {
         listener: OnCallbackListener<List<GoalModel>>
     ) {
         val goalModels: MutableList<GoalModel> = arrayListOf()
-        mDatabase.collection("users/WqVSBEFTfLTRSPLNV52k/goals/")
+        mDatabase.collection("users/$userKey/goals/")
             .orderBy("startday", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener {
@@ -56,7 +56,7 @@ class GoalRepository(private val context: Context) {
 
     fun save(goalModel: GoalModel, listener: OnCallbackListener<Boolean>) {
         //mDatabase.collection("users/$userKey/transactions/")
-        mDatabase.collection("users/WqVSBEFTfLTRSPLNV52k/goals/")
+        mDatabase.collection("users/$userKey/goals/")
             .add(goalModel)
             .addOnSuccessListener { documentReference ->
                 listener.onSuccess(true)
@@ -70,7 +70,7 @@ class GoalRepository(private val context: Context) {
 
     fun update(goalModel: GoalModel, listener: OnCallbackListener<Boolean>) {
         goalModel.key?.let {
-            mDatabase.collection("users/WqVSBEFTfLTRSPLNV52k/goals/")
+            mDatabase.collection("users/$userKey/goals/")
                 .document(it)
                 .set(goalModel)
                 .addOnSuccessListener {
@@ -85,7 +85,7 @@ class GoalRepository(private val context: Context) {
     }
 
     fun delete(goalKey: String, listener: OnCallbackListener<Boolean>) {
-        mDatabase.collection("users/WqVSBEFTfLTRSPLNV52k/goals").document(goalKey)
+        mDatabase.collection("users/$userKey/goals").document(goalKey)
             .delete()
             .addOnSuccessListener { listener.onSuccess(true) }
             .addOnFailureListener {
@@ -97,7 +97,7 @@ class GoalRepository(private val context: Context) {
 
 
     fun updateStatus(key: String, complete: Boolean, listener: OnCallbackListener<Boolean>) {
-        mDatabase.collection("users/WqVSBEFTfLTRSPLNV52k/goals")
+        mDatabase.collection("users/$userKey/goals")
             .document(key)
             .update(GoalConstants.FINISH, complete)
             .addOnSuccessListener {

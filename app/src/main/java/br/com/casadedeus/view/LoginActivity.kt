@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import br.com.casadedeus.R
 import br.com.casadedeus.viewmodel.UserViewModel
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_login.edit_password
+import kotlinx.android.synthetic.main.activity_register.*
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var mViewModel: UserViewModel
@@ -31,24 +33,23 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setListeners() {
-        button_login.setOnClickListener(this)
-        button_cadastrar.setOnClickListener(this)
+        btn_login.setOnClickListener(this)
+        btn_cadastrar.setOnClickListener(this)
+        txt_forgot_password.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         val id = v?.id
-        if (id == R.id.button_login) {
-
+        if (id == R.id.btn_login) {
+            loading()
             val user = edit_user.text.toString()
             val password = edit_password.text.toString()
             mViewModel.doLogin(user, password)
-//            val intent = Intent(this, MainActivity::class.java)
-//            startActivity(intent)
-//            finish()
 
-        } else if (id == R.id.button_cadastrar) {
+        } else if (id == R.id.btn_cadastrar) {
             startActivity(Intent(this, RegisterActivity::class.java))
-            //Toast.makeText(this, "Cadastrar em implementação", Toast.LENGTH_SHORT).show()
+        } else if (id == R.id.txt_forgot_password) {
+
         }
 
     }
@@ -56,11 +57,29 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private fun observe() {
         mViewModel.login.observe(this, Observer {
             if (it.success()) {
-//                val intent = Intent(this, SelectYearActivity::class.java)
-//                startActivity(intent)
+                Toast.makeText(this, "Login com sucesso!", Toast.LENGTH_SHORT).show()
+                //successLogin()
             } else {
-                Toast.makeText(this,it.failure(),Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, it.failure(), Toast.LENGTH_SHORT).show()
             }
+            loading(false)
         })
+    }
+
+    private fun loading(isLoad: Boolean = true) {
+        if (isLoad) {
+            btn_login.visibility = View.GONE
+            pg_login.visibility = View.VISIBLE
+        } else {
+            btn_login.visibility = View.VISIBLE
+            pg_login.visibility = View.GONE
+        }
+
+    }
+
+    private fun successLogin() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

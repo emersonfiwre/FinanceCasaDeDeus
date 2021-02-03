@@ -76,7 +76,8 @@
     <string name="add_goal">Adicionar objetivo</string>
     <string name="date_goal">Data do objetivo</string>
     <string name="email_badly_formatted">Digite um email válido, ele está formatado incorretamente.</string>
-    <string name="user_not_found_login">Usuário não encontrado, realize seu cadastro para fazer o login.</string>
-    <string name="user_not_found">Desculpe usuário não foi encontrada. Tente novamente mais tarde.</string>
+    <string name="user_not_found_login">Usuário não encontrado, email ou senha incorreto.</string>
+    <string name="user_not_found">Desculpe usuário não foi encontrado. Tente novamente mais tarde.</string>
+    <string name="create_account">Create Account</string>
 
 </resources>
