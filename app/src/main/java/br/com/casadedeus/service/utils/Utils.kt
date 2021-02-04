@@ -88,5 +88,7 @@ class Utils {
         fun validateEmailFormat(email: String): Boolean {
             return Patterns.EMAIL_ADDRESS.matcher(email).matches()
         }
+
+
     }
 }

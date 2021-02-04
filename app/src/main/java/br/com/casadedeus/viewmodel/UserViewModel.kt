@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import br.com.casadedeus.beans.UserModel
 import br.com.casadedeus.service.constants.TransactionConstants
+import br.com.casadedeus.service.constants.UserConstants
 import br.com.casadedeus.service.listener.OnCallbackListener
 import br.com.casadedeus.service.listener.ValidationListener
 import br.com.casadedeus.service.repository.SecurityPreferences
@@ -46,8 +47,8 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         mRepository.login(user, object : OnCallbackListener<UserModel> {
             override fun onSuccess(result: UserModel) {
                 // Salvar dados do usuário no SharePreferences
-                mSecurityPreferences.store(TransactionConstants.SHARED.USER_KEY, result.key)
-                mSecurityPreferences.store(TransactionConstants.SHARED.USER_NAME, result.name)
+                mSecurityPreferences.store(UserConstants.SHARED.USER_KEY, result.key)
+                mSecurityPreferences.store(UserConstants.SHARED.USER_NAME, result.name)
                 // Informa sucesso
                 mLogin.value = ValidationListener()
             }
@@ -81,8 +82,8 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         mRepository.create(userModel, object : OnCallbackListener<UserModel> {
             override fun onSuccess(result: UserModel) {
                 // Salvar dados do usuário no SharePreferences
-                mSecurityPreferences.store(TransactionConstants.SHARED.USER_KEY, userModel.key)
-                mSecurityPreferences.store(TransactionConstants.SHARED.USER_NAME, result.name)
+                mSecurityPreferences.store(UserConstants.SHARED.USER_KEY, userModel.key)
+                mSecurityPreferences.store(UserConstants.SHARED.USER_NAME, result.name)
 
                 // Informa sucesso
                 mCreateUser.value = ValidationListener()
@@ -90,6 +91,19 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
             override fun onFailure(message: String) {
                 mCreateUser.value = ValidationListener(message)
+            }
+
+        })
+    }
+
+    fun verifcationEmail() {
+        mRepository.verificationEmail(object : OnCallbackListener<Boolean> {
+            override fun onSuccess(result: Boolean) {
+                //
+            }
+
+            override fun onFailure(message: String) {
+                mLogin.value = ValidationListener(message)
             }
 
         })
@@ -119,8 +133,8 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
      * Verifica se usuário está logado
      */
     fun verifyLoggedUser() {
-        val key = mSecurityPreferences.get(TransactionConstants.SHARED.USER_KEY)
-        val userKey = mSecurityPreferences.get(TransactionConstants.SHARED.USER_NAME)
+        val key = mSecurityPreferences.get(UserConstants.SHARED.USER_KEY)
+        val userKey = mSecurityPreferences.get(UserConstants.SHARED.USER_NAME)
 
         // Se token e person key forem diferentes de vazio, usuário está logado
         val logged = (key != "" && userKey != "")

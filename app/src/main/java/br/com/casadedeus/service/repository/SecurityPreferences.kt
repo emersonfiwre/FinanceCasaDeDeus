@@ -3,6 +3,7 @@ package br.com.casadedeus.service.repository
 import android.content.Context
 import android.content.SharedPreferences
 import br.com.casadedeus.service.constants.TransactionConstants
+import br.com.casadedeus.service.constants.UserConstants
 
 /**
  * Acesso a dados rápidos do projeto - SharedPreferences
@@ -11,7 +12,7 @@ class SecurityPreferences(context: Context) {
 
     private val mPreferences: SharedPreferences =
         context.getSharedPreferences(
-            TransactionConstants.SHARED.USER_SHARED,
+            UserConstants.SHARED.USER_SHARED,
             Context.MODE_PRIVATE
         )//set constants
 

@@ -1,6 +1,7 @@
 package br.com.casadedeus.view
 
 import android.app.DatePickerDialog
+import android.app.ProgressDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -30,6 +31,7 @@ class TransactionFormActivity : AppCompatActivity(), View.OnClickListener,
     private lateinit var mViewModel: TransactionViewModel
     private var mTransactionKey: String = ""
     val mCategoryAdapter = CategoryAdapter()
+    lateinit var progressDialog: ProgressDialog
 
     private val mDateFormat =
         SimpleDateFormat("EEE, d MMM 'de' yyyy", Locale("pt", "BR"))// dia por extenso
@@ -99,6 +101,7 @@ class TransactionFormActivity : AppCompatActivity(), View.OnClickListener,
 
     private fun observer() {
         mViewModel.validation.observe(this, androidx.lifecycle.Observer {
+            loading(false)
             if (it.success()) {
                 if (mTransactionKey == "") {
                     Toast.makeText(
@@ -181,7 +184,6 @@ class TransactionFormActivity : AppCompatActivity(), View.OnClickListener,
             }
 
             override fun onLongClick(id: String) {
-                TODO("Not yet implemented")
             }
         })
         inflater.rv_categories.adapter = mCategoryAdapter
@@ -189,6 +191,7 @@ class TransactionFormActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun onClickSave() {
+        loading()
         mViewModel.save(
             TransactionModel(
                 key = mTransactionKey,
@@ -200,6 +203,13 @@ class TransactionFormActivity : AppCompatActivity(), View.OnClickListener,
                 notaFiscal = edit_nota_fiscal.text.toString(),
                 amount = Utils.realToDouble(edit_valor.text.toString())
             )
+        )
+    }
+
+    private fun loading(isLoad: Boolean = true) {
+        val progressDialog = ProgressDialog.show(
+            this, "Aguarde.",
+            "Salvando...", true
         )
     }
 

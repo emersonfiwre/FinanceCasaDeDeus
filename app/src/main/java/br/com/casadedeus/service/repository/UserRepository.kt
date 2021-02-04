@@ -4,12 +4,11 @@ import android.content.Context
 import android.util.Log
 import br.com.casadedeus.R
 import br.com.casadedeus.beans.UserModel
-import br.com.casadedeus.service.constants.TransactionConstants
+import br.com.casadedeus.service.constants.UserConstants
 import br.com.casadedeus.service.listener.OnCallbackListener
 import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.auth.User
 import com.google.firebase.ktx.Firebase
 
 
@@ -17,42 +16,27 @@ class UserRepository(private val context: Context) {
     private val mDatabase = FirebaseFirestore.getInstance()
     private val mAuth: FirebaseAuth = Firebase.auth
 
+
     fun login(userModel: UserModel, listener: OnCallbackListener<UserModel>) {
         mAuth.signInWithEmailAndPassword(userModel.email, userModel.password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
+            .addOnSuccessListener { task ->
+                // Sign in success, update UI with the signed-in user's information
+                if (mAuth.currentUser!!.isEmailVerified) {
                     val user = mAuth.currentUser
                     if (user != null) {
                         get(user.uid, listener)
                     }
                 } else {
-//                    listener.onFailure(task.exception!!.message!!)
-                    try {
-                        throw task.exception!!
-                    } catch (e: FirebaseAuthWeakPasswordException) {
-                        //listener.onFailure("FirebaseAuthWeakPasswordException: ${e.message}")
-                    } catch (e: FirebaseAuthInvalidCredentialsException) {
-                        listener.onFailure(context.getString(R.string.email_badly_formatted))
-                        Log.e(TransactionConstants.ERRORS.USER_REPOSITORY, e.message!!)
-                    } catch (e: FirebaseAuthUserCollisionException) {
-                        //listener.onFailure("FirebaseAuthUserCollisionException: ${e.message}")
-                    } catch (e: Exception) {
-                        //listener.onFailure("Exception: ${e.message}")
-                        listener.onFailure(context.getString(R.string.user_not_found_login))
-                        Log.e(TransactionConstants.ERRORS.USER_REPOSITORY, e.message!!)
-                    }
-                    //Verificar esses errors
-                    /*if (user != null) {
-                        if (user!!.password == userModel.password) {
-                            listener.onSuccess(user!!)
-                        } else {
-                            listener.onFailure(context.getString(R.string.password_incorrect))
-                        }
-                    } else {
-                        listener.onFailure(context.getString(R.string.email_not_found))
-                    }*/
+                    listener.onFailure("Por favor, confirme seu e-mail.")
                 }
+            }.addOnFailureListener {
+                val errorCode = (it as FirebaseAuthException).errorCode
+                val errorMessage = UserConstants.ERRORS.AUTH_ERRORS[errorCode]
+                    ?: R.string.error_login_default_error
+                listener.onFailure(context.getString(errorMessage))
+
+                val message = it.message.toString()
+                Log.e(UserConstants.ERRORS.USER_REPOSITORY, message)
             }
     }
 
@@ -61,8 +45,8 @@ class UserRepository(private val context: Context) {
             .addOnSuccessListener { document ->
                 if (document.exists()) {
                     val key = document.id
-                    val name = document.data?.get("name") as String
-                    val email = document.data?.get("email") as String
+                    val name = document.data?.get(UserConstants.NAME) as String
+                    val email = document.data?.get(UserConstants.EMAIL) as String
                     val user = UserModel(
                         key,
                         name,
@@ -74,7 +58,7 @@ class UserRepository(private val context: Context) {
                 }
             }.addOnFailureListener {
                 val message = it.message.toString()
-                Log.e(TransactionConstants.ERRORS.USER_REPOSITORY, message)
+                Log.e(UserConstants.ERRORS.USER_REPOSITORY, message)
                 listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
             }
     }
@@ -83,10 +67,20 @@ class UserRepository(private val context: Context) {
         mAuth.createUserWithEmailAndPassword(userModel.email, userModel.password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
+                    mAuth.currentUser?.sendEmailVerification()?.addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            // Sign in success, update UI with the signed-in user's information
+                            val firebaseUser: FirebaseUser = task.result!!.user!!
+                            save(firebaseUser.uid, userModel, listener)
+                        } else {
+                            listener.onFailure("Desculpe, não foi possível enviar o email de verificação. Por favor, tente mais tarde.")
+                            Log.e(
+                                UserConstants.ERRORS.USER_REPOSITORY,
+                                it.exception!!.message!!
+                            )
+                        }
+                    }
 
-                    val firebaseUser: FirebaseUser = task.result!!.user!!
-                    save(firebaseUser.uid, userModel, listener)
                 } else {
                     //listener.onFailure(task.exception!!.message.toString())
                     try {
@@ -97,16 +91,28 @@ class UserRepository(private val context: Context) {
                     } catch (e: FirebaseAuthInvalidCredentialsException) {
                         listener.onFailure(context.getString(R.string.email_badly_formatted))
                         //listener.onFailure("FirebaseAuthInvalidCredentialsException: ${e.message}")
-                        Log.e(TransactionConstants.ERRORS.USER_REPOSITORY, e.message!!)
+                        Log.e(UserConstants.ERRORS.USER_REPOSITORY, e.message!!)
                     } catch (e: FirebaseAuthUserCollisionException) {
                         listener.onFailure("FirebaseAuthUserCollisionException: ${e.message}")
                     } catch (e: Exception) {
-                        listener.onFailure("Exception: ${e.message}")
-                        Log.e(TransactionConstants.ERRORS.USER_REPOSITORY, e.message!!)
+                        //listener.onFailure("Exception: ${e.message}")
+                        Log.e(UserConstants.ERRORS.USER_REPOSITORY, e.message!!)
                     }
                 }
             }
 
+    }
+
+    fun verificationEmail(listener: OnCallbackListener<Boolean>) {
+        mAuth.currentUser?.sendEmailVerification()?.addOnCompleteListener {
+            if (it.isSuccessful) {
+                // Sign in success, update UI with the signed-in user's information
+                listener.onFailure("E-mail de verificaçaão enviado com sucesso.")
+            } else {
+                listener.onFailure("Desculpe, não foi possível enviar o email de verificação. Por favor, tente mais tarde.")
+                Log.e(UserConstants.ERRORS.USER_REPOSITORY, it.exception!!.message!!)
+            }
+        }
     }
 
     private fun save(uid: String, userModel: UserModel, listener: OnCallbackListener<UserModel>) {
@@ -124,23 +130,19 @@ class UserRepository(private val context: Context) {
             }
             .addOnFailureListener {
                 val message = it.message.toString()
-                Log.e(TransactionConstants.ERRORS.USER_REPOSITORY, message)
+                Log.e(UserConstants.ERRORS.USER_REPOSITORY, message)
                 listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
             }
     }
 
     fun resetUserPassword(email: String, listener: OnCallbackListener<Boolean>) {
-        mAuth.sendPasswordResetEmail(email).addOnCompleteListener {
-            if (it.isSuccessful) {
-                listener.onSuccess(true)
-            } else {
-                listener.onFailure("Este email não está cadastrado. Por favor, realize o cadastro.")
-            }
+        mAuth.sendPasswordResetEmail(email).addOnSuccessListener {
             listener.onSuccess(true)
         }.addOnFailureListener {
             val message = it.message.toString()
-            Log.e(TransactionConstants.ERRORS.USER_REPOSITORY, message)
-            listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
+            Log.e(UserConstants.ERRORS.USER_REPOSITORY, message)
+            listener.onFailure("Este email não está cadastrado. Por favor, realize o cadastro.")
+            //listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
         }
     }
 
@@ -156,7 +158,7 @@ class UserRepository(private val context: Context) {
             }
             .addOnFailureListener {
                 val message = it.message.toString()
-                Log.e(TransactionConstants.ERRORS.USER_REPOSITORY, message)
+                Log.e(UserConstants.ERRORS.USER_REPOSITORY, message)
                 listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
             }
     }

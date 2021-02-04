@@ -6,6 +6,7 @@ import br.com.casadedeus.R
 import br.com.casadedeus.beans.GoalModel
 import br.com.casadedeus.service.constants.GoalConstants
 import br.com.casadedeus.service.constants.TransactionConstants
+import br.com.casadedeus.service.constants.UserConstants
 import br.com.casadedeus.service.listener.OnCallbackListener
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
@@ -16,24 +17,24 @@ class GoalRepository(private val context: Context) {
 
     //Recuperando o uid do usuário.
     private val mSecurityPreferences = SecurityPreferences(context)
-    val userKey = mSecurityPreferences.get(TransactionConstants.SHARED.USER_KEY)
+    val userKey = mSecurityPreferences.get(UserConstants.SHARED.USER_KEY)
 
     fun getGoals(
         listener: OnCallbackListener<List<GoalModel>>
     ) {
         val goalModels: MutableList<GoalModel> = arrayListOf()
         mDatabase.collection("users/$userKey/goals/")
-            .orderBy("startday", Query.Direction.DESCENDING)
+            .orderBy(GoalConstants.START_DAY, Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener {
                 for (document in it) {
                     if (document.exists()) {
                         val key = document.id
-                        val startday = document.data["startday"] as Timestamp
-                        val finishday = document.data["finishday"] as Timestamp
-                        val finish = document.data["finish"] as Boolean
-                        val description = document.data["description"] as String
-                        val amount = document.data["amount"] as Double
+                        val startday = document.data[GoalConstants.START_DAY] as Timestamp
+                        val finishday = document.data[GoalConstants.FINISH_DAY] as Timestamp
+                        val finish = document.data[GoalConstants.FINISH] as Boolean
+                        val description = document.data[GoalConstants.DESCRIPTION] as String
+                        val amount = document.data[GoalConstants.AMOUNT] as Double
                         val g = GoalModel(
                             key,
                             startday.toDate(),

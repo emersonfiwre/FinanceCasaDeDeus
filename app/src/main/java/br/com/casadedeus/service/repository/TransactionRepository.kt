@@ -5,6 +5,7 @@ import android.util.Log
 import br.com.casadedeus.R
 import br.com.casadedeus.beans.TransactionModel
 import br.com.casadedeus.service.constants.TransactionConstants
+import br.com.casadedeus.service.constants.UserConstants
 import br.com.casadedeus.service.listener.OnCallbackListener
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
@@ -18,7 +19,7 @@ class TransactionRepository(private val context: Context) {
 
     //Recuperando o uid do usuário.
     private val mSecurityPreferences = SecurityPreferences(context)
-    val userKey = mSecurityPreferences.get(TransactionConstants.SHARED.USER_KEY)
+    val userKey = mSecurityPreferences.get(UserConstants.SHARED.USER_KEY)
 
     fun getTransactions(
         startDateTime: Timestamp,
@@ -34,23 +35,23 @@ class TransactionRepository(private val context: Context) {
         val dateE = SimpleDateFormat("dd-MM-yyyy").parse("30-01-2021")*/
 
         mDatabase.collection("users/$userKey/transactions/")
-            .whereGreaterThanOrEqualTo("day", startDateTime)
-            .whereLessThanOrEqualTo("day", endDateTime)
+            .whereGreaterThanOrEqualTo(TransactionConstants.DAY, startDateTime)
+            .whereLessThanOrEqualTo(TransactionConstants.DAY, endDateTime)
             //.whereGreaterThan("day", startDate)
             //.whereLessThan("day",startDate)//funcionou
-            .orderBy("day", query)
+            .orderBy(TransactionConstants.DAY, query)
             .get()
             .addOnSuccessListener {
                 for (document in it) {
                     if (document.exists()) {
                         val key = document.id
-                        val timestamp = document.data["day"] as Timestamp
-                        val isEntry = document.data["entry"] as Boolean
-                        val desc = document.data["description"] as String
-                        val category = document.data["category"] as String
-                        val companyName = document.data["companyName"] as String
-                        val notaFiscal = document.data["notaFiscal"] as String
-                        val amount = document.data["amount"] as Double
+                        val timestamp = document.data[TransactionConstants.DAY] as Timestamp
+                        val isEntry = document.data[TransactionConstants.ENTRY] as Boolean
+                        val desc = document.data[TransactionConstants.DESCRIPTION] as String
+                        val category = document.data[TransactionConstants.CATEGORY] as String
+                        val companyName = document.data[TransactionConstants.COMPANY_NAME] as String
+                        val notaFiscal = document.data[TransactionConstants.NOTA_FISCAL] as String
+                        val amount = document.data[TransactionConstants.AMOUNT] as Double
                         val ex = TransactionModel(
                             key,
                             timestamp.toDate(),
@@ -125,13 +126,13 @@ class TransactionRepository(private val context: Context) {
             .addOnSuccessListener { document ->
                 if (document.exists()) {
                     val key = document.id
-                    val timestamp = document.data?.get("day") as Timestamp
-                    val isEntry = document.data?.get("entry") as Boolean
-                    val desc = document.data?.get("desc") as String
-                    val category = document.data?.get("category") as String
-                    val companyName = document.data?.get("companyName") as String
-                    val notaFiscal = document.data?.get("notaFiscal") as String
-                    val amount = document.data?.get("amount") as Double
+                    val timestamp = document.data?.get(TransactionConstants.DAY) as Timestamp
+                    val isEntry = document.data?.get(TransactionConstants.ENTRY) as Boolean
+                    val desc = document.data?.get(TransactionConstants.DESCRIPTION) as String
+                    val category = document.data?.get(TransactionConstants.CATEGORY) as String
+                    val companyName = document.data?.get(TransactionConstants.COMPANY_NAME) as String
+                    val notaFiscal = document.data?.get(TransactionConstants.NOTA_FISCAL) as String
+                    val amount = document.data?.get(TransactionConstants.AMOUNT) as Double
                     val ex = TransactionModel(
                         key,
                         timestamp.toDate(),
