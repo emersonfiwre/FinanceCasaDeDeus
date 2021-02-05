@@ -70,7 +70,7 @@ class GoalFragment : Fragment(), View.OnClickListener {
         load()
     }
 
-    private fun load(){
+    private fun load() {
         mViewRoot.rv_planning.visibility = View.GONE
         mViewRoot.pg_await_load_goal.visibility = View.VISIBLE
         mViewModel.load()

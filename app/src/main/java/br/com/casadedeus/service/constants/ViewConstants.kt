@@ -10,6 +10,7 @@ class ViewConstants private constructor() {
 
     object LOG{
         const val CONVERSION_ERROR = "UtilsConversionError"
+        const val LOGIN_ACTIVITY_ERROR = "LoginActivityError"
 
     }
 

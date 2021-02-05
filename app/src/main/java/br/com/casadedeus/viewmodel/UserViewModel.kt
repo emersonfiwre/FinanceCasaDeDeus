@@ -13,6 +13,7 @@ import br.com.casadedeus.service.listener.ValidationListener
 import br.com.casadedeus.service.repository.SecurityPreferences
 import br.com.casadedeus.service.repository.UserRepository
 import br.com.casadedeus.service.utils.Utils
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.auth.User
 
 class UserViewModel(application: Application) : AndroidViewModel(application) {
@@ -57,6 +58,20 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
                 mLogin.value = ValidationListener(message)
             }
 
+        })
+    }
+
+    fun doLoginWithGoogle(idToken: String) {
+        mRepository.loginWithGoogle(idToken, object : OnCallbackListener<UserModel> {
+            override fun onSuccess(result: UserModel) {
+                mSecurityPreferences.store(UserConstants.SHARED.USER_KEY, result.key)
+                mSecurityPreferences.store(UserConstants.SHARED.USER_NAME, result.name)
+                mLogin.value = ValidationListener()
+            }
+
+            override fun onFailure(message: String) {
+                mLogin.value = ValidationListener(message)
+            }
         })
     }
 

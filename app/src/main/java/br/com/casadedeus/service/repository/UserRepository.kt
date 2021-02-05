@@ -16,7 +16,6 @@ class UserRepository(private val context: Context) {
     private val mDatabase = FirebaseFirestore.getInstance()
     private val mAuth: FirebaseAuth = Firebase.auth
 
-
     fun login(userModel: UserModel, listener: OnCallbackListener<UserModel>) {
         mAuth.signInWithEmailAndPassword(userModel.email, userModel.password)
             .addOnSuccessListener { task ->
@@ -24,7 +23,8 @@ class UserRepository(private val context: Context) {
                 if (mAuth.currentUser!!.isEmailVerified) {
                     val user = mAuth.currentUser
                     if (user != null) {
-                        get(user.uid, listener)
+                        userModel.key = user.uid
+                        get(userModel, listener)
                     }
                 } else {
                     listener.onFailure("Por favor, confirme seu e-mail.")
@@ -40,8 +40,12 @@ class UserRepository(private val context: Context) {
             }
     }
 
-    private fun get(uid: String, listener: OnCallbackListener<UserModel>) {
-        mDatabase.collection("users").document(uid).get()
+    private fun get(
+        userModel: UserModel,
+        listener: OnCallbackListener<UserModel>,
+        isSave: Boolean = false
+    ) {
+        mDatabase.collection("users").document(userModel.key).get()
             .addOnSuccessListener { document ->
                 if (document.exists()) {
                     val key = document.id
@@ -54,12 +58,44 @@ class UserRepository(private val context: Context) {
                     )
                     listener.onSuccess(user)
                 } else {
-                    listener.onFailure(context.getString(R.string.user_not_found_login))
+                    if (isSave) {
+                        save(userModel.key, userModel, listener)
+                    } else {
+                        listener.onFailure(context.getString(R.string.user_not_found_login))
+                    }
                 }
             }.addOnFailureListener {
                 val message = it.message.toString()
                 Log.e(UserConstants.ERRORS.USER_REPOSITORY, message)
                 listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
+            }
+    }
+
+    fun loginWithGoogle(idToken: String, listener: OnCallbackListener<UserModel>) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        mAuth.signInWithCredential(credential)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    val user = mAuth.currentUser
+                    get(
+                        UserModel(
+                            key = user?.uid!!,
+                            name = user.displayName!!,
+                            email = user.email!!
+                        ), listener, true
+                    )
+
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.e(
+                        UserConstants.ERRORS.USER_REPOSITORY,
+                        "signInWithCredential:failure",
+                        task.exception
+                    )
+                    listener.onFailure("Erro ao realizar login com Google")
+                }
+
             }
     }
 
@@ -103,18 +139,6 @@ class UserRepository(private val context: Context) {
 
     }
 
-    fun verificationEmail(listener: OnCallbackListener<Boolean>) {
-        mAuth.currentUser?.sendEmailVerification()?.addOnCompleteListener {
-            if (it.isSuccessful) {
-                // Sign in success, update UI with the signed-in user's information
-                listener.onFailure("E-mail de verificaçaão enviado com sucesso.")
-            } else {
-                listener.onFailure("Desculpe, não foi possível enviar o email de verificação. Por favor, tente mais tarde.")
-                Log.e(UserConstants.ERRORS.USER_REPOSITORY, it.exception!!.message!!)
-            }
-        }
-    }
-
     private fun save(uid: String, userModel: UserModel, listener: OnCallbackListener<UserModel>) {
         /*val user = hashMapOf(
             "email" to userModel.email,
@@ -133,6 +157,18 @@ class UserRepository(private val context: Context) {
                 Log.e(UserConstants.ERRORS.USER_REPOSITORY, message)
                 listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
             }
+    }
+
+    fun verificationEmail(listener: OnCallbackListener<Boolean>) {
+        mAuth.currentUser?.sendEmailVerification()?.addOnCompleteListener {
+            if (it.isSuccessful) {
+                // Sign in success, update UI with the signed-in user's information
+                listener.onFailure("E-mail de verificaçaão enviado com sucesso.")
+            } else {
+                listener.onFailure("Desculpe, não foi possível enviar o email de verificação. Por favor, tente mais tarde.")
+                Log.e(UserConstants.ERRORS.USER_REPOSITORY, it.exception!!.message!!)
+            }
+        }
     }
 
     fun resetUserPassword(email: String, listener: OnCallbackListener<Boolean>) {

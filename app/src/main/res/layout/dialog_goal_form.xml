@@ -74,6 +74,7 @@
                 android:id="@+id/edit_description_goal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textCapSentences"
                 android:hint="@string/desc" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>

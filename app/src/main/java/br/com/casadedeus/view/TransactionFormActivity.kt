@@ -31,7 +31,7 @@ class TransactionFormActivity : AppCompatActivity(), View.OnClickListener,
     private lateinit var mViewModel: TransactionViewModel
     private var mTransactionKey: String = ""
     val mCategoryAdapter = CategoryAdapter()
-    lateinit var progressDialog: ProgressDialog
+    lateinit var mProgressDialog: ProgressDialog
 
     private val mDateFormat =
         SimpleDateFormat("EEE, d MMM 'de' yyyy", Locale("pt", "BR"))// dia por extenso
@@ -101,7 +101,6 @@ class TransactionFormActivity : AppCompatActivity(), View.OnClickListener,
 
     private fun observer() {
         mViewModel.validation.observe(this, androidx.lifecycle.Observer {
-            loading(false)
             if (it.success()) {
                 if (mTransactionKey == "") {
                     Toast.makeText(
@@ -122,6 +121,7 @@ class TransactionFormActivity : AppCompatActivity(), View.OnClickListener,
             } else {
                 Toast.makeText(this, it.failure(), Toast.LENGTH_SHORT).show()
             }
+            loading(false)
         })
     }
 
@@ -207,10 +207,14 @@ class TransactionFormActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun loading(isLoad: Boolean = true) {
-        val progressDialog = ProgressDialog.show(
-            this, "Aguarde.",
-            "Salvando...", true
-        )
+        if (isLoad) {
+            mProgressDialog = ProgressDialog.show(
+                this, "Aguarde",
+                "Salvando...", true
+            )
+        } else {
+            mProgressDialog.dismiss()
+        }
     }
 
     private fun clearForm() {
