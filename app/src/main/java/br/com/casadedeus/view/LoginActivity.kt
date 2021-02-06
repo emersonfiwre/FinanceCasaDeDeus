@@ -77,6 +77,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         } else if (id == R.id.txt_forgot_password) {
             forgotPassword()
         } else if (id == R.id.btn_singin_google) {
+            loading()
             signInGoogle()
         }
 
