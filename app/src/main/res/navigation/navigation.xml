@@ -11,7 +11,7 @@
         android:label="@string/transaction"
         tools:layout="@layout/fragment_transaction">
         <action
-            android:id="@+id/action_TransactionFragment_to_PlanningFragment"
+            android:id="@+id/action_TransactionFragment_to_GoalFragment"
             app:destination="@id/nav_goal" />
     </fragment>
 
@@ -21,12 +21,22 @@
         android:label="@string/goal"
         tools:layout="@layout/fragment_goal">
         <action
-            android:id="@+id/action_PlanningFragment_to_TransactionFragment"
-            app:destination="@id/nav_transaction" />
+            android:id="@+id/action_GoalFragment_to_ProfileFragment"
+            app:destination="@id/nav_profile" />
         <!--argument
             android:name="taskfilter"
             android:defaultValue="1"
             app:argType="integer" /-->
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="br.com.casadedeus.view.ProfileFragment"
+        android:label="@string/profile"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_ProfileFragment_to_TransactionFragment"
+            app:destination="@id/nav_transaction" />
     </fragment>
 
 </navigation>

@@ -16,6 +16,37 @@ class UserRepository(private val context: Context) {
     private val mDatabase = FirebaseFirestore.getInstance()
     private val mAuth: FirebaseAuth = Firebase.auth
 
+
+    fun currentUser(listener: OnCallbackListener<UserModel>) {
+        val currentUser = mAuth.currentUser
+        if (currentUser != null) {
+            mDatabase.collection("users").document(currentUser.uid).get()
+                .addOnSuccessListener { document ->
+                    if (document.exists()) {
+                        val key = document.id
+                        val name = document.data?.get(UserConstants.NAME) as String
+                        val email = document.data?.get(UserConstants.EMAIL) as String
+                        val user = UserModel(
+                            key = key,
+                            name = name,
+                            email = email,
+                            profilePhotoUrl = currentUser.photoUrl
+                        )
+                        listener.onSuccess(user)
+                    } else {
+                        listener.onFailure(context.getString(R.string.user_not_found_login))
+                    }
+                }.addOnFailureListener {
+                    val message = it.message.toString()
+                    Log.e(UserConstants.ERRORS.USER_REPOSITORY, message)
+                    listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
+                }
+        } else {
+            listener.onFailure("Desculpe, não foi possível recuperar o usuário.")
+        }
+
+    }
+
     fun login(userModel: UserModel, listener: OnCallbackListener<UserModel>) {
         mAuth.signInWithEmailAndPassword(userModel.email, userModel.password)
             .addOnSuccessListener { task ->
@@ -199,7 +230,13 @@ class UserRepository(private val context: Context) {
             }
     }
 
-    fun logout() {
-        mAuth.signOut()
+    fun logout(listener: OnCallbackListener<Boolean>) {
+        try {
+            mAuth.signOut()
+            listener.onSuccess(true)
+        }catch (e: Exception){
+            listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
+        }
+
     }
 }

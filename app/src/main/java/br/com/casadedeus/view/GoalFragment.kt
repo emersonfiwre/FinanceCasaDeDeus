@@ -135,13 +135,7 @@ class GoalFragment : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.add_goal -> {
-                val picker = GoalDialog.newInstance()
-                activity?.supportFragmentManager?.let {
-                    picker.show(
-                        it,
-                        ViewConstants.TAGS.GOAL_DIALOG
-                    )
-                }
+                showGoal()
             }
         }
     }

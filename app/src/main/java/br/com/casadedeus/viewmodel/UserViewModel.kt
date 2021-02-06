@@ -31,6 +31,13 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val mForgotPassword = MutableLiveData<ValidationListener>()
     var forgotPassword: LiveData<ValidationListener> = mForgotPassword
 
+    //Profile
+    private val mCurrentUser = MutableLiveData<UserModel>()
+    var currentUser: LiveData<UserModel> = mCurrentUser
+
+    private val mValidation = MutableLiveData<ValidationListener>()
+    var validation: LiveData<ValidationListener> = mValidation
+
     // Login usando SharedPreferences
     private val mLoggedUser = MutableLiveData<Boolean>()
     val loggedUser: LiveData<Boolean> = mLoggedUser
@@ -140,6 +147,33 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
             override fun onFailure(message: String) {
                 mForgotPassword.value = ValidationListener(message)
+            }
+        })
+    }
+
+    fun getCurrentUser() {
+        mRepository.currentUser(object : OnCallbackListener<UserModel> {
+            override fun onSuccess(result: UserModel) {
+                mCurrentUser.value = result
+            }
+
+            override fun onFailure(message: String) {
+                mValidation.value = ValidationListener(message)
+            }
+        })
+
+    }
+
+    fun doLogout() {
+        mRepository.logout(object : OnCallbackListener<Boolean> {
+            override fun onSuccess(result: Boolean) {
+                mSecurityPreferences.remove(UserConstants.SHARED.USER_KEY)
+                mSecurityPreferences.remove(UserConstants.SHARED.USER_NAME)
+                mValidation.value = ValidationListener()
+            }
+
+            override fun onFailure(message: String) {
+                mValidation.value = ValidationListener(message)
             }
         })
     }

@@ -47,6 +47,8 @@
     <string name="desc_want_remove_transaction">Deseja remover está transação ?</string>
     <string name="title_want_remove_goal">Excluir objetivo</string>
     <string name="desc_want_remove_goal">Deseja remover este objetivo ?</string>
+    <string name="title_logout">Deseja sair</string>
+    <string name="desc_logout">Deseja realmente sair do aplicativo?</string>
     <string name="transaction">Transação</string>
     <string name="transactions">Transações</string>
     <string name="goal">Objetivo</string>
@@ -82,6 +84,8 @@
     <string name="create_account">Create Account</string>
     <string name="reset_password">Redefinir Senha</string>
     <string name="enter_email">Por favor, digite seu e-mail cadastrado</string>
+    <string name="profile">Perfil</string>
+    <string name="yes">Sim</string>
 
     <!--Erros do Firebase Auth-->
     <string name="error_login_custom_token">The custom token format is incorrect. Please check the documentation.</string>
