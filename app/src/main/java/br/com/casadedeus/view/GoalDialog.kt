@@ -59,6 +59,7 @@ class GoalDialog private constructor() : DialogFragment(),
             }).setNegativeButton((getString(R.string.cancel)),
             DialogInterface.OnClickListener { dialog, id -> this@GoalDialog.dialog!!.dismiss() })
 
+        //mDialogRoot.edit_value_goal.setCurrency("R$")
         //Setar os clicks das views
         setListeners()
 

@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:background="@null"
-            android:hint="@string/price"
+            android:hint="@string/zeroed_value"
             android:inputType="number"
             android:maxLines="1"
             android:paddingHorizontal="8dp"
@@ -74,8 +74,8 @@
                 android:id="@+id/edit_description_goal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapSentences"
-                android:hint="@string/desc" />
+                android:hint="@string/desc"
+                android:inputType="textCapSentences" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 

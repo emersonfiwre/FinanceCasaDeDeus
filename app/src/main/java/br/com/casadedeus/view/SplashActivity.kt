@@ -8,8 +8,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import br.com.casadedeus.R
 import br.com.casadedeus.viewmodel.UserViewModel
-import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.fragment_profile.view.*
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var mViewModel: UserViewModel
@@ -20,6 +18,10 @@ class SplashActivity : AppCompatActivity() {
         mViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         mViewModel.verifyLoggedUser()
         observer()
+        //Fazer o currency onde coloca os valores
+        //Deixar o usuário editar o nome dele
+        //Trocar o nome do app e o package
+        //Trocar o icone do app
     }
 
     private fun observer() {
@@ -27,8 +29,10 @@ class SplashActivity : AppCompatActivity() {
             Handler().postDelayed({
                 if (it) {
                     startActivity(Intent(this, MainActivity::class.java))
+                    finish()
                 } else {
                     startActivity(Intent(this, LoginActivity::class.java))
+                    finish()
                 }
             }, 2000)
         })

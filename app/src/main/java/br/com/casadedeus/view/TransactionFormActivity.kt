@@ -52,7 +52,7 @@ class TransactionFormActivity : AppCompatActivity(), View.OnClickListener,
 
         setListeners()
 
-        //mViewRoot.edit_valor.setCurrency()
+        //edit_valor.setCurrency("R$")
         if (radio_entrada.isChecked) {
             mCategoryAdapter.notifyChanged(CategoryConstansts.getCategoriesProfit(this))
         } else {
