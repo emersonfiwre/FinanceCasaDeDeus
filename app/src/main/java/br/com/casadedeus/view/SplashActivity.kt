@@ -22,7 +22,8 @@ class SplashActivity : AppCompatActivity() {
         //Deixar o usuário editar o nome dele
         //Trocar o nome do app e o package
         //Trocar o icone do app
-        //Verificar o reenvio do email de confirmação
+        //Trocar as cores do app
+        //Verificar o reenvio do email de confirmação// os formularios no firebase
     }
 
     private fun observer() {
