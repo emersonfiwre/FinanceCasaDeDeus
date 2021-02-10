@@ -260,14 +260,14 @@ class AddTransactionFragment private constructor() : DialogFragment(), View.OnCl
     private fun whatTypeTransaction(isEntry: Boolean) {
         if (isEntry) {
             mCategoryAdapter.notifyChanged(CategoryConstansts.getCategoriesProfit(context!!))
-            mViewRoot.txt_title.text = getString(R.string.update_profit)
+            mViewRoot.txt_title.text = getString(R.string.income)
             mViewRoot.txt_whatvalue.text = getString(R.string.value_profit)
             //mViewRoot.llm_header.background.setTint(resources.getColor(R.color.light_blue))
             mViewRoot.llm_header.isEnabled = false
         } else {
             // mListCategories = context?.resources?.getStringArray(R.array.categories)?.toList() ?: arrayListOf()
             mCategoryAdapter.notifyChanged(CategoryConstansts.getCategoriesExpenditure(context!!))
-            mViewRoot.txt_title.text = getString(R.string.update_expenditure)
+            mViewRoot.txt_title.text = getString(R.string.expenditure)
             mViewRoot.txt_whatvalue.text = getString(R.string.value_expenditure)
         }
     }

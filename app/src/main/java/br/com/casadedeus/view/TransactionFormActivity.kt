@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.Toast
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.casadedeus.R
@@ -22,6 +21,7 @@ import br.com.casadedeus.viewmodel.TransactionViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.activity_transaction_form.*
 import kotlinx.android.synthetic.main.bottom_dialog_categories.view.*
+import kotlinx.android.synthetic.main.card_category.*
 import kotlinx.android.synthetic.main.fragment_add_transaction.view.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -79,7 +79,7 @@ class TransactionFormActivity : AppCompatActivity(), View.OnClickListener,
                 edit_valor.setText(Utils.doubleToRealNotCurrency(mTransaction.amount))
                 edit_duedate.setText(mDateFormat.format(mTransaction.day))
 
-                whatTypeTransaction(mTransaction.isEntry)
+                whatTypeTransaction(mTransaction.isEntry, true)
             } else {
                 setupCurrentDate()
             }
@@ -238,21 +238,23 @@ class TransactionFormActivity : AppCompatActivity(), View.OnClickListener,
                 llm_header.isEnabled = false
                 whatTypeTransaction(true)
             }
-
         }
     }
 
-    private fun whatTypeTransaction(isEntry: Boolean) {
+    private fun whatTypeTransaction(isEntry: Boolean, isFirst: Boolean = false) {
+        if (!isFirst) {
+            edit_category.setText("")
+        }
         if (isEntry) {
             mCategoryAdapter.notifyChanged(CategoryConstansts.getCategoriesProfit(this))
-            txt_title.text = getString(R.string.update_profit)
+            txt_title.text = getString(R.string.income)
             txt_whatvalue.text = getString(R.string.value_profit)
             //llm_header.background.setTint(resources.getColor(R.color.light_blue))
             llm_header.isEnabled = false
         } else {
             // mListCategories = this?.resources?.getStringArray(R.array.categories)?.toList() ?: arrayListOf()
             mCategoryAdapter.notifyChanged(CategoryConstansts.getCategoriesExpenditure(this))
-            txt_title.text = getString(R.string.update_expenditure)
+            txt_title.text = getString(R.string.expenditure)
             txt_whatvalue.text = getString(R.string.value_expenditure)
         }
     }

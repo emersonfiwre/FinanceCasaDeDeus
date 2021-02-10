@@ -71,8 +71,7 @@
     <string name="select">Selecionar</string>
     <string name="duedate">Data de Vencimento</string>
     <string name="zeroed_value">0,00</string>
-    <string name="update_profit">Editar receita</string>
-    <string name="update_expenditure">Editar despesa</string>
+    <string name="income">Receita</string>
     <string name="image_category">Image Category</string>
     <string name="update_goal">Editar objetivo</string>
     <string name="add_goal">Adicionar objetivo</string>

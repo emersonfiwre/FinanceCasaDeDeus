@@ -66,6 +66,14 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
                 ValidationListener("É necessário um valor válido para inserir a transação")
             return
         }
+        if(transactionModel.category.isEmpty()){
+            mValidation.value =
+                ValidationListener("Selecione uma categoria para está transação")
+            return
+        }
+        if (!transactionModel.isEntry) {
+            transactionModel.amount = transactionModel.amount * -1
+        }
         if (transactionModel.key == "") {
             mRepository.save(transactionModel, object : OnCallbackListener<Boolean> {
                 override fun onSuccess(result: Boolean) {

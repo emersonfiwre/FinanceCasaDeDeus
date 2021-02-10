@@ -13,11 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import br.com.casadedeus.R
 import br.com.casadedeus.viewmodel.UserViewModel
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.dialog_goal_form.view.*
-import kotlinx.android.synthetic.main.fragment_goal.view.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
-import kotlinx.android.synthetic.main.fragment_transaction.*
-import kotlinx.android.synthetic.main.fragment_transaction.view.*
 
 
 class ProfileFragment : Fragment(), View.OnClickListener {

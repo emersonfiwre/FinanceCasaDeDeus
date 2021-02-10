@@ -152,7 +152,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ordenção padrão"
+            android:text="Ordenação padrão"
             app:layout_constraintLeft_toLeftOf="@id/imgorder_default"
             app:layout_constraintRight_toRightOf="@id/imgorder_default"
             app:layout_constraintTop_toBottomOf="@id/imgorder_default" />

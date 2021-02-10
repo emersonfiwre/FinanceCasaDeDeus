@@ -42,7 +42,7 @@ class Utils {
             }
             val ptBr = Locale("pt", "BR")
             return try {
-                NumberFormat.getCurrencyInstance(ptBr).format(value).replace("R$", "")
+                NumberFormat.getCurrencyInstance(ptBr).format(value).replace("R$", "").replace("-","")
             } catch (e: Exception) {
                 Log.e(ViewConstants.LOG.CONVERSION_ERROR, e.message.toString())
                 "0,00"

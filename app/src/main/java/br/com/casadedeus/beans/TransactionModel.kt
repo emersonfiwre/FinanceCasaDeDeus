@@ -12,5 +12,5 @@ data class TransactionModel(
     val category: String,
     val companyName: String? = "",
     val notaFiscal: String? = "",
-    val amount: Double
+    var amount: Double
 ): Serializable
