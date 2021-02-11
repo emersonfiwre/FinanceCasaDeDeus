@@ -21,9 +21,11 @@ class SplashActivity : AppCompatActivity() {
         //Fazer o currency onde coloca os valores
         //Deixar o usuário editar o nome dele
         //Trocar o nome do app e o package
-        //Trocar o icone do app
-        //Trocar as cores do app
+        //Trocar o icone do app // feito
+        //Trocar o nome do app //
+        //Trocar as cores do app // feito
         //Verificar o reenvio do email de confirmação// os formularios no firebase
+        //Passar os textos para o arquivo de string
     }
 
     private fun observer() {
