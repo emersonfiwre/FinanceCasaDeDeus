@@ -18,14 +18,15 @@ class SplashActivity : AppCompatActivity() {
         mViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         mViewModel.verifyLoggedUser()
         observer()
-        //Fazer o currency onde coloca os valores
-        //Deixar o usuário editar o nome dele
-        //Trocar o nome do app e o package
+        //Fazer o currency onde coloca os valores // feito
+        //Deixar o usuário editar o nome dele //feito
         //Trocar o icone do app // feito
-        //Trocar o nome do app //
         //Trocar as cores do app // feito
+
+        //Passar os textos para o arquivo de string, fazer string in english
+        //Trocar o nome do app //
+        //Trocar o nome do app e o package
         //Verificar o reenvio do email de confirmação// os formularios no firebase
-        //Passar os textos para o arquivo de string
     }
 
     private fun observer() {

@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import br.com.casadedeus.R
 import br.com.casadedeus.beans.UserModel
+import br.com.casadedeus.service.constants.GoalConstants
 import br.com.casadedeus.service.constants.UserConstants
 import br.com.casadedeus.service.listener.OnCallbackListener
 import com.google.firebase.auth.*
@@ -219,7 +220,7 @@ class UserRepository(private val context: Context) {
     ) {// fazer tela pro usuario editar suas informacoes
         mDatabase.collection("users")
             .document(userModel.key)
-            .set(userModel)
+            .update(UserConstants.NAME, userModel.name)
             .addOnSuccessListener {
                 listener.onSuccess(true)
             }
@@ -234,7 +235,7 @@ class UserRepository(private val context: Context) {
         try {
             mAuth.signOut()
             listener.onSuccess(true)
-        }catch (e: Exception){
+        } catch (e: Exception) {
             listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
         }
 

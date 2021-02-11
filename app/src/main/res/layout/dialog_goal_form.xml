@@ -1,83 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:layout_gravity="center"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/llm_header"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/llm_goal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:background="@drawable/shape_toolbar_profit"
         android:elevation="20dp"
         android:orientation="vertical"
+        android:paddingTop="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/txt_title_goal"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:text="@string/add_goal"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/txt_whatvalue"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/price"
-            android:paddingHorizontal="16dp"
-            android:paddingTop="16dp"
-            android:text="Valor"
-            android:textStyle="bold" />
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/value_goal"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_title_goal" />
+
+        <TextView
+            android:id="@+id/txt_currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:text="@string/currency"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_whatvalue" />
 
         <me.abhinay.input.CurrencyEditText
             android:id="@+id/edit_value_goal"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:background="@null"
             android:hint="@string/zeroed_value"
             android:inputType="number"
             android:maxLines="1"
             android:paddingHorizontal="8dp"
+            android:paddingVertical="8dp"
             android:text="@string/zeroed_value"
+            android:textColor="@color/white"
             android:textSize="32sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/txt_currency"
+            app:layout_constraintTop_toBottomOf="@+id/txt_whatvalue" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="8dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_duedate_goal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp">
+            android:focusable="false"
+            android:hint="@string/date_goal" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_duedate_goal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:hint="@string/date_goal" />
-        </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="8dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_description_goal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_description_goal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/desc"
-                android:inputType="textCapSentences" />
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
+            android:hint="@string/desc"
+            android:inputType="textCapSentences|textMultiLine" />
+    </com.google.android.material.textfield.TextInputLayout>
+</LinearLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>

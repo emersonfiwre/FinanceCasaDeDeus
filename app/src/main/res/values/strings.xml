@@ -24,6 +24,7 @@
     <string name="hintcategory">Salário,Despesa Fixa, Outros</string>
     <string name="price">Valor</string>
     <string name="value_expenditure">Valor da despesa</string>
+    <string name="value_goal">Valor do objetivo</string>
     <string name="value_profit">Valor da receita</string>
     <string name="hintprice">R$ 230,99</string>
     <string name="number_nf">Número da nota fiscal</string>
@@ -85,6 +86,7 @@
     <string name="enter_email">Por favor, digite seu e-mail cadastrado</string>
     <string name="profile">Perfil</string>
     <string name="yes">Sim</string>
+    <string name="currency">R$</string>
 
     <!--Erros do Firebase Auth-->
     <string name="error_login_custom_token">The custom token format is incorrect. Please check the documentation.</string>

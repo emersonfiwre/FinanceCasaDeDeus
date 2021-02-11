@@ -41,17 +41,42 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/txt_name"
+        <EditText
+            android:id="@+id/edit_name_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:background="@null"
+            android:enabled="false"
+            android:inputType="textCapSentences"
             android:maxLines="1"
+            android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/img_account" />
+
+
+        <ProgressBar
+            android:id="@+id/pg_reset_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/img_account" />
+
+        <ImageView
+            android:id="@+id/img_edit_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintLeft_toRightOf="@id/edit_name_profile"
+            app:layout_constraintTop_toTopOf="@id/edit_name_profile" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

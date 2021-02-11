@@ -6,15 +6,12 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import br.com.casadedeus.beans.UserModel
-import br.com.casadedeus.service.constants.TransactionConstants
 import br.com.casadedeus.service.constants.UserConstants
 import br.com.casadedeus.service.listener.OnCallbackListener
 import br.com.casadedeus.service.listener.ValidationListener
 import br.com.casadedeus.service.repository.SecurityPreferences
 import br.com.casadedeus.service.repository.UserRepository
 import br.com.casadedeus.service.utils.Utils
-import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.firestore.auth.User
 
 class UserViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -30,6 +27,9 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     private val mForgotPassword = MutableLiveData<ValidationListener>()
     var forgotPassword: LiveData<ValidationListener> = mForgotPassword
+
+    private val mResetName = MutableLiveData<ValidationListener>()
+    var resetName: LiveData<ValidationListener> = mResetName
 
     //Profile
     private val mCurrentUser = MutableLiveData<UserModel>()
@@ -174,6 +174,24 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
             override fun onFailure(message: String) {
                 mValidation.value = ValidationListener(message)
+            }
+        })
+    }
+
+    fun resetName(name: String) {
+        if (name.isEmpty()) {
+            return
+        }
+        val key = mSecurityPreferences.get(UserConstants.SHARED.USER_KEY)
+
+        mRepository.update(UserModel(key = key, name = name), object : OnCallbackListener<Boolean> {
+            override fun onSuccess(result: Boolean) {
+                mSecurityPreferences.store(UserConstants.SHARED.USER_NAME, name)
+                mResetName.value = ValidationListener()
+            }
+
+            override fun onFailure(message: String) {
+                mResetName.value = ValidationListener(message)
             }
         })
     }
