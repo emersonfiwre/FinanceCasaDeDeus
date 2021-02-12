@@ -216,25 +216,9 @@
                 android:id="@+id/edit_razao_social"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/razao_social"
+                android:hint="@string/place"
                 android:imeOptions="actionNext"
                 android:inputType="textCapSentences"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_nota_fiscal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/number_nf"
-                android:imeOptions="actionNext"
-                android:inputType="number"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 

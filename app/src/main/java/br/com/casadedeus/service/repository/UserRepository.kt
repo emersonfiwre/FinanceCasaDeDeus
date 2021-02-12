@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import br.com.casadedeus.R
 import br.com.casadedeus.beans.UserModel
-import br.com.casadedeus.service.constants.GoalConstants
 import br.com.casadedeus.service.constants.UserConstants
 import br.com.casadedeus.service.listener.OnCallbackListener
 import com.google.firebase.auth.*
@@ -35,15 +34,16 @@ class UserRepository(private val context: Context) {
                         )
                         listener.onSuccess(user)
                     } else {
-                        listener.onFailure(context.getString(R.string.user_not_found_login))
+                        listener.onFailure(context.getString(R.string.user_not_found))
                     }
                 }.addOnFailureListener {
                     val message = it.message.toString()
                     Log.e(UserConstants.ERRORS.USER_REPOSITORY, message)
                     listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
+                    it.printStackTrace()
                 }
         } else {
-            listener.onFailure("Desculpe, não foi possível recuperar o usuário.")
+            listener.onFailure(context.getString(R.string.currentuser_not_found))
         }
 
     }
@@ -93,7 +93,7 @@ class UserRepository(private val context: Context) {
                     if (isSave) {
                         save(userModel.key, userModel, listener)
                     } else {
-                        listener.onFailure(context.getString(R.string.user_not_found_login))
+                        listener.onFailure(context.getString(R.string.user_not_found))
                     }
                 }
             }.addOnFailureListener {
@@ -141,7 +141,7 @@ class UserRepository(private val context: Context) {
                             val firebaseUser: FirebaseUser = task.result!!.user!!
                             save(firebaseUser.uid, userModel, listener)
                         } else {
-                            listener.onFailure("Desculpe, não foi possível enviar o email de verificação. Por favor, tente mais tarde.")
+                            listener.onFailure(context.getString(R.string.email_verification_error))
                             Log.e(
                                 UserConstants.ERRORS.USER_REPOSITORY,
                                 it.exception!!.message!!
@@ -188,6 +188,7 @@ class UserRepository(private val context: Context) {
                 val message = it.message.toString()
                 Log.e(UserConstants.ERRORS.USER_REPOSITORY, message)
                 listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
+                it.printStackTrace()
             }
     }
 
@@ -195,10 +196,11 @@ class UserRepository(private val context: Context) {
         mAuth.currentUser?.sendEmailVerification()?.addOnCompleteListener {
             if (it.isSuccessful) {
                 // Sign in success, update UI with the signed-in user's information
-                listener.onFailure("E-mail de verificaçaão enviado com sucesso.")
+                listener.onFailure(context.getString(R.string.email_verification_success))
             } else {
-                listener.onFailure("Desculpe, não foi possível enviar o email de verificação. Por favor, tente mais tarde.")
                 Log.e(UserConstants.ERRORS.USER_REPOSITORY, it.exception!!.message!!)
+                listener.onFailure(context.getString(R.string.email_verification_error))
+                it.exception!!.printStackTrace()
             }
         }
     }
@@ -209,8 +211,8 @@ class UserRepository(private val context: Context) {
         }.addOnFailureListener {
             val message = it.message.toString()
             Log.e(UserConstants.ERRORS.USER_REPOSITORY, message)
-            listener.onFailure("Este email não está cadastrado. Por favor, realize o cadastro.")
-            //listener.onFailure(context.getString(R.string.ERROR_UNEXPECTED))
+            listener.onFailure(context.getString(R.string.email_not_found))
+            it.printStackTrace()
         }
     }
 

@@ -10,7 +10,6 @@ data class TransactionModel(
     val isEntry: Boolean,
     val description: String? = "",
     val category: String,
-    val companyName: String? = "",
-    val notaFiscal: String? = "",
+    val place: String? = "",
     var amount: Double
-): Serializable
+) : Serializable

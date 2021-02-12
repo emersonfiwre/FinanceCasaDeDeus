@@ -65,7 +65,7 @@ class FiltersBottomSheetDialog(private val selected: Int, val listener: OnItemCl
         for (i in 0 until mFilters.count()) {
             if (id == mFilters[i].id) {
                 mFilters[i].setBackgroundResource(R.drawable.shape_orderby_selected)
-                context?.resources?.getColor(R.color.red)?.let { mFilters[i].setColorFilter(it) }
+                context?.resources?.getColor(R.color.colorAccent)?.let { mFilters[i].setColorFilter(it) }
                 mFilterSelection = i
             } else {
                 mFilters[i].setBackgroundResource(R.drawable.shape_orderby)

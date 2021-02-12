@@ -2,7 +2,6 @@ package br.com.casadedeus.service.repository
 
 import android.content.Context
 import android.content.SharedPreferences
-import br.com.casadedeus.service.constants.TransactionConstants
 import br.com.casadedeus.service.constants.UserConstants
 
 /**

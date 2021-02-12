@@ -2,11 +2,11 @@ package br.com.casadedeus.view
 
 import android.app.DatePickerDialog
 import android.app.ProgressDialog
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.casadedeus.R
@@ -21,8 +21,6 @@ import br.com.casadedeus.viewmodel.TransactionViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.activity_transaction_form.*
 import kotlinx.android.synthetic.main.bottom_dialog_categories.view.*
-import kotlinx.android.synthetic.main.card_category.*
-import kotlinx.android.synthetic.main.fragment_add_transaction.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -74,8 +72,7 @@ class TransactionFormActivity : AppCompatActivity(), View.OnClickListener,
                 edit_descricao.setText(mTransaction.description)
                 //mDialogInflater.spinner_categoria.setSelection(index)
                 edit_category.setText(mTransaction.category)
-                edit_razao_social.setText(mTransaction.companyName)
-                edit_nota_fiscal.setText(mTransaction.notaFiscal)
+                edit_razao_social.setText(mTransaction.place)
                 edit_valor.setText(Utils.doubleToRealNotCurrency(mTransaction.amount))
                 edit_duedate.setText(mDateFormat.format(mTransaction.day))
 
@@ -199,8 +196,7 @@ class TransactionFormActivity : AppCompatActivity(), View.OnClickListener,
                 isEntry = radio_entrada.isChecked,
                 description = edit_descricao.text.toString(),
                 category = edit_category.text.toString(),
-                companyName = edit_razao_social.text.toString(),
-                notaFiscal = edit_nota_fiscal.text.toString(),
+                place = edit_razao_social.text.toString(),
                 amount = Utils.realToDouble(edit_valor.text.toString())
             )
         )
@@ -224,7 +220,6 @@ class TransactionFormActivity : AppCompatActivity(), View.OnClickListener,
         edit_descricao.setText("")
         edit_category.setText("")
         edit_razao_social.setText("")
-        edit_nota_fiscal.setText("")
         edit_valor.setText(R.string.zeroed_value)
     }
 

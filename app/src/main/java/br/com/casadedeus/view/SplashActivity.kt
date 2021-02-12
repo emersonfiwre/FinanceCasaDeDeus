@@ -24,6 +24,7 @@ class SplashActivity : AppCompatActivity() {
         //Trocar as cores do app // feito
 
         //Passar os textos para o arquivo de string, fazer string in english
+        //Colocar fontes customizadas
         //Trocar o nome do app //
         //Trocar o nome do app e o package
         //Verificar o reenvio do email de confirmação// os formularios no firebase

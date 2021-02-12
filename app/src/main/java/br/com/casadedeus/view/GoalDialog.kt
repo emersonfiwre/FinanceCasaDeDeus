@@ -15,14 +15,12 @@ import br.com.casadedeus.R
 import br.com.casadedeus.beans.GoalModel
 import br.com.casadedeus.service.constants.ViewConstants
 import br.com.casadedeus.service.listener.GoalDialogListener
-import br.com.casadedeus.service.listener.GoalListener
 import br.com.casadedeus.service.utils.Utils
-import br.com.casadedeus.viewmodel.GoalViewModel
 import kotlinx.android.synthetic.main.activity_transaction_form.*
 import kotlinx.android.synthetic.main.dialog_goal_form.view.*
 import kotlinx.android.synthetic.main.dialog_month_picker.*
 import kotlinx.android.synthetic.main.dialog_month_picker.view.*
-import kotlinx.android.synthetic.main.fragment_add_transaction.view.*
+
 import java.text.SimpleDateFormat
 import java.util.*
 

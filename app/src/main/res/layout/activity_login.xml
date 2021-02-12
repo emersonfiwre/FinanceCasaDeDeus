@@ -40,7 +40,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sign_account"
+            android:text="@string/do_login"
             android:textSize="18sp" />
 
         <!--RelativeLayout
@@ -165,7 +165,7 @@
             android:layout_gravity="right"
             android:layout_marginTop="24dp"
             android:background="@null"
-            android:text="Esqueci a senha"
+            android:text="@string/forgot_password"
             android:textColor="@color/colorAccent"
             android:textStyle="bold" />
 

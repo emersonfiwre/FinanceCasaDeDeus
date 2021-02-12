@@ -10,8 +10,6 @@ import br.com.casadedeus.service.listener.OnCallbackListener
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import java.text.SimpleDateFormat
-import java.util.*
 
 class TransactionRepository(private val context: Context) {
 
@@ -49,8 +47,7 @@ class TransactionRepository(private val context: Context) {
                         val isEntry = document.data[TransactionConstants.ENTRY] as Boolean
                         val desc = document.data[TransactionConstants.DESCRIPTION] as String
                         val category = document.data[TransactionConstants.CATEGORY] as String
-                        val companyName = document.data[TransactionConstants.COMPANY_NAME] as String
-                        val notaFiscal = document.data[TransactionConstants.NOTA_FISCAL] as String
+                        val place = document.data[TransactionConstants.PLACE] as String
                         val amount = document.data[TransactionConstants.AMOUNT] as Double
                         val ex = TransactionModel(
                             key,
@@ -58,8 +55,7 @@ class TransactionRepository(private val context: Context) {
                             isEntry,
                             desc,
                             category,
-                            companyName,
-                            notaFiscal,
+                            place,
                             amount
                         )
                         transactionModels.add(ex)
@@ -130,8 +126,7 @@ class TransactionRepository(private val context: Context) {
                     val isEntry = document.data?.get(TransactionConstants.ENTRY) as Boolean
                     val desc = document.data?.get(TransactionConstants.DESCRIPTION) as String
                     val category = document.data?.get(TransactionConstants.CATEGORY) as String
-                    val companyName = document.data?.get(TransactionConstants.COMPANY_NAME) as String
-                    val notaFiscal = document.data?.get(TransactionConstants.NOTA_FISCAL) as String
+                    val place = document.data?.get(TransactionConstants.PLACE) as String
                     val amount = document.data?.get(TransactionConstants.AMOUNT) as Double
                     val ex = TransactionModel(
                         key,
@@ -139,8 +134,7 @@ class TransactionRepository(private val context: Context) {
                         isEntry,
                         desc,
                         category,
-                        companyName,
-                        notaFiscal,
+                        place,
                         amount
                     )
                     listener.onSuccess(ex)

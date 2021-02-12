@@ -5,7 +5,6 @@ import android.util.Log
 import br.com.casadedeus.R
 import br.com.casadedeus.beans.GoalModel
 import br.com.casadedeus.service.constants.GoalConstants
-import br.com.casadedeus.service.constants.TransactionConstants
 import br.com.casadedeus.service.constants.UserConstants
 import br.com.casadedeus.service.listener.OnCallbackListener
 import com.google.firebase.Timestamp

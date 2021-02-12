@@ -1,94 +1,134 @@
 <resources>
     <string name="app_name">Financial</string>
+    <!--Authentication-->
+    <!--activity_login-->
     <string name="signup">Sign Up</string>
     <string name="login">Log in</string>
-    <string name="register">Cadastrar-se</string>
-    <string name="user">Usuário</string>
+    <string name="sign_in_with_google">Sing in With Google</string>
+    <string name="do_login">Faça login em sua conta</string>
+    <string name="email">E-mail</string>
     <string name="password">Senha</string>
-    <string name="select_year">escolha o ano</string>
-    <string name="faturamento_mensal">Faturamento Mensal</string>
-    <string name="revenues_month">Receita Mensal</string>
-    <string name="revenues_year">Receita Anual</string>
-    <string name="expenditures">Despesas</string>
-    <string name="expenditure">Despesa</string>
-    <string name="profit">Lucro</string>
-    <string name="all_month">Todos os meses</string>
-    <string name="rs">R$</string>
-    <string name="lancamentos">Lançamentos</string>
-    <string name="net_income">Renda líquida</string>
-    <string name="years">2020, 2021…</string>
-    <string name="add">Adicionar</string>
-    <string name="desc">Descrição</string>
-    <string name="hintdesc">Pagamento do aluguel, compra de equipamentos de música…</string>
-    <string name="category">Categoria</string>
-    <string name="hintcategory">Salário,Despesa Fixa, Outros</string>
-    <string name="price">Valor</string>
-    <string name="value_expenditure">Valor da despesa</string>
-    <string name="value_goal">Valor do objetivo</string>
-    <string name="value_profit">Valor da receita</string>
-    <string name="hintprice">R$ 230,99</string>
-    <string name="number_nf">Número da nota fiscal</string>
-    <string name="razao_social">Razão Social</string>
-    <string name="add_profit">Nova receita</string>
-    <string name="add_expenditure">Nova despesa</string>
-    <string name="year">Ano</string>
-    <string name="months">Mês</string>
-    <string name="incoming">Entrada</string>
-    <string name="outflow">Saida</string>
-    <string name="save">Salvar</string>
-    <string name="hint_search">Pesquisar…</string>
-    <string name="casa_de_deus">Casa de Deus</string>
-    <string name="sign_account">Faça login em sua conta</string>
+    <string name="forgot_password">Esqueci a senha</string>
+    <!--activity_register-->
+    <string name="create_account">Create Account</string>
+    <string name="name">Nome</string>
+    <string name="confirm_password">Confirmar senha</string>
+    <string name="register">Cadastrar</string>
+    <!--UserRepository-->
+    <string name="email_not_found">Este email não está cadastrado. Por favor, realize o cadastro.</string>
+    <string name="email_verification_error">Desculpe, não foi possível enviar o email de verificação. Por favor, tente mais tarde.</string>
+    <string name="email_verification_success">E-mail de verificaçaão enviado com sucesso.</string>
+    <string name="currentuser_not_found">Desculpe, não foi possível recuperar o usuário atual.</string>
+    <string name="user_not_found">Desculpe usuário não foi encontrado. Tente novamente mais tarde.</string>
+    <!--***************-->
     <string name="password_incorrect">Senha incorreta. Tente novamente.</string>
-    <string name="email_not_found">Email não encontrado. Cadastra-se.</string>
-    <string name="transaction_not_found">Desculpe está transação não foi encontrada. Tente novamente mais tarde.</string>
-    <string name="cancel">Cancelar</string>
-    <string name="remove">Excluir</string>
-    <string name="title_want_remove_transaction">Excluir transação</string>
-    <string name="desc_want_remove_transaction">Deseja remover está transação ?</string>
-    <string name="title_want_remove_goal">Excluir objetivo</string>
-    <string name="desc_want_remove_goal">Deseja remover este objetivo ?</string>
-    <string name="title_logout">Deseja sair</string>
     <string name="desc_logout">Deseja realmente sair do aplicativo?</string>
+    <string name="enter_email">Por favor, digite seu e-mail cadastrado</string>
+    <string name="reset_password">Redefinir Senha</string>
+
+    <string name="profile">Perfil</string>
+    <string name="title_logout">Deseja sair</string>
+
+
+    <!--*******Authentication********-->
+
+    <!--Transaction-->
     <string name="transaction">Transação</string>
     <string name="transactions">Transações</string>
+    <!--fragment_transaction-->
+    <string name="lancamentos">Lançamentos</string>
+    <string name="balance">Saldo</string>
+    <!--activity_transaction_form-->
+    <string name="incoming">Entrada</string>
+    <string name="outflow">Saida</string>
+    <string name="duedate">Data de Vencimento</string>
+    <string name="place">Local</string>
+    <string name="value_expenditure">Valor da despesa</string>
+    <string name="value_profit">Valor da receita</string>
+    <string name="expenditure">Despesa</string>
+    <string name="income">Receita</string>
+    <!--***************-->
+    <string name="revenues_month">Receita Mensal</string>
+    <string name="profit">Lucro</string>
+
+    <string name="image_category">Image Category</string>
+    <string name="title_want_remove_transaction">Excluir transação</string>
+    <string name="desc_want_remove_transaction">Deseja remover está transação ?</string>
+
+    <string name="success_update_transaction">Transação atualizada com sucesso!</string>
+    <string name="success_save_transaction">Transação adicionada com sucesso!</string>
+    <string name="success_delete_transaction">Transação exluida com sucesso!</string>
+    <string name="transaction_not_found">Desculpe está transação não foi encontrada. Tente novamente mais tarde.</string>
+    <string name="empty_transactions">Não foi encontrada nenhuma transação neste mês</string>
+    <!--*******Transaction********-->
+
+    <!--Everyone-->
+    <string name="yes">Sim</string>
+    <string name="currency">R$</string>
+    <string name="cancel">Cancelar</string>
+    <string name="remove">Excluir</string>
+    <string name="save">Salvar</string>
+    <string name="value">Valor</string>
+    <string name="select">Selecionar</string>
+    <string name="zeroed_value">0,00</string>
+    <string name="zeroed_value_currency">R$0,00</string>
+    <string name="category">Categoria</string>
+    <string name="desc">Descrição</string>
+    <string name="add">Adicionar</string>
+    <!--*******Everyone********-->
+
+    <!--Goals-->
     <string name="goal">Objetivo</string>
     <string name="goals">Objetivos</string>
-    <string name="metas">Metas</string>
+    <string name="add_goal">Adicionar objetivo</string>
+    <string name="date_goal">Data do objetivo</string>
+    <string name="value_goal">Valor do objetivo</string>
+    <string name="update_goal">Editar objetivo</string>
+    <string name="title_want_remove_goal">Excluir objetivo</string>
+    <string name="desc_want_remove_goal">Deseja remover este objetivo ?</string>
+    <!--*******Goals********-->
 
+
+    <!--Filters-->
+    <string name="filters">Filtros</string>
+    <string name="date">Data</string>
+    <string name="max_value">Maior Valor</string>
+    <string name="min_value">Menor Valor</string>
+    <string name="standard_order">Ordenação padrão</string>
+    <string name="show_results">Ver resultados</string>
+    <string name="success_save_goal">Objetivo salvo com sucesso!</string>
+    <!--*******Filters********-->
+
+    <!--Dialog Month Picker-->
+    <string name="symbol_previous">«</string>
+    <string name="symbol_next">»</string>
+    <!--Months-->
+    <string name="jan">Jan</string>
+    <string name="fev">Fev</string>
+    <string name="mar">Mar</string>
+    <string name="abr">Abr</string>
+    <string name="mai">Mai</string>
+    <string name="jun">Jun</string>
+    <string name="jul">Jul</string>
+    <string name="ago">Ago</string>
+    <string name="set">Set</string>
+    <string name="out">Out</string>
+    <string name="nov">Nov</string>
+    <string name="dez">Dez</string>
+    <!--*******Dialog Month Picker********-->
 
     <!-- Errors -->
     <string name="ERROR_UNEXPECTED">Um erro inesperado ocorreu. Tente novamente mais tarde.</string>
     <string name="ERROR_INTERNET_CONNECTION">Conexão à internet necessária para uso da applicação.</string>
     <string name="ERROR_REQUEST">Não foi possível enviar sua solicitação. Por favor, tente novamente mais tarde.</string>
-    <string name="MISSING_AUTHENTICATION">Usuário não autenticado</string>
-    <string name="success_update_transaction">Transação atualizada com sucesso!</string>
-    <string name="success_save_transaction">Transação adicionada com sucesso!</string>
-    <string name="success_delete_transaction">Transação exluida com sucesso!</string>
-    <string name="success_save_goal">Objetivo salvo com sucesso!</string>
-    <string name="balance">Saldo</string>
-    <string name="empty_transactions">Não foi encontrada nenhuma transação neste mês</string>
-    <string name="filters">Filtros</string>
-    <string name="select">Selecionar</string>
-    <string name="duedate">Data de Vencimento</string>
-    <string name="zeroed_value">0,00</string>
-    <string name="income">Receita</string>
-    <string name="image_category">Image Category</string>
-    <string name="update_goal">Editar objetivo</string>
-    <string name="add_goal">Adicionar objetivo</string>
-    <string name="date_goal">Data do objetivo</string>
-    <string name="email_badly_formatted">Digite um email válido, ele está formatado incorretamente.</string>
-    <string name="email">E-mail</string>
-    <string name="user_not_found_login">Usuário não encontrado, email ou senha incorreto.</string>
-    <string name="user_not_found">Desculpe usuário não foi encontrado. Tente novamente mais tarde.</string>
-    <string name="create_account">Create Account</string>
-    <string name="reset_password">Redefinir Senha</string>
-    <string name="enter_email">Por favor, digite seu e-mail cadastrado</string>
-    <string name="profile">Perfil</string>
-    <string name="yes">Sim</string>
-    <string name="currency">R$</string>
+    <!--*******Errors********-->
+
 
     <!--Erros do Firebase Auth-->
+    <string name="MISSING_AUTHENTICATION">Usuário não autenticado</string>
+
+    <string name="email_badly_formatted">Digite um email válido, ele está formatado incorretamente.</string>
+    <!--    -->
     <string name="error_login_custom_token">The custom token format is incorrect. Please check the documentation.</string>
     <string name="error_login_custom_token_mismatch">The custom token corresponds to a different audience.</string>
     <string name="error_login_credential_malformed_or_expired">The supplied auth credential is malformed or has expired.</string>
@@ -106,6 +146,5 @@
     <string name="error_login_user_token_expired">The user\'s credential is no longer valid. The user must sign in again</string>
     <string name="error_login_invalid_user_token">The user\'s credential is no longer valid. The user must sign in again.</string>
     <string name="error_login_default_error">Desculpe, houve um erro inesperado na autenticação.</string>
-    <string name="sign_in_with_google">Sing in With Google</string>
     <!---->
 </resources>

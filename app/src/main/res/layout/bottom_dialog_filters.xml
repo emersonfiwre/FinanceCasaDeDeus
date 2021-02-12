@@ -12,7 +12,7 @@
         android:layout_width="50dp"
         android:layout_height="5dp"
         android:background="@drawable/shape_roundlittle"
-        android:backgroundTint="@color/ligth_gray"
+        android:backgroundTint="@color/light_gray"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -57,7 +57,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Data"
+            android:text="@string/date"
             app:layout_constraintLeft_toLeftOf="@id/imgorder_date"
             app:layout_constraintRight_toRightOf="@id/imgorder_date"
             app:layout_constraintTop_toBottomOf="@id/imgorder_date" />
@@ -81,7 +81,7 @@
             android:id="@+id/txtorder_maxamount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Maior Valor"
+            android:text="@string/max_value"
             app:layout_constraintLeft_toLeftOf="@id/imgorder_maxamount"
             app:layout_constraintRight_toRightOf="@id/imgorder_maxamount"
             app:layout_constraintTop_toBottomOf="@id/imgorder_maxamount" />
@@ -104,7 +104,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Menor Valor"
+            android:text="@string/min_value"
             app:layout_constraintLeft_toLeftOf="@id/imgorder_minamount"
             app:layout_constraintRight_toRightOf="@id/imgorder_minamount"
             app:layout_constraintTop_toBottomOf="@id/imgorder_minamount" />
@@ -128,7 +128,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Categoria"
+            android:text="@string/category"
             app:layout_constraintLeft_toLeftOf="@id/imgorder_category"
             app:layout_constraintRight_toRightOf="@id/imgorder_category"
             app:layout_constraintTop_toBottomOf="@id/imgorder_category" />
@@ -152,7 +152,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ordenação padrão"
+            android:text="@string/standard_order"
             app:layout_constraintLeft_toLeftOf="@id/imgorder_default"
             app:layout_constraintRight_toRightOf="@id/imgorder_default"
             app:layout_constraintTop_toBottomOf="@id/imgorder_default" />
@@ -165,7 +165,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:background="@drawable/shape_btn_littleradius"
-        android:text="Ver resultados"
+        android:text="@string/show_results"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
