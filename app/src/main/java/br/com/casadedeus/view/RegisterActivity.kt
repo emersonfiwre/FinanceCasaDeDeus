@@ -27,10 +27,8 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     private fun observe() {
         mViewModel.createUser.observe(this, Observer {
             if (it.success()) {
-                Toast.makeText(this, "Sucesso!", Toast.LENGTH_SHORT).show()
-                clearForm()
-//                val intent = Intent(this, SelectYearActivity::class.java)
-//                startActivity(intent)
+                Toast.makeText(this, getString(R.string.confirm_email), Toast.LENGTH_LONG).show()
+                finish()
             } else {
                 Toast.makeText(this, it.failure(), Toast.LENGTH_SHORT).show()
             }
@@ -70,11 +68,5 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
-    private fun clearForm() {
-        edit_name.setText("")
-        edit_email.setText("")
-        edit_password.setText("")
-        edit_confirm_password.setText("")
-    }
 
 }

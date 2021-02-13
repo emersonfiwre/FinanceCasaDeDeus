@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import br.com.casadedeus.R
 import br.com.casadedeus.beans.GoalModel
 import br.com.casadedeus.service.listener.OnCallbackListener
 import br.com.casadedeus.service.listener.ValidationListener
@@ -13,8 +14,8 @@ import java.util.*
 class GoalViewModel(application: Application) : AndroidViewModel(application) {
 
     // Contexto e acesso a dados
-    private val mContext = application.applicationContext//quando precisa do contexto
-    private val mRepository: GoalRepository = GoalRepository(mContext)
+    private val context = application.applicationContext//quando precisa do contexto
+    private val mRepository: GoalRepository = GoalRepository(context)
 
     private var mGoalList = MutableLiveData<List<GoalModel>>()
     val goallist: LiveData<List<GoalModel>> = mGoalList
@@ -29,12 +30,12 @@ class GoalViewModel(application: Application) : AndroidViewModel(application) {
     fun save(goal: GoalModel) {
         if (goal.amount == 0.0) {
             mValidation.value =
-                ValidationListener("É necessário um valor válido para o seu objetivo")
+                ValidationListener(context.getString(R.string.please_insert_amount_valid))
             return
         }
         if (goal.finishday == null) {
             mValidation.value =
-                ValidationListener("É necessário uma data para o seu objetivo")
+                ValidationListener(context.getString(R.string.please_insert_finishday))
             return
         }
         if (goal.key == "") {

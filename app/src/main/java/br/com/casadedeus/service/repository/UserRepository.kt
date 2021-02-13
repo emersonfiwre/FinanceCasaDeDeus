@@ -59,7 +59,7 @@ class UserRepository(private val context: Context) {
                         get(userModel, listener)
                     }
                 } else {
-                    listener.onFailure("Por favor, confirme seu e-mail.")
+                    listener.onFailure(context.getString(R.string.confirm_email))
                 }
             }.addOnFailureListener {
                 val errorCode = (it as FirebaseAuthException).errorCode
@@ -69,6 +69,7 @@ class UserRepository(private val context: Context) {
 
                 val message = it.message.toString()
                 Log.e(UserConstants.ERRORS.USER_REPOSITORY, message)
+                it.printStackTrace()
             }
     }
 
@@ -120,12 +121,9 @@ class UserRepository(private val context: Context) {
 
                 } else {
                     // If sign in fails, display a message to the user.
-                    Log.e(
-                        UserConstants.ERRORS.USER_REPOSITORY,
-                        "signInWithCredential:failure",
-                        task.exception
-                    )
-                    listener.onFailure("Erro ao realizar login com Google")
+                    Log.e(UserConstants.ERRORS.USER_REPOSITORY, task.exception!!.message!!)
+                    listener.onFailure(context.getString(R.string.error_login_with_google))
+                    task.exception!!.printStackTrace()
                 }
 
             }
@@ -133,42 +131,29 @@ class UserRepository(private val context: Context) {
 
     fun create(userModel: UserModel, listener: OnCallbackListener<UserModel>) {
         mAuth.createUserWithEmailAndPassword(userModel.email, userModel.password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    mAuth.currentUser?.sendEmailVerification()?.addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            // Sign in success, update UI with the signed-in user's information
-                            val firebaseUser: FirebaseUser = task.result!!.user!!
-                            save(firebaseUser.uid, userModel, listener)
-                        } else {
-                            listener.onFailure(context.getString(R.string.email_verification_error))
-                            Log.e(
-                                UserConstants.ERRORS.USER_REPOSITORY,
-                                it.exception!!.message!!
-                            )
-                        }
-                    }
-
-                } else {
-                    //listener.onFailure(task.exception!!.message.toString())
-                    try {
-                        throw task.exception!!
-                    } catch (e: FirebaseAuthWeakPasswordException) {
-                        listener.onFailure("FirebaseAuthWeakPasswordException: ${e.message}")
-                        //listener.onFailure("A senha deve ter no minimo 6 caracteres.")
-                    } catch (e: FirebaseAuthInvalidCredentialsException) {
-                        listener.onFailure(context.getString(R.string.email_badly_formatted))
-                        //listener.onFailure("FirebaseAuthInvalidCredentialsException: ${e.message}")
-                        Log.e(UserConstants.ERRORS.USER_REPOSITORY, e.message!!)
-                    } catch (e: FirebaseAuthUserCollisionException) {
-                        listener.onFailure("FirebaseAuthUserCollisionException: ${e.message}")
-                    } catch (e: Exception) {
-                        //listener.onFailure("Exception: ${e.message}")
-                        Log.e(UserConstants.ERRORS.USER_REPOSITORY, e.message!!)
+            .addOnSuccessListener { task ->
+                mAuth.currentUser?.sendEmailVerification()?.addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+                        val firebaseUser: FirebaseUser = task.user!!
+                        save(firebaseUser.uid, userModel, listener)
+                    } else {
+                        listener.onFailure(context.getString(R.string.email_verification_error))
+                        Log.e(UserConstants.ERRORS.USER_REPOSITORY, it.exception!!.message!!)
+                        it.exception!!.printStackTrace()
                     }
                 }
-            }
 
+            }.addOnFailureListener {
+                val errorCode = (it as FirebaseAuthException).errorCode
+                val errorMessage = UserConstants.ERRORS.AUTH_ERRORS[errorCode]
+                    ?: R.string.error_login_default_error
+                listener.onFailure(context.getString(errorMessage))
+
+                val message = it.message.toString()
+                Log.e(UserConstants.ERRORS.USER_REPOSITORY, message)
+                it.printStackTrace()
+            }
     }
 
     private fun save(uid: String, userModel: UserModel, listener: OnCallbackListener<UserModel>) {

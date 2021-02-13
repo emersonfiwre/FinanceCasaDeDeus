@@ -2,6 +2,7 @@ package br.com.casadedeus.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.*
+import br.com.casadedeus.R
 import br.com.casadedeus.beans.TransactionModel
 import br.com.casadedeus.service.listener.OnCallbackListener
 import br.com.casadedeus.service.listener.ValidationListener
@@ -24,8 +25,8 @@ import java.util.*
 class TransactionViewModel(application: Application) : AndroidViewModel(application) {
 
     // Contexto e acesso a dados
-    private val mContext = application.applicationContext//quando precisa do contexto
-    private val mRepository: TransactionRepository = TransactionRepository(mContext)
+    private val context = application.applicationContext//quando precisa do contexto
+    private val mRepository: TransactionRepository = TransactionRepository(context)
 
     private var mTransactionList = MutableLiveData<List<TransactionModel>>()
     val transactionlist: LiveData<List<TransactionModel>> = mTransactionList
@@ -63,12 +64,12 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
 
         if (transactionModel.amount == 0.0) {
             mValidation.value =
-                ValidationListener("É necessário um valor válido para inserir a transação")
+                ValidationListener(context.getString(R.string.please_insert_amount_valid))
             return
         }
         if(transactionModel.category.isEmpty()){
             mValidation.value =
-                ValidationListener("Selecione uma categoria para está transação")
+                ValidationListener(context.getString(R.string.select_category_transaction))
             return
         }
         if (!transactionModel.isEntry) {
@@ -146,6 +147,7 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
                     mTransactionList.value = orderBy(filter, result)
                     mBalance.value =
                         Utils.doubleToRealNotCurrency(result.sumByDouble { it.amount })
+                        //result.sumByDouble { it.amount }.toString()
                     mExpenditure.value =
                         Utils.doubleToReal(result.sumByDouble { if (!it.isEntry) it.amount else 0.0 })
                     mProfit.value =

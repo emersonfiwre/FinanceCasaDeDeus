@@ -24,7 +24,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="24dp"
-        android:text="Ordernar por"
+        android:text="@string/order_by"
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"

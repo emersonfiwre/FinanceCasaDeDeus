@@ -2,6 +2,7 @@ package br.com.casadedeus.view
 
 import android.app.DatePickerDialog
 import android.app.ProgressDialog
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import android.widget.CompoundButton
@@ -28,7 +29,7 @@ class TransactionFormActivity : AppCompatActivity(), View.OnClickListener,
     CompoundButton.OnCheckedChangeListener {
     private lateinit var mViewModel: TransactionViewModel
     private var mTransactionKey: String = ""
-    val mCategoryAdapter = CategoryAdapter()
+    private val mCategoryAdapter = CategoryAdapter()
     lateinit var mProgressDialog: ProgressDialog
 
     private val mDateFormat =
@@ -72,8 +73,9 @@ class TransactionFormActivity : AppCompatActivity(), View.OnClickListener,
                 edit_descricao.setText(mTransaction.description)
                 //mDialogInflater.spinner_categoria.setSelection(index)
                 edit_category.setText(mTransaction.category)
+                setDrawableCategory(CategoryConstansts.getCategory(this,mTransaction.category).image)
                 edit_razao_social.setText(mTransaction.place)
-                edit_valor.setText(Utils.doubleToRealNotCurrency(mTransaction.amount))
+                edit_valor.setText(Utils.doubleToRealNotCurrency(mTransaction.amount).replace("-",""))
                 edit_duedate.setText(mDateFormat.format(mTransaction.day))
 
                 whatTypeTransaction(mTransaction.isEntry, true)
@@ -90,7 +92,7 @@ class TransactionFormActivity : AppCompatActivity(), View.OnClickListener,
     private fun setListeners() {
         edit_duedate.setOnClickListener(this)
         edit_category.setOnClickListener(this)
-        fab_save.setOnClickListener(this)
+        btn_save.setOnClickListener(this)
         img_back_transactions.setOnClickListener(this)
         radio_entrada.setOnCheckedChangeListener(this)
         radio_saida.setOnCheckedChangeListener(this)
@@ -131,7 +133,7 @@ class TransactionFormActivity : AppCompatActivity(), View.OnClickListener,
             R.id.edit_duedate -> {
                 datePicker()
             }
-            R.id.fab_save -> {
+            R.id.btn_save -> {
                 onClickSave()
             }
             R.id.img_back_transactions -> {
@@ -169,13 +171,7 @@ class TransactionFormActivity : AppCompatActivity(), View.OnClickListener,
         mCategoryAdapter.attachListener(object : OnItemClickListener<CategoryModel> {
             override fun onItemClick(item: CategoryModel) {
                 edit_category.setText(item.title)
-
-                edit_category.setCompoundDrawablesWithIntrinsicBounds(
-                    item.image,
-                    null,
-                    null,
-                    null
-                );
+                setDrawableCategory(item.image)
                 //Toast.makeText(this, item, Toast.LENGTH_SHORT).show()
                 bottomDialogCategory.dismiss()
             }
@@ -205,8 +201,8 @@ class TransactionFormActivity : AppCompatActivity(), View.OnClickListener,
     private fun loading(isLoad: Boolean = true) {
         if (isLoad) {
             mProgressDialog = ProgressDialog.show(
-                this, "Aguarde",
-                "Salvando...", true
+                this, getString(R.string.wait),
+                getString(R.string.saving), true
             )
         } else {
             mProgressDialog.dismiss()
@@ -239,6 +235,7 @@ class TransactionFormActivity : AppCompatActivity(), View.OnClickListener,
     private fun whatTypeTransaction(isEntry: Boolean, isFirst: Boolean = false) {
         if (!isFirst) {
             edit_category.setText("")
+            setDrawableCategory(null)
         }
         if (isEntry) {
             mCategoryAdapter.notifyChanged(CategoryConstansts.getCategoriesProfit(this))
@@ -252,6 +249,15 @@ class TransactionFormActivity : AppCompatActivity(), View.OnClickListener,
             txt_title.text = getString(R.string.expenditure)
             txt_whatvalue.text = getString(R.string.value_expenditure)
         }
+    }
+
+    private fun setDrawableCategory(drawable: Drawable?){
+        edit_category.setCompoundDrawablesWithIntrinsicBounds(
+            drawable,
+            null,
+            null,
+            null
+        )
     }
 
 }

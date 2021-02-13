@@ -49,6 +49,11 @@ class CategoryConstansts private constructor() {
         fun getCategories(context: Context): List<CategoryModel> {
             return getCategoriesProfit(context) + getCategoriesExpenditure(context)
         }
+
+        fun getCategory(context: Context, title: String):CategoryModel {
+            val list = getCategoriesProfit(context) + getCategoriesExpenditure(context)
+            return list.single { it.title == title }
+        }
         /*
         <string-array name="categories_profit">
             <item>Salário</item>

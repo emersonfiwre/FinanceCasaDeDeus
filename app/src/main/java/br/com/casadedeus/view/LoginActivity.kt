@@ -87,11 +87,10 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         mViewModel.login.observe(this, Observer {
             loading(false)
             if (it.success()) {
-                //Toast.makeText(this, "Login com sucesso!", Toast.LENGTH_SHORT).show()
                 successLogin()
             } else {
                 when (it.failure()) {
-                    "Por favor, confirme seu e-mail." -> {
+                    getString(R.string.confirm_email) -> {
                         sendVerificationEmail(it.failure())
                     }
                     else -> {
@@ -103,7 +102,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         })
         mViewModel.forgotPassword.observe(this, Observer {
             if (it.success()) {
-                Toast.makeText(this, "E-mail de redefinação de senha enviado.", Toast.LENGTH_SHORT)
+                Toast.makeText(this, getString(R.string.sent_password_reset), Toast.LENGTH_SHORT)
                     .show()
             } else {
                 Toast.makeText(this, it.failure(), Toast.LENGTH_SHORT).show()
@@ -131,17 +130,15 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                     mViewModel.doLoginWithGoogle(account.idToken!!)
                 } catch (e: ApiException) {
                     // Google Sign In failed, update UI appropriately
-                    e.printStackTrace()
-                    Log.e(ViewConstants.LOG.LOGIN_ACTIVITY_ERROR, "Google sign in failed", e)
-                    Toast.makeText(this, "Erro ao realizar login com Google", Toast.LENGTH_SHORT)
+                    Toast.makeText(this, getString(R.string.error_login_with_google), Toast.LENGTH_SHORT)
                         .show()
-
-                    // ...
+                    Log.e(ViewConstants.LOG.LOGIN_ACTIVITY_ERROR, "Google sign in failed", e)
+                    e.printStackTrace()
                 }
             } else {
-                Toast.makeText(this, "Erro ao realizar login com Google", Toast.LENGTH_SHORT).show()
-                exception!!.printStackTrace()
+                Toast.makeText(this, getString(R.string.error_login_with_google), Toast.LENGTH_SHORT)
                 Log.e(ViewConstants.LOG.LOGIN_ACTIVITY_ERROR, exception.toString())
+                exception!!.printStackTrace()
             }
         }
 
@@ -167,8 +164,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private fun sendVerificationEmail(title: String) {
         val dialogBuilder = AlertDialog.Builder(this)
         dialogBuilder.setTitle(title)
-        dialogBuilder.setMessage("Para prosseguir é necessário que você confirme seu e-mail.")
-        dialogBuilder.setPositiveButton("Reenviar o email de verificação") { dialog, which -> mViewModel.verifcationEmail() }
+        dialogBuilder.setMessage(getString(R.string.request_email_confirm))
+        dialogBuilder.setPositiveButton(getString(R.string.resend_email_verification)) { dialog, which -> mViewModel.verifcationEmail() }
         dialogBuilder.setNegativeButton("OK") { dialog, which -> }
         dialogBuilder.show()
     }
@@ -179,7 +176,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         val dialogView: View = inflater.inflate(R.layout.dialog_forgot_password, null)
         dialogBuilder.setView(dialogView)
         val editText: EditText = dialogView.findViewById(R.id.edit_email)
-        dialogBuilder.setPositiveButton("Redefinir senha") { dialog, which ->
+        dialogBuilder.setPositiveButton(getString(R.string.reset_password)) { dialog, which ->
             mViewModel.resetPassword(editText.text.toString())
         }
         dialogBuilder.setNegativeButton(getString(R.string.cancel)) { dialog, which -> }

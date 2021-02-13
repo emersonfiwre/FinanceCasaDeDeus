@@ -9,9 +9,9 @@
     tools:context=".view.LoginActivity">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:src="@drawable/ic_financial_white"
         app:layout_constraintBottom_toTopOf="@id/ll_login"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

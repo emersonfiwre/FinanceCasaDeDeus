@@ -118,9 +118,7 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
 
         })
         mViewModel.validation.observe(viewLifecycleOwner, Observer {
-            if (it.success()) {
-
-            } else {
+            if (!it.success()) {
                 Toast.makeText(context, it.failure(), Toast.LENGTH_SHORT).show()
             }
         })
@@ -150,12 +148,7 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.add_lancamento -> {
-                /*val mBehavior = BottomSheetBehavior.from(bottomSheet.parent as View);
-                mBehavior.setPeekHeight(600)*/
-                /*clearForm()
-                onClickSave()*/
                 showAddTransaction()
-                //get spinner selected
             }
             R.id.txt_current_date -> {
                 val picker = MonthPickerDialog(
@@ -185,7 +178,7 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
                 }
 
                 override fun onLongClick(id: String) {
-                    TODO("Not yet implemented")
+                    //Sem implementação
                 }
             })
         activity?.supportFragmentManager?.let {
@@ -194,10 +187,6 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
                 ViewConstants.TAGS.FILTERS_DIALOG
             )
         }
-        /*val bottomDialogFilters = BottomSheetDialog(context!!)
-        val inflater = layoutInflater.inflate(R.layout.bottom_dialog_filters, null)
-        bottomDialogFilters.setContentView(inflater)
-        bottomDialogFilters.show()*/
     }
 
     private fun showAddTransaction(transaction: TransactionModel? = null) {
@@ -230,7 +219,6 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
             mViewRoot.txt_current_date.text = mDateFormat.format(it)
         }
         loadTransactions()
-        //Toast.makeText(context, "$p2 / $p1", Toast.LENGTH_SHORT).show()
     }
 
 

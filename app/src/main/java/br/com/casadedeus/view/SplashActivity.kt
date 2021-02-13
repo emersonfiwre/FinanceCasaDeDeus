@@ -22,12 +22,14 @@ class SplashActivity : AppCompatActivity() {
         //Deixar o usuário editar o nome dele //feito
         //Trocar o icone do app // feito
         //Trocar as cores do app // feito
+        //Passar os textos para o arquivo de string, fazer string in english// feito
+        //Colocar fontes customizadas*// feito
+        //Verificar o reenvio do email de confirmação* os formularios no firebase// feito
 
-        //Passar os textos para o arquivo de string, fazer string in english
-        //Colocar fontes customizadas
         //Trocar o nome do app //
         //Trocar o nome do app e o package
-        //Verificar o reenvio do email de confirmação// os formularios no firebase
+        //Verificar se vai fazer o FingerPrint
+        //Verificar se vai deixar o  usuario trocar o email
     }
 
     private fun observer() {

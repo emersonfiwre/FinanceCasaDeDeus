@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import br.com.casadedeus.R
 import br.com.casadedeus.beans.UserModel
 import br.com.casadedeus.service.constants.UserConstants
 import br.com.casadedeus.service.listener.OnCallbackListener
@@ -15,9 +16,9 @@ import br.com.casadedeus.service.utils.Utils
 
 class UserViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val mContext: Context = application.applicationContext
-    private val mSecurityPreferences = SecurityPreferences(mContext)
-    private val mRepository = UserRepository(mContext)
+    private val context: Context = application.applicationContext
+    private val mSecurityPreferences = SecurityPreferences(context)
+    private val mRepository = UserRepository(context)
 
     private val mLogin = MutableLiveData<ValidationListener>()
     var login: LiveData<ValidationListener> = mLogin
@@ -44,11 +45,11 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     fun doLogin(email: String?, password: String?) {
         if (email.isNullOrEmpty()) {
-            mLogin.value = ValidationListener("Por favor, insira um email")
+            mLogin.value = ValidationListener(context.getString(R.string.please_insert_email))
             return
         }
         if (password.isNullOrEmpty()) {
-            mLogin.value = ValidationListener("Por favor, insira a senha")
+            mLogin.value = ValidationListener(context.getString(R.string.please_insert_password))
             return
         }
         val user = UserModel(email = email, password = password)
@@ -83,30 +84,26 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun create(userModel: UserModel, confirmPass: String) {
-        if (userModel.email.isNullOrEmpty()) {
-            mCreateUser.value = ValidationListener("Por favor, insira seu nome.")
+        if (userModel.email.isEmpty()) {
+            mCreateUser.value = ValidationListener(context.getString(R.string.please_insert_name))
             return
         }
-        if (userModel.email.isNullOrEmpty()) {
-            mCreateUser.value = ValidationListener("Por favor, insira um email.")
+        if (userModel.email.isEmpty()) {
+            mCreateUser.value = ValidationListener(context.getString(R.string.please_insert_email))
             return
         }
-        if (userModel.password.isNullOrEmpty()) {
-            mCreateUser.value = ValidationListener("Por favor, insira a senha.")
-            return
-        }
-        if (confirmPass.isNullOrEmpty() || !userModel.password.equals(confirmPass)) {
+        if (userModel.password.isEmpty()) {
             mCreateUser.value =
-                ValidationListener("A senhas estão diferentes. Por favor, confime a senha.")
+                ValidationListener(context.getString(R.string.please_insert_password))
+            return
+        }
+        if (confirmPass.isEmpty() || !userModel.password.equals(confirmPass)) {
+            mCreateUser.value = ValidationListener(context.getString(R.string.different_passwords))
             return
         }
         //val user = UserModel(email = email, password = password)
         mRepository.create(userModel, object : OnCallbackListener<UserModel> {
             override fun onSuccess(result: UserModel) {
-                // Salvar dados do usuário no SharePreferences
-                mSecurityPreferences.store(UserConstants.SHARED.USER_KEY, userModel.key)
-                mSecurityPreferences.store(UserConstants.SHARED.USER_NAME, result.name)
-
                 // Informa sucesso
                 mCreateUser.value = ValidationListener()
             }
@@ -133,11 +130,11 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     fun resetPassword(email: String) {
         if (email.isEmpty()) {
-            mForgotPassword.value = ValidationListener("Digite um email.")
+            mForgotPassword.value = ValidationListener(context.getString(R.string.type_email))
             return
         }
         if (!Utils.validateEmailFormat(email)) {
-            mForgotPassword.value = ValidationListener("Digite um email válido.")
+            mForgotPassword.value = ValidationListener(context.getString(R.string.type_email_valid))
             return
         }
         mRepository.resetUserPassword(email, object : OnCallbackListener<Boolean> {
@@ -200,14 +197,23 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
      * Verifica se usuário está logado
      */
     fun verifyLoggedUser() {
-        val key = mSecurityPreferences.get(UserConstants.SHARED.USER_KEY)
-        val userKey = mSecurityPreferences.get(UserConstants.SHARED.USER_NAME)
+        /*val key = mSecurityPreferences.get(UserConstants.SHARED.USER_KEY)
+        val userName = mSecurityPreferences.get(UserConstants.SHARED.USER_NAME)
 
         // Se token e person key forem diferentes de vazio, usuário está logado
-        val logged = (key != "" && userKey != "")
+        val logged = (key != "" && userName != "")*/
+        mRepository.currentUser(object : OnCallbackListener<UserModel> {
+            override fun onSuccess(result: UserModel) {
+                mLoggedUser.value = true
+            }
 
-        // Atualiza o valor
-        mLoggedUser.value = logged
+            override fun onFailure(message: String) {
+                mSecurityPreferences.remove(UserConstants.SHARED.USER_KEY)
+                mSecurityPreferences.remove(UserConstants.SHARED.USER_NAME)
+                mLoggedUser.value = false
+            }
+        })
+
     }
 
 }

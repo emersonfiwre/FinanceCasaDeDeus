@@ -1,0 +1,169 @@
+<resources>
+    <string name="app_name">Financial</string>
+    <!--Authentication-->
+    <!--activity_login-->
+    <string name="signup">Sign Up</string>
+    <string name="login">Log in</string>
+    <string name="sign_in_with_google">Sing in With Google</string>
+    <string name = "do_login">Log in to your account</string>
+    <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name = "forgot_password">I forgot my password</string>
+    <!--activity_register-->
+    <string name="create_account">Create Account</string>
+    <string name="name">Name</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="register">Register</string>
+    <!--UserRepository-->
+    <string name="email_not_found">This email is not registered. Please register.</string>
+    <string name="email_verification_error">Sorry, the verification email could not be sent. Please try later.</string>
+    <string name="email_verification_success">Verification email sent successfully.</string>
+    <string name="currentuser_not_found">Sorry, the current user could not be retrieved.</string>
+    <string name="user_not_found">Sorry user was not found. Please try again later.</string>
+    <string name="confirm_email">Please confirm your email and try to login.</string>
+    <string name="error_login_with_google">Error signing in with Google. Please try later.</string>
+    <!--UserViewModel-->
+    <string name="please_insert_email">Please, enter an email</string>
+    <string name="please_insert_password">Please, enter the password</string>
+    <string name="please_insert_name">Please, enter your name.</string>
+    <string name="different_passwords">Passwords are different. Please check the passwords.</string>
+    <string name="type_email">Enter an email.</string>
+    <string name="type_email_valid">Please, enter a valid email.</string>
+    <!--LoginActivity-->
+    <string name="sent_password_reset">Password reset email sent successfully.</string>
+    <string name="request_email_confirm">To proceed with the login you need to confirm your email.Check your spam box.</string>
+    <string name="resend_email_verification">Resend verification email</string>
+    <!--***************-->
+    <string name="password_incorrect">Incorrect password. Try again.</string>
+    <string name="desc_logout">Do you really want to exit the application?</string>
+    <string name="enter_email">Please, enter your registered email</string>
+    <string name="reset_password">Reset Password</string>
+
+    <string name="profile">Profile</string>
+    <string name="title_logout">Do you want to leave?</string>
+    <!--*******Authentication********-->
+
+    <!--Transaction-->
+    <string name="transaction">Transaction</string>
+    <string name="transactions">Transactions</string>
+    <!--fragment_transaction-->
+    <string name="lancamentos">Releases</string>
+    <string name="balance">Balance</string>
+    <!--activity_transaction_form-->
+    <string name="incoming">Incoming</string>
+    <string name="outflow">OutFlow</string>
+    <string name="duedate">Expiration Date</string>
+    <string name="place">Place</string>
+    <string name="value_expenditure">Expense amounta</string>
+    <string name="value_profit">Revenue amount</string>
+    <string name="expenditure">Expense</string>
+    <string name="income">Income</string>
+    <!--TransactionViewModel-->
+    <string name="please_insert_amount_valid">Please, enter a valid value</string>
+    <string name="select_category_transaction">Please, select a category for this transaction</string>
+    <!--TransactionFormActivity-->
+    <string name="wait">Wait</string>
+    <string name="saving">Saving…</string>
+    <!--***************-->
+    <string name="revenues_month">Monthly Revenue</string>
+    <string name="profit">Profit</string>
+
+    <string name="image_category">Image Category</string>
+    <string name="title_want_remove_transaction">Delete transaction</string>
+    <string name="desc_want_remove_transaction">Do you want to remove this transaction?</string>
+
+    <string name="success_update_transaction">Transaction updated successfully!</string>
+    <string name="success_save_transaction">Transaction added successfully!</string>
+    <string name="success_delete_transaction">Transaction successfully deleted!</string>
+    <string name="transaction_not_found">Sorry, this transaction was not found. Please try again later.</string>
+    <string name="empty_transactions">No transactions were found this month </string>
+    <!--*******Transaction********-->
+
+    <!--Everyone-->
+    <string name="yes">Yes</string>
+    <string name="currency">US$</string>
+    <string name="cancel">Cancel</string>
+    <string name="remove">Delete</string>
+    <string name="save">Save</string>
+    <string name="value">Value</string>
+    <string name="select">Select</string>
+    <string name="zeroed_value">0.00</string>
+    <string name="zeroed_value_currency">US$0.00</string>
+    <string name="category">Category</string>
+    <string name="desc">Description</string>
+    <string name="add">Add</string>
+    <!--*******Everyone********-->
+
+    <!--Goals-->
+    <string name="goal">Objective</string>
+    <string name="goals">Goals</string>
+    <string name="add_goal">Add goal</string>
+    <string name="date_goal">Goal date</string>
+    <string name="value_goal">Goal value</string>
+    <string name="update_goal">Edit goal</string>
+    <string name="title_want_remove_goal">Delete goal</string>
+    <string name="desc_want_remove_goal">Do you want to remove this goal?</string>
+    <string name="please_insert_finishday">Please enter a date for your goal</string>
+    <!--*******Goals********-->
+
+
+    <!--Filters-->
+    <string name="filters">Filters</string>
+    <string name="date">Date</string>
+    <string name="max_value">Highest Value</string>
+    <string name="min_value">Lowest Value</string>
+    <string name="standard_order">Standard sorting</string>
+    <string name="show_results">See results</string>
+    <string name="success_save_goal">Goal successfully saved!</string>
+    <string name="order_by">Order by</string>
+    <!--*******Filters********-->
+
+    <!--Dialog Month Picker-->
+    <string name="symbol_previous">«</string>
+    <string name="symbol_next">»</string>
+    <!--Months-->
+    <string name="jan">Jan</string>
+    <string name="fev">Feb</string>
+    <string name="mar">Mar</string>
+    <string name="abr">Apr</string>
+    <string name="mai">May</string>
+    <string name="jun">Jun</string>
+    <string name="jul">Jul</string>
+    <string name="ago">Aug</string>
+    <string name="set">Sep</string>
+    <string name="out">Oct</string>
+    <string name="nov">Nov</string>
+    <string name="dez">Dec</string>
+    <!--*******Dialog Month Picker********-->
+
+    <!-- Errors -->
+    <string name="ERROR_UNEXPECTED">An unexpected error has occurred. Please try again later.</string>
+    <string name="ERROR_INTERNET_CONNECTION">Internet connection required to use the application.</string>
+    <string name="ERROR_REQUEST">We were unable to send your request. Please try again later.</string>
+    <!--*******Errors********-->
+
+
+    <!--Erros do Firebase Auth-->
+    <string name="MISSING_AUTHENTICATION">Unauthenticated user</string>
+    <string name="email_badly_formatted">Please enter a valid email, it is formatted incorrectly.</string>
+    <!--    -->
+    <string name="error_login_custom_token">The custom token format is incorrect. Please check the documentation.</string>
+    <string name="error_login_custom_token_mismatch">The custom token corresponds to a different audience.</string>
+    <string name="error_login_credential_malformed_or_expired">The supplied auth credential is malformed or has expired.</string>
+    <string name="error_login_invalid_email">The email address is badly formatted.</string>
+    <string name="error_login_wrong_password">The password is invalid or the user does not have a password.</string>
+    <string name="error_login_user_mismatch">The supplied credentials do not correspond to the previously signed in user.</string>
+    <string name="error_login_requires_recent_login">This operation is sensitive and requires recent authentication. Log in again before retrying this request.</string>
+    <string name="error_login_accounts_exits_with_different_credential">An account already exists with the same email address but different sign-in credentials. Sign in using a provider associated with this email address.</string>
+    <string name="error_login_email_already_in_use">The email address is already in use by another account.</string>
+    <string name="error_login_credential_already_in_use">This credential is already associated with a different user account.</string>
+    <string name="error_login_user_disabled">The user account has been disabled by an administrator.</string>
+    <string name="error_login_user_not_found">There is no user record corresponding to this identifier. The user may have been deleted.</string>
+    <string name="error_login_operation_not_allowed">This operation is not allowed. You must enable this service in the console.</string>
+    <string name="error_login_password_is_weak">The given password is invalid.</string>
+    <string name="error_login_user_token_expired">The user\'s credential is no longer valid. The user must sign in again</string>
+    <string name="error_login_invalid_user_token">The user\'s credential is no longer valid. The user must sign in again.</string>
+    <string name="error_login_default_error">Sorry, there was an unexpected error in authentication. </string>
+    <!---->
+
+</resources>

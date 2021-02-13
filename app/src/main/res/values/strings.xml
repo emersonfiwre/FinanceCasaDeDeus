@@ -20,6 +20,19 @@
     <string name="email_verification_success">E-mail de verificaçaão enviado com sucesso.</string>
     <string name="currentuser_not_found">Desculpe, não foi possível recuperar o usuário atual.</string>
     <string name="user_not_found">Desculpe usuário não foi encontrado. Tente novamente mais tarde.</string>
+    <string name="confirm_email">Por favor, realize a confirmação do seu e-mail e tente fazer o login. </string>
+    <string name="error_login_with_google">Erro ao realizar login com Google. Por favor, tente mais tarde.</string>
+    <!--UserViewModel-->
+    <string name="please_insert_email">Por favor, insira um email</string>
+    <string name="please_insert_password">Por favor, insira a senha</string>
+    <string name="please_insert_name">Por favor, insira seu nome.</string>
+    <string name="different_passwords">A senhas estão diferentes. Por favor, verifique as senhas.</string>
+    <string name="type_email">Digite um email.</string>
+    <string name="type_email_valid">Digite um email válido.</string>
+    <!--LoginActivity-->
+    <string name="sent_password_reset">E-mail de redefinação de senha enviado com sucesso.</string>
+    <string name="request_email_confirm">Para prosseguir com o login é necessário que você confirme seu e-mail. Verifique sua caixa de spam.</string>
+    <string name="resend_email_verification">Reenviar o email de verificação</string>
     <!--***************-->
     <string name="password_incorrect">Senha incorreta. Tente novamente.</string>
     <string name="desc_logout">Deseja realmente sair do aplicativo?</string>
@@ -27,9 +40,7 @@
     <string name="reset_password">Redefinir Senha</string>
 
     <string name="profile">Perfil</string>
-    <string name="title_logout">Deseja sair</string>
-
-
+    <string name="title_logout">Deseja sair?</string>
     <!--*******Authentication********-->
 
     <!--Transaction-->
@@ -47,6 +58,12 @@
     <string name="value_profit">Valor da receita</string>
     <string name="expenditure">Despesa</string>
     <string name="income">Receita</string>
+    <!--TransactionViewModel-->
+    <string name="please_insert_amount_valid">Por favor, insira um valor válido</string>
+    <string name="select_category_transaction">Por favor, selecione uma categoria para está transação</string>
+    <!--TransactionFormActivity-->
+    <string name="wait">Aguarde</string>
+    <string name="saving">Salvando…</string>
     <!--***************-->
     <string name="revenues_month">Receita Mensal</string>
     <string name="profit">Lucro</string>
@@ -58,7 +75,7 @@
     <string name="success_update_transaction">Transação atualizada com sucesso!</string>
     <string name="success_save_transaction">Transação adicionada com sucesso!</string>
     <string name="success_delete_transaction">Transação exluida com sucesso!</string>
-    <string name="transaction_not_found">Desculpe está transação não foi encontrada. Tente novamente mais tarde.</string>
+    <string name="transaction_not_found">Desculpe, está transação não foi encontrada. Tente novamente mais tarde.</string>
     <string name="empty_transactions">Não foi encontrada nenhuma transação neste mês</string>
     <!--*******Transaction********-->
 
@@ -86,6 +103,8 @@
     <string name="update_goal">Editar objetivo</string>
     <string name="title_want_remove_goal">Excluir objetivo</string>
     <string name="desc_want_remove_goal">Deseja remover este objetivo ?</string>
+    <string name="please_insert_finishday">Por
+        , insira uma data para o seu objetivo</string>
     <!--*******Goals********-->
 
 
@@ -97,6 +116,7 @@
     <string name="standard_order">Ordenação padrão</string>
     <string name="show_results">Ver resultados</string>
     <string name="success_save_goal">Objetivo salvo com sucesso!</string>
+    <string name="order_by">Ordernar por</string>
     <!--*******Filters********-->
 
     <!--Dialog Month Picker-->
@@ -126,25 +146,26 @@
 
     <!--Erros do Firebase Auth-->
     <string name="MISSING_AUTHENTICATION">Usuário não autenticado</string>
-
     <string name="email_badly_formatted">Digite um email válido, ele está formatado incorretamente.</string>
     <!--    -->
-    <string name="error_login_custom_token">The custom token format is incorrect. Please check the documentation.</string>
-    <string name="error_login_custom_token_mismatch">The custom token corresponds to a different audience.</string>
-    <string name="error_login_credential_malformed_or_expired">The supplied auth credential is malformed or has expired.</string>
-    <string name="error_login_invalid_email">The email address is badly formatted.</string>
-    <string name="error_login_wrong_password">The password is invalid or the user does not have a password.</string>
-    <string name="error_login_user_mismatch">The supplied credentials do not correspond to the previously signed in user.</string>
-    <string name="error_login_requires_recent_login">This operation is sensitive and requires recent authentication. Log in again before retrying this request.</string>
-    <string name="error_login_accounts_exits_with_different_credential">An account already exists with the same email address but different sign-in credentials. Sign in using a provider associated with this email address.</string>
-    <string name="error_login_email_already_in_use">The email address is already in use by another account.</string>
-    <string name="error_login_credential_already_in_use">This credential is already associated with a different user account.</string>
-    <string name="error_login_user_disabled">The user account has been disabled by an administrator.</string>
-    <string name="error_login_user_not_found">There is no user record corresponding to this identifier. The user may have been deleted.</string>
-    <string name="error_login_operation_not_allowed">This operation is not allowed. You must enable this service in the console.</string>
-    <string name="error_login_password_is_weak">The given password is invalid.</string>
-    <string name="error_login_user_token_expired">The user\'s credential is no longer valid. The user must sign in again</string>
-    <string name="error_login_invalid_user_token">The user\'s credential is no longer valid. The user must sign in again.</string>
+    <string name="error_login_custom_token">O formato do token personalizado está incorreto. Verifique a documentação.</string>
+    <string name="error_login_custom_token_mismatch">O token personalizado corresponde a um público diferente.</string>
+    <string name="error_login_credential_malformed_or_expired">A credencial de autenticação fornecida está malformada ou expirou.</string>
+    <string name="error_login_invalid_email">O endereço de e-mail está formatado incorretamente.</string>
+    <string name="error_login_wrong_password">A senha é inválida ou o usuário não tem uma senha.</string>
+    <string name="error_login_user_mismatch">As credenciais fornecidas não correspondem ao usuário conectado anteriormente.</string>
+    <string name="error_login_requires_recent_login">Esta operação é sensível e requer autenticação recente. Faça login novamente antes de repetir esta solicitação.</string>
+    <string name="error_login_accounts_exits_with_different_credential"> Já existe uma conta com o mesmo endereço de e-mail, mas com credenciais de login diferentes. Faça login usando um provedor associado a este endereço de e-mail.</string>
+    <string name="error_login_email_already_in_use">O endereço de e-mail já está sendo usado por outra conta.</string>
+    <string name="error_login_credential_already_in_use">Esta credencial já está associada a uma conta de usuário diferente.</string>
+    <string name="error_login_user_disabled">A conta do usuário foi desabilitada por um administrador.</string>
+    <string name="error_login_user_not_found">Não há registro de usuário correspondente a este identificador. O usuário pode ter sido excluído.</string>
+    <string name="error_login_operation_not_allowed">Esta operação não é permitida. Você deve habilitar este serviço no console.</string>
+    <string name="error_login_password_is_weak">A senha fornecida é inválida.</string>
+    <string name="error_login_user_token_expired">A credencial do usuário não é mais válida. O usuário deve fazer login novamente</string>
+    <string name="error_login_invalid_user_token">A credencial do usuário não é mais válida. O usuário deve entrar novamente.</string>
     <string name="error_login_default_error">Desculpe, houve um erro inesperado na autenticação.</string>
+
     <!---->
+
 </resources>
