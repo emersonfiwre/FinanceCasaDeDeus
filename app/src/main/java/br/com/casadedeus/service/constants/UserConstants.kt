@@ -5,8 +5,8 @@ import br.com.casadedeus.R
 class UserConstants {
 
     companion object {
-        const val EMAIL: String = "email"
         const val NAME: String = "name"
+        const val PROTECTED: String = "protected"
         const val USERS = "users"
     }
 
@@ -14,6 +14,7 @@ class UserConstants {
         const val USER_SHARED = "userShared"
         const val USER_KEY = "userKey"
         const val USER_NAME = "userName"
+        const val USER_PROTECTION = "userProtection"
     }
 
     object ERRORS {

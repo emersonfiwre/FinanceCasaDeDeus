@@ -16,7 +16,7 @@ class GoalRepository(private val context: Context) {
 
     //Recuperando o uid do usuário.
     private val mSecurityPreferences = SecurityPreferences(context)
-    val userKey = mSecurityPreferences.get(UserConstants.SHARED.USER_KEY)
+    private val userKey = mSecurityPreferences.get(UserConstants.SHARED.USER_KEY)
 
     fun getGoals(
         listener: OnCallbackListener<List<GoalModel>>

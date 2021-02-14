@@ -16,6 +16,9 @@ class UserRepository(private val context: Context) {
     private val mDatabase = FirebaseFirestore.getInstance()
     private val mAuth: FirebaseAuth = Firebase.auth
 
+    private val mSecurityPreferences = SecurityPreferences(context)
+    private val userKey = mSecurityPreferences.get(UserConstants.SHARED.USER_KEY)
+
 
     fun currentUser(listener: OnCallbackListener<UserModel>) {
         val currentUser = mAuth.currentUser
@@ -25,11 +28,10 @@ class UserRepository(private val context: Context) {
                     if (document.exists()) {
                         val key = document.id
                         val name = document.data?.get(UserConstants.NAME) as String
-                        val email = document.data?.get(UserConstants.EMAIL) as String
                         val user = UserModel(
                             key = key,
                             name = name,
-                            email = email,
+                            email = currentUser.email!!,
                             profilePhotoUrl = currentUser.photoUrl
                         )
                         listener.onSuccess(user)
@@ -83,11 +85,9 @@ class UserRepository(private val context: Context) {
                 if (document.exists()) {
                     val key = document.id
                     val name = document.data?.get(UserConstants.NAME) as String
-                    val email = document.data?.get(UserConstants.EMAIL) as String
                     val user = UserModel(
-                        key,
-                        name,
-                        email
+                        key = key,
+                        name = name
                     )
                     listener.onSuccess(user)
                 } else {
@@ -201,13 +201,28 @@ class UserRepository(private val context: Context) {
         }
     }
 
+    fun updateEmail(email: String, listener: OnCallbackListener<Boolean>) {
+        mAuth.currentUser.let {
+            it?.updateEmail(email)?.addOnSuccessListener {
+                listener.onSuccess(true)
+            }?.addOnFailureListener {
+                val message = it.message.toString()
+                Log.e(UserConstants.ERRORS.USER_REPOSITORY, message)
+                listener.onFailure(context.getString(R.string.error_update_email))
+                it.printStackTrace()
+            }
+        }
+    }
+
+
     fun update(
-        userModel: UserModel,
+        value: String,
+        field: String,
         listener: OnCallbackListener<Boolean>
     ) {// fazer tela pro usuario editar suas informacoes
         mDatabase.collection("users")
-            .document(userModel.key)
-            .update(UserConstants.NAME, userModel.name)
+            .document(userKey)
+            .update(field, value)
             .addOnSuccessListener {
                 listener.onSuccess(true)
             }

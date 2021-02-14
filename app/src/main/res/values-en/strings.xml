@@ -33,6 +33,10 @@
     <string name="sent_password_reset">Password reset email sent successfully.</string>
     <string name="request_email_confirm">To proceed with the login you need to confirm your email.Check your spam box.</string>
     <string name="resend_email_verification">Resend verification email</string>
+    <!--ProfileFragment-->
+    <string name="app_protection">App protection</string>
+    <string name="request_authentication">Request authentication every time you sign in to the app</string>
+    <string name="error_update_email">There was an error trying to change your email. Please try again later.</string>
     <!--***************-->
     <string name="password_incorrect">Incorrect password. Try again.</string>
     <string name="desc_logout">Do you really want to exit the application?</string>
@@ -41,6 +45,9 @@
 
     <string name="profile">Profile</string>
     <string name="title_logout">Do you want to leave?</string>
+
+    <string name="authentication_to_access">Authentication to access the account</string>
+    <string name="tap_cancel_call_login">If you tap cancel, you’ll need to log in as normal.</string>
     <!--*******Authentication********-->
 
     <!--Transaction-->

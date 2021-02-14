@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.CompoundButton
 import android.widget.TextView.OnEditorActionListener
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -21,7 +22,7 @@ import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 
 
-class ProfileFragment : Fragment(), View.OnClickListener {
+class ProfileFragment : Fragment(), View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private lateinit var mViewRoot: View
     private lateinit var mViewModel: UserViewModel
@@ -58,6 +59,8 @@ class ProfileFragment : Fragment(), View.OnClickListener {
     private fun setListeners() {
         mViewRoot.img_logout.setOnClickListener(this)
         mViewRoot.img_edit_name.setOnClickListener(this)
+        mViewRoot.img_edit_email.setOnClickListener(this)
+        mViewRoot.switch_protection.setOnCheckedChangeListener(this)
     }
 
     private fun observer() {
@@ -68,7 +71,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                 }
             }
             mViewRoot.edit_name_profile.setText(it.name)
-            mViewRoot.txt_email.text = it.email
+            mViewRoot.edit_email_profile.setText(it.email)
         })
         mViewModel.validation.observe(viewLifecycleOwner, Observer {
             if (it.success()) {
@@ -84,6 +87,17 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                 Toast.makeText(context, it.failure(), Toast.LENGTH_SHORT).show()
             }
             resetingName(true)
+        })
+        mViewModel.changeEmail.observe(viewLifecycleOwner, Observer {
+            if (it.success()) {
+                Toast.makeText(context, "Email alterado com sucesso!", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, it.failure(), Toast.LENGTH_SHORT).show()
+            }
+            updateEmail(true)
+        })
+        mViewModel.protection.observe(viewLifecycleOwner, Observer {
+            mViewRoot.switch_protection.isChecked = it
         })
     }
 
@@ -107,7 +121,30 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                         true
                     } else false
                 })
+            }
+            R.id.img_edit_email -> {
+                mViewRoot.edit_email_profile.isEnabled = true
+                mViewRoot.edit_email_profile.setSelection(edit_email_profile.text.length)
+                mViewRoot.edit_email_profile.requestFocus()
+                showKeyboard()
 
+                mViewRoot.edit_email_profile.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        updateEmail()
+                        mViewModel.updateEmail(mViewRoot.edit_email_profile.text.toString())
+                        showKeyboard(true)
+                        true
+                    } else false
+                })
+            }
+        }
+    }
+
+    override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
+        when (p0?.id) {
+            R.id.switch_protection -> {
+                mViewModel.setProtection(switch_protection.isChecked)
+                //Toast.makeText(context,"Switch: ${if (switch_protection.isChecked) "true" else "false"}",Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -135,6 +172,19 @@ class ProfileFragment : Fragment(), View.OnClickListener {
             mViewRoot.edit_name_profile.visibility = View.GONE
             mViewRoot.img_edit_name.visibility = View.GONE
             mViewRoot.pg_reset_name.visibility = View.VISIBLE
+        }
+    }
+
+    private fun updateEmail(finish: Boolean = false) {
+        if (finish) {
+            mViewRoot.edit_email_profile.visibility = View.VISIBLE
+            mViewRoot.img_edit_email.visibility = View.VISIBLE
+            mViewRoot.edit_email_profile.isEnabled = false
+            mViewRoot.pg_update_email.visibility = View.GONE
+        } else {
+            mViewRoot.edit_email_profile.visibility = View.GONE
+            mViewRoot.img_edit_email.visibility = View.GONE
+            mViewRoot.pg_update_email.visibility = View.VISIBLE
         }
     }
 

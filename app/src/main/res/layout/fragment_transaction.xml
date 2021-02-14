@@ -45,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:text="@string/zeroed_value"
+                android:textColor="@color/black"
                 android:textAlignment="center"
                 android:textSize="32sp"
                 android:textStyle="bold" />

@@ -28,6 +28,8 @@ android {
 }
 
 dependencies {
+    //FingerPrint
+    implementation 'androidx.biometric:biometric:1.0.1'
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.12.0'
 

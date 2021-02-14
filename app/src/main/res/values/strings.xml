@@ -33,6 +33,10 @@
     <string name="sent_password_reset">E-mail de redefinação de senha enviado com sucesso.</string>
     <string name="request_email_confirm">Para prosseguir com o login é necessário que você confirme seu e-mail. Verifique sua caixa de spam.</string>
     <string name="resend_email_verification">Reenviar o email de verificação</string>
+    <!--ProfileFragment-->
+    <string name="app_protection">Proteção do app</string>
+    <string name="request_authentication">Solicitar autenticação toda vez ao entrar no app</string>
+    <string name="error_update_email">Houve um erro na tentativa de mudar seu email. Por favor, tente mais tarde.</string>
     <!--***************-->
     <string name="password_incorrect">Senha incorreta. Tente novamente.</string>
     <string name="desc_logout">Deseja realmente sair do aplicativo?</string>
@@ -41,6 +45,9 @@
 
     <string name="profile">Perfil</string>
     <string name="title_logout">Deseja sair?</string>
+
+    <string name="authentication_to_access">Autenticação para acessar a conta</string>
+    <string name="tap_cancel_call_login">Se tocar em cancelar, você precisará realizar o login normalmente.</string>
     <!--*******Authentication********-->
 
     <!--Transaction-->
