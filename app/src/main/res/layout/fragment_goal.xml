@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/shape_toolbar"
-        android:elevation="20dp"
+        android:elevation="8dp"
         android:orientation="vertical"
         android:padding="10dp"
         android:paddingTop="16dp"

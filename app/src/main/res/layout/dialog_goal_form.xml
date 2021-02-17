@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/shape_toolbar_profit"
-        android:elevation="20dp"
+        android:elevation="8dp"
         android:orientation="vertical"
         android:paddingTop="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -59,8 +59,9 @@
 
         <me.abhinay.input.CurrencyEditText
             android:id="@+id/edit_value_goal"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="start"
             android:background="@null"
             android:hint="@string/zeroed_value"
             android:inputType="number"
@@ -73,6 +74,7 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/txt_currency"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_whatvalue" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

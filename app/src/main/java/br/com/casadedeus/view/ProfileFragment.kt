@@ -57,7 +57,7 @@ class ProfileFragment : Fragment(), View.OnClickListener, CompoundButton.OnCheck
     }
 
     private fun setListeners() {
-        mViewRoot.img_logout.setOnClickListener(this)
+        mViewRoot.btn_logout.setOnClickListener(this)
         mViewRoot.img_edit_name.setOnClickListener(this)
         mViewRoot.img_edit_email.setOnClickListener(this)
         mViewRoot.switch_protection.setOnCheckedChangeListener(this)
@@ -103,7 +103,7 @@ class ProfileFragment : Fragment(), View.OnClickListener, CompoundButton.OnCheck
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.img_logout -> {
+            R.id.btn_logout -> {
                 exit()
             }
             R.id.img_edit_name -> {

@@ -8,6 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +22,9 @@ import br.com.casadedeus.service.listener.OnItemClickListener
 import br.com.casadedeus.service.utils.Utils
 import br.com.casadedeus.view.adapter.TransactionAdapter
 import br.com.casadedeus.viewmodel.TransactionViewModel
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import kotlinx.android.synthetic.main.fragment_transaction.*
 import kotlinx.android.synthetic.main.fragment_transaction.view.*
 import java.text.SimpleDateFormat

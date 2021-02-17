@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_toolbar"
-        android:elevation="20dp"
+        android:elevation="8dp"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="16dp"
@@ -19,15 +19,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/img_logout"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_logout"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_account"
@@ -48,9 +39,9 @@
             android:layout_marginTop="8dp"
             android:background="@null"
             android:enabled="false"
+            android:hint=""
             android:inputType="textCapSentences"
             android:maxLines="1"
-            android:hint="joao"
             android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -85,8 +76,8 @@
         android:id="@+id/txt_lblemail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/email"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -96,11 +87,11 @@
         android:id="@+id/edit_email_profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:background="@null"
         android:enabled="false"
-        android:hint="joao@joao.com.br"
+        android:hint=""
         android:inputType="textEmailAddress"
         android:textColor="@color/black"
         android:textSize="16sp"
@@ -145,8 +136,8 @@
         android:id="@+id/txt_app_protection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/app_protection"
         android:textColor="@color/black"
@@ -155,11 +146,11 @@
         app:layout_constraintTop_toBottomOf="@id/view" />
 
     <TextView
-        android:id="@+id/txt_asd"
+        android:id="@+id/txt_desc_app_protection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:text="@string/request_authentication"
         app:layout_constraintLeft_toLeftOf="parent"
 
@@ -172,6 +163,36 @@
         android:layout_marginRight="16dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/txt_app_protection" />
+
+
+    <View
+        android:id="@+id/view_second"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/textColor"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_desc_app_protection" />
+
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/shape_btn_logout"
+        android:gravity="start|center"
+        android:text="desconectar"
+        android:textColor="@color/red"
+        android:padding="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_second" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

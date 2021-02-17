@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     android:background="@drawable/shape_transaction"
-    android:elevation="8dp"
+    android:elevation="3dp"
     android:foreground="?android:attr/selectableItemBackground">
 
     <ImageView
