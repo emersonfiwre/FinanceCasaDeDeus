@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.*
 import br.com.casadedeus.R
 import br.com.casadedeus.beans.TransactionModel
+import br.com.casadedeus.service.listener.BalanceListener
 import br.com.casadedeus.service.listener.OnCallbackListener
 import br.com.casadedeus.service.listener.ValidationListener
 import br.com.casadedeus.service.repository.TransactionRepository
@@ -47,8 +48,8 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
     private var mExpenditure = MutableLiveData<String>()
     val expenditure: LiveData<String> = mExpenditure
 
-    private var mBalance = MutableLiveData<String>()
-    val balance: LiveData<String> = mBalance
+    private var mBalance = MutableLiveData<BalanceListener>()
+    val balance: LiveData<BalanceListener> = mBalance
 
     fun save(transactionModel: TransactionModel) {
         //transactionModel.day = Calendar.getInstance().time
@@ -67,7 +68,7 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
                 ValidationListener(context.getString(R.string.please_insert_amount_valid))
             return
         }
-        if(transactionModel.category.isEmpty()){
+        if (transactionModel.category.isEmpty()) {
             mValidation.value =
                 ValidationListener(context.getString(R.string.select_category_transaction))
             return
@@ -145,9 +146,13 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
             object : OnCallbackListener<List<TransactionModel>> {
                 override fun onSuccess(result: List<TransactionModel>) {
                     mTransactionList.value = orderBy(filter, result)
-                    mBalance.value =
-                        Utils.doubleToRealNotCurrency(result.sumByDouble { it.amount })
-                        //result.sumByDouble { it.amount }.toString()
+                    val balance = result.sumByDouble { it.amount }
+                    mBalance.value = BalanceListener(
+                        Utils.doubleToRealNotCurrency(balance),
+                        (balance < 0)
+                    )
+
+                    //result.sumByDouble { it.amount }.toString()
                     mExpenditure.value =
                         Utils.doubleToReal(result.sumByDouble { if (!it.isEntry) it.amount else 0.0 })
                     mProfit.value =

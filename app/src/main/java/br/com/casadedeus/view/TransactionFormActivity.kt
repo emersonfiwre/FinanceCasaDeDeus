@@ -243,11 +243,13 @@ class TransactionFormActivity : AppCompatActivity(), View.OnClickListener,
             txt_whatvalue.text = getString(R.string.value_profit)
             //llm_header.background.setTint(resources.getColor(R.color.light_blue))
             llm_header.isEnabled = false
+            btn_save.setBackgroundResource(R.drawable.shape_btn_save)
         } else {
             // mListCategories = this?.resources?.getStringArray(R.array.categories)?.toList() ?: arrayListOf()
             mCategoryAdapter.notifyChanged(CategoryConstansts.getCategoriesExpenditure(this))
             txt_title.text = getString(R.string.expenditure)
             txt_whatvalue.text = getString(R.string.value_expenditure)
+            btn_save.setBackgroundResource(R.drawable.shape_btn_save_red)
         }
     }
 

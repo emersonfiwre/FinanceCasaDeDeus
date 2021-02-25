@@ -8,9 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -22,9 +19,6 @@ import br.com.casadedeus.service.listener.OnItemClickListener
 import br.com.casadedeus.service.utils.Utils
 import br.com.casadedeus.view.adapter.TransactionAdapter
 import br.com.casadedeus.viewmodel.TransactionViewModel
-import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
-import com.google.android.material.appbar.CollapsingToolbarLayout
 import kotlinx.android.synthetic.main.fragment_transaction.*
 import kotlinx.android.synthetic.main.fragment_transaction.view.*
 import java.text.SimpleDateFormat
@@ -66,6 +60,9 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
         observer()
 
         setListeners()
+
+        mViewRoot.rv_transaction.isFocusable = false
+        mViewRoot.ll_summary.requestFocus()
 
         return mViewRoot
     }
@@ -141,7 +138,12 @@ class TransactionFragment : Fragment(), View.OnClickListener, DatePickerDialog.O
             }
         })
         mViewModel.balance.observe(viewLifecycleOwner, Observer {
-            mViewRoot.balance_month.text = it
+            if (it.lessThan) {
+                mViewRoot.balance_month.setTextColor(resources.getColor(R.color.red))
+            } else {
+                mViewRoot.balance_month.setTextColor(resources.getColor(R.color.black))
+            }
+            mViewRoot.balance_month.text = it.value
         })
         mViewModel.expenditure.observe(viewLifecycleOwner, Observer {
             mViewRoot.expenditure_month.text = it

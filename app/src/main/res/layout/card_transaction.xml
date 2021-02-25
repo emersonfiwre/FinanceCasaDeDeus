@@ -16,7 +16,6 @@
         android:layout_height="48dp"
         android:layout_centerVertical="true"
         android:layout_margin="5dp"
-        android:background="@drawable/shape_card_transaction"
         android:padding="10dp"
         android:src="@drawable/ic_money" />
     <!--ImageView
@@ -70,6 +69,7 @@
         android:maxWidth="140dp"
         android:scrollHorizontally="false"
         android:text="R$ 250,00"
+        android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold" />
 

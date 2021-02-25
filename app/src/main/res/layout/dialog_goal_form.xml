@@ -23,8 +23,6 @@
             android:id="@+id/txt_title_goal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
             android:text="@string/add_goal"
             android:textColor="@color/white"
             android:textSize="18sp"
@@ -84,6 +82,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="8dp">
 

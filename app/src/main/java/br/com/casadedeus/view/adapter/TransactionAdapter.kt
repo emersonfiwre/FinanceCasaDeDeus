@@ -68,7 +68,12 @@ class TransactionAdapter : RecyclerView.Adapter<TransactionAdapter.MyViewHolder>
             }
             mDesc.text = transaction.description
             mPrice.text = Utils.doubleToReal(transaction.amount)
-            mImage.isEnabled = transaction.isEntry
+            //mImage.isEnabled = transaction.isEntry
+            if (!transaction.isEntry) {
+                mPrice.setTextColor(itemView.context.resources.getColor(R.color.red))
+            }else{
+                mPrice.setTextColor(itemView.context.resources.getColor(R.color.black))
+            }
             val categories = CategoryConstansts.getCategories(itemView.context)
             val c = categories.find { it.title == transaction.category } ?: CategoryModel(
                 transaction.category,
