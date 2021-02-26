@@ -4,13 +4,21 @@ assim adquirindo um maior controle da onde você gasta a maior parte da sua rend
 Na sua conta fica gravado um histórico de todos os meses que você inseriu lançamentos e também existe 
 uma parte em que você pode adicionar seus objetivos e estipular datas e valores para alcançar esses objetivos.
 
+
+
 ## ScreenShots
-// images
+[More images in the directory "/images"](https://github.com/emersonfiwre/FinanceCasaDeDeus/tree/master/images
+
+
+![Main](https://github.com/emersonfiwre/FinanceCasaDeDeus/blob/master/images/main.jpeg)
+![Profit](https://github.com/emersonfiwre/FinanceCasaDeDeus/blob/master/images/profti_add.jpeg)
+![Month Empty](https://github.com/emersonfiwre/FinanceCasaDeDeus/blob/master/images/empty_month.jpeg)
+
 ### Select month
-//images
+![Select Month](https://github.com/emersonfiwre/FinanceCasaDeDeus/blob/master/images/select_month.jpeg)
 ### Filters
-// images
+![Filters](https://github.com/emersonfiwre/FinanceCasaDeDeus/blob/master/images/filters.jpeg)
 ### Goals
-//images
+![Goals](https://github.com/emersonfiwre/FinanceCasaDeDeus/blob/master/images/goals.jpeg)
 ### Account
-//images
+![Account](https://github.com/emersonfiwre/FinanceCasaDeDeus/blob/master/images/account.jpeg)
