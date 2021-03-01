@@ -9,16 +9,15 @@ uma parte em que você pode adicionar seus objetivos e estipular datas e valores
 ## ScreenShots
 [More images in the directory /images](https://github.com/emersonfiwre/FinanceCasaDeDeus/tree/master/images)
 
-
-![Main](https://github.com/emersonfiwre/FinanceCasaDeDeus/blob/master/images/main.jpeg =250x200)
-![Profit](https://github.com/emersonfiwre/FinanceCasaDeDeus/blob/master/images/profti_add.jpeg =250x200)
-![Month Empty](https://github.com/emersonfiwre/FinanceCasaDeDeus/blob/master/images/empty_month.jpeg =250x200)
+<img alt="Main" src="https://github.com/emersonfiwre/FinanceCasaDeDeus/blob/master/images/main.jpeg" width="400" height="650">
+<img alt="Profit" src="https://github.com/emersonfiwre/FinanceCasaDeDeus/blob/master/images/profti_add.jpeg" width="400" height="650">
+<img alt="Month Empty" src="https://github.com/emersonfiwre/FinanceCasaDeDeus/blob/master/images/empty_month.jpeg" width="400" height="650">
 
 ### Select month
-![Select Month](https://github.com/emersonfiwre/FinanceCasaDeDeus/blob/master/images/select_month.jpeg =250x200)
+<img alt="Select Month" src="https://github.com/emersonfiwre/FinanceCasaDeDeus/blob/master/images/select_month.jpeg" width="400" height="650">
 ### Filters
-![Filters](https://github.com/emersonfiwre/FinanceCasaDeDeus/blob/master/images/filters.jpeg =250x200)
+<img alt="Filters" src="https://github.com/emersonfiwre/FinanceCasaDeDeus/blob/master/images/filters.jpeg" width="400" height="650">
 ### Goals
-![Goals](https://github.com/emersonfiwre/FinanceCasaDeDeus/blob/master/images/goals.jpeg =250x200)
+<img alt="Goals" src="https://github.com/emersonfiwre/FinanceCasaDeDeus/blob/master/images/goals.jpeg" width="400" height="650">
 ### Account
-![Account](https://github.com/emersonfiwre/FinanceCasaDeDeus/blob/master/images/account.jpeg =250x200)
+<img alt="Account" src="https://github.com/emersonfiwre/FinanceCasaDeDeus/blob/master/images/account.jpeg" width="400" height="650">
